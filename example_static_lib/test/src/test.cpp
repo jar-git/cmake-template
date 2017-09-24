@@ -11,19 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <iostream>
-#include <string>
-#include <utility>
+#include <gtest/gtest.h>
 
-#include "shared/library.hpp"
-
-namespace shared {
-
-library::library(std::string str) : data(std::move(str)) {}
-
-int library::call(const std::string &ext) {
-  std::cout << "Shared call result: " << data << ext << std::endl;
-  return std::stoi(data);
-}
-
-} // namespace shared
+/// \brief Main method for unit tests (also defined by the gtest::main lib).
+/// For command line parameters, see:
+/// https://github.com/google/googletest/blob/master/googletest/docs/AdvancedGuide.md
+//int main(int argc, char **argv) {
+//  ::testing::InitGoogleTest(&argc, argv);
+//  return RUN_ALL_TESTS();
+//}

@@ -13,9 +13,9 @@
 // limitations under the License.
 #include <gtest/gtest.h>
 
-#include "app/application.hpp"
+#include "static/library.hpp"
 
-TEST(ApplicationTest, HandlesPositiveInput) {
-  ::app::application application;
-  EXPECT_EQ(0, application.run());
+TEST(StaticLibraryTest, Call) {
+  static_lib::library lib(10);
+  EXPECT_EQ(10, lib.call("test"));
 }

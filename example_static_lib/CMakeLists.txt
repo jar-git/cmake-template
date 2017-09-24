@@ -50,3 +50,6 @@ target_compile_options(static
             $<$<CXX_COMPILER_ID:GNU>: -Wextra -Wall -Wpedantic>
             $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
             $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
+
+# Add unit tests.
+add_subdirectory(test)

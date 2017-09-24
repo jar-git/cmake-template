@@ -3,7 +3,7 @@ set(project_name shared)
 # Define library name, version and language.
 project(${project_name} VERSION 0.0.1 LANGUAGES CXX)
 
-# Define default library type(static or shared) for this sub project.
+# Define default library type(shared or shared) for this sub project.
 option(BUILD_SHARED_LIBS "Build library as shared by default." ON)
 
 # Library target definition. See:
@@ -49,3 +49,6 @@ target_compile_options(${project_name}
             $<$<CXX_COMPILER_ID:GNU>: -Wextra -Wall -Wpedantic>
             $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
             $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
+
+# Add unit tests.
+add_subdirectory(test)

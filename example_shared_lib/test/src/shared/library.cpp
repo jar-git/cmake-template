@@ -11,19 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <iostream>
-#include <string>
-#include <utility>
+#include <gtest/gtest.h>
 
 #include "shared/library.hpp"
 
-namespace shared {
-
-library::library(std::string str) : data(std::move(str)) {}
-
-int library::call(const std::string &ext) {
-  std::cout << "Shared call result: " << data << ext << std::endl;
-  return std::stoi(data);
+TEST(StaticLibraryTest, Call) {
+  shared::library lib("10");
+  EXPECT_EQ(10, lib.call("test"));
 }
-
-} // namespace shared

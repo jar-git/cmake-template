@@ -20,7 +20,7 @@ namespace static_lib {
 
 library::library(int value) : value(value) {}
 
-void library::call(const std::string &ext) {
+int library::call(const std::string &ext) {
 // Check the pre-processor macro value defined in the CMakeLists.txt
 #ifndef HEXADECIMAL
   std::cout << "Shared call result: " << std::hex << value << ext << std::endl;
@@ -29,6 +29,7 @@ void library::call(const std::string &ext) {
 #else
   std::cout << "Shared call result: " << std::dec << value << ext << std::endl;
 #endif
+  return value;
 }
 
 constexpr int library::something(int n) { return ++n; }

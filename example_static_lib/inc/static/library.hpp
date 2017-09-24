@@ -29,7 +29,7 @@ public:
   ~library() = default;
   /// \brief Dummy functionality.
   /// \param[in] ext External dummy data.
-  void call(const std::string &ext);
+  int call(const std::string &ext);
   /// \brief Dummy functionality marked as constexpr.
   /// \param[in] n Dummy data.
   /// \return Dummy data.

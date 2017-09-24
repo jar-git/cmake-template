@@ -33,7 +33,7 @@ public:
   ~library() = default;
   /// \brief Dummy functionality.
   /// \param[in] ext External dummy data.
-  void call(const std::string &ext);
+  int call(const std::string &ext);
 
 private:
   /// \brief Dummy data.
