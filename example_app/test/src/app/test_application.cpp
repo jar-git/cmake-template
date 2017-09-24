@@ -11,20 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#include <gtest/gtest.h>
+
 #include "app/application.hpp"
 
-#include <header/wrapper_class.hpp>
-#include <shared/library.hpp>
-#include <static/library.hpp>
-
-namespace app {
-
-int application::run() {
-
-  static_lib::library static_lib(5);
-  shared::library shared_lib("5");
-
-  return 0;
+TEST(ApplicationTest, HandlesPositiveInput) {
+  ::app::application application;
+  EXPECT_EQ(0, application.run());
 }
-
-} // namespace app

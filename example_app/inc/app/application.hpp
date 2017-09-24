@@ -25,7 +25,8 @@ public:
   /// \brief Destructor.
   ~application() = default;
   /// \brief Run the application.
-  void run();
+  /// \return Always 0.
+  int run();
 };
 
 } // namespace app
