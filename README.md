@@ -1,2 +1,2 @@
-# cmake-template
-Learning cmake template by creating a cmake template project.
+# cmake-template project
+Learning various cmake features by creating a cmake template project.
