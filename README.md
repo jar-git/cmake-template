@@ -69,7 +69,7 @@ faster. Only supports GCC and Clang based toolchains.
 > compilations and detecting when the same compilation is being done again.
 
 To disable ccache pass option **_ccache_** to CMake from the command line 
-(-Dccache:BOOL=OFF) or from a build script. 
+`-Dccache:BOOL=OFF` or from a build script. 
 
 ##### [GNU gold] [2] (default - ON)
 > gold is an ELF linker.  It is intended to have complete support for ELF and to
@@ -84,7 +84,7 @@ To disable ccache pass option **_ccache_** to CMake from the command line
 > The LLVM gold plugin implements the gold plugin interface on top of libLTO.
 
 To use either of the gold linkers instead of the default linker, pass option 
-**_gold_** to CMake from the command line (-Dgold:BOOL=ON) or from a build 
+**_gold_** to CMake from the command line `-Dgold:BOOL=ON` or from a build 
 script. The appropriate gold linker is selected automatically depending on the 
 compiler. If the link has not been installed, setting the option _ON_ will 
 generate a warning.
@@ -102,11 +102,11 @@ integrated into AddressSanitizer and both enabled at the same time by deafult.
 > static analysis. 
 
 To disable clang-tidy pass option **_tidy_** to CMake from the command line 
-(-Dtidy:BOOL=OFF) or from a build script. A configuration file exists for 
+`-Dtidy:BOOL=OFF` or from a build script. A configuration file exists for 
 individual clang-tidy options, the file is located in the root directory 
 (.clang-tidy). It is generated with the '-dump-config' switch.
 
-The default clang-tidy flags are '-checks=\*' (from the configuration file).
+The default clang-tidy flags are `-checks=\*` (from the configuration file).
 
 ##### [cgovr] [4] (default - OFF)
 > Gcovr provides a utility for managing the use of the GNU gcov utility and 
@@ -118,23 +118,23 @@ The default clang-tidy flags are '-checks=\*' (from the configuration file).
 > coverage or with clang’s instrumentation based profiling.
 
 To use either of the code coverage tools, pass option **_coverage_** to CMake 
-from the command line (-Dcoverage:BOOL=ON) or from a build script. The 
+from the command line `-Dcoverage:BOOL=ON` or from a build script. The 
 appropriate coverage tool is selected automatically depending on the compiler. 
 If coverage tool has not been installed, setting the option ON will generate a 
 warning.
 
-The default coverage flags are '-O0 -fprofile-arcs -ftest-coverage -fPIC'. By 
+The default coverage flags are `-O0 -fprofile-arcs -ftest-coverage -fPIC`. By 
 default the coverage option generates a HTML web page for each file. The pages 
-are generated to the 'build/coverage/' directory. 
+are generated to the `build/coverage/` directory. 
 
 ##### [ASan] [6] (default - ON)
 > AddressSanitizer is a memory error detector for C/C++.
 
 To disable AddressSanitizer pass option **_ASAN_** to CMake from the command line 
-(-DASAN:BOOL=OFF) or from a build script. Enabling any other tool of this category 
+`-DASAN:BOOL=OFF` or from a build script. Enabling any other tool of this category 
 will automatically disable AddressSanitizer.
 
-The default ASan flags are '-O1 -g -fno-omit-frame-pointer'. To set [ASan specific] [20] 
+The default ASan flags are `-O1 -g -fno-omit-frame-pointer`. To set [ASan specific] [20] 
 runtime flags, use the **ASAN_OPTIONS** environment variable, it also accepts 
 [common] [19] sanitizer runtime flags.
 
@@ -143,7 +143,7 @@ runtime flags, use the **ASAN_OPTIONS** environment variable, it also accepts
 > LeakSanitizer (is a memory leak detector which is integrated into AddressSanitizer. 
 
 To disable LeakSanitizer pass option **_LSAN_** to CMake from the command line 
-(-DLSAN:BOOL=OFF) or from a build script. For stand-alone LSan use the options 
+`-DLSAN:BOOL=OFF` or from a build script. For stand-alone LSan use the options 
 LSAN _ON_ and ASAN _OF_.
 
 There are no separate flags set for LSan by default. To set [LSan specific] [22] 
@@ -154,10 +154,10 @@ runtime flags, use the **LSAN_OPTIONS** environment variable, it also accepts
 > ThreadSanitizer is a data race detector for C/C++.
 
 To enable ThreadSanitizer pass option **_TSAN_** to CMake from the command line 
-(-DTSAN:BOOL=ON) or from a build script. Enabling TSan will automatically disable 
+`-DTSAN:BOOL=ON` or from a build script. Enabling TSan will automatically disable 
 the other tools of this category.
 
-The default TSan flags are '-O2 -g'. To set [TSan specific] [21] runtime flags, 
+The default TSan flags are `-O2 -g`. To set [TSan specific] [21] runtime flags, 
 use the **TSAN_OPTIONS** environment variable, it also accepts [common] [19] 
 sanitizer runtime flags.
 
@@ -165,21 +165,21 @@ sanitizer runtime flags.
 > MemorySanitizer is a detector of uninitialized memory reads in C/C++ programs.
 
 To enable MemorySanitizer pass option **_MSAN_** to CMake from the command line 
-(-DMSAN:BOOL=ON) or from a build script. Enabling MSan will automatically disable 
+`-DMSAN:BOOL=ON` or from a build script. Enabling MSan will automatically disable 
 the other tools of this category. MSan is only supported by Clang compilers.
 
-The default MSan flags are '-O1 -g -fno-omit-frame-pointer -fsanitize-memory-track-origins 
--fPIE -pie'. To set [MSan runtime] [19] flags, use the **MSAN_OPTIONS** 
+The default MSan flags are `-O1 -g -fno-omit-frame-pointer -fsanitize-memory-track-origins 
+-fPIE -pie`. To set [MSan runtime] [19] flags, use the **MSAN_OPTIONS** 
 environment variable.
 
 ##### [UBSan] [10] (default - OFF)
 > UndefinedBehaviorSanitizer is a fast undefined behavior detector for C/C++. 
 
 To enable UndefinedBehaviorSanitizer pass option **_UBSAN_** to CMake from the 
-command line (-DUBSAN:BOOL=ON) or from a build script. Enabling UBSan will 
+command line `-DUBSAN:BOOL=ON` or from a build script. Enabling UBSan will 
 automatically disable the other tools of this category.
 
-The default UBSan flags are '-O1 -g -fno-omit-frame-pointer'. To set [UBSan] [19] 
+The default UBSan flags are `-O1 -g -fno-omit-frame-pointer`. To set [UBSan] [19] 
 runtime flags, use the **UBSAN_OPTIONS** environment variable.
 
 ### Debugging, profiling and documentation tools
@@ -224,12 +224,12 @@ used from an IDE or command line.
 > such as C, Objective-C, C#, PHP, Java, Python, IDL (Corba, Microsoft, and 
 > UNO/OpenOffice flavors), Fortran, VHDL, Tcl, and to some extent D.
 
-To enable doxygen pass option **_doxygen_** to CMake from the command line 
-(-Ddoxygen:BOOL=ON) or from a build script. 
+To enable documentation pass option **_doc_** to CMake from the command line 
+`-Ddoc:BOOL=ON` or from a build script. 
 
-The default doxygen configuration file 'config/doxygen.in'. By 
+The default doxygen configuration file `config/doxygen.in`. By 
 default the coverage option generates a HTML web page for each file. The pages 
-are inside the 'build/coverage/' directory. 
+are inside the `build/coverage/` directory. 
 
 [1]: https://ccache.samba.org/
 [2]: https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
