@@ -15,7 +15,8 @@
 
 #include "static/library.hpp"
 
-TEST(StaticLibraryTest, Call) {
-  static_lib::library lib(10);
-  EXPECT_EQ(10, lib.call("test"));
+TEST(StaticLibraryTest, Call)
+{
+    static_lib::library lib(10);
+    EXPECT_EQ(10, lib.call("test"));
 }

@@ -15,7 +15,8 @@
 
 #include "shared/library.hpp"
 
-TEST(StaticLibraryTest, Call) {
-  shared::library lib("10");
-  EXPECT_EQ(10, lib.call("test"));
+TEST(StaticLibraryTest, Call)
+{
+    shared::library lib("10");
+    EXPECT_EQ(10, lib.call("test"));
 }

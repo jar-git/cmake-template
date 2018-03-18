@@ -18,20 +18,24 @@
 
 namespace static_lib {
 
-library::library(int value) : value(value) {}
+library::library(int value)
+    : value(value)
+{
+}
 
-int library::call(const std::string &ext) {
-// Check the pre-processor macro value defined in the CMakeLists.txt
+int library::call(const std::string& ext)
+{
+// Check the pre-processor macro value defined in the FindDoc.cmake
 #ifndef HEXADECIMAL
-  std::cout << "Shared call result: " << std::hex << value << ext << std::endl;
+    std::cout << "Shared call result: " << std::hex << value << ext << std::endl;
 #elif !defined OCTAL
-  std::cout << "Shared call result: " << std::oct << value << ext << std::endl;
+    std::cout << "Shared call result: " << std::oct << value << ext << std::endl;
 #else
-  std::cout << "Shared call result: " << std::dec << value << ext << std::endl;
+    std::cout << "Shared call result: " << std::dec << value << ext << std::endl;
 #endif
-  return value;
+    return value;
 }
 
 constexpr int library::something(int n) { return ++n; }
 
-} // namespace static_lib
+}  // namespace static_lib

@@ -23,20 +23,23 @@ namespace header {
 /// \brief Class definition for a dummy wrapper class.
 /// \tparam T Type of the wrapped class, must be movable and implement static
 /// interface 'void call(const std::string&)'.
-template <typename T> class wrapper_class {
+template <typename T>
+class wrapper_class {
 public:
-  /// \brief Constructor initializing the class with the wrapped class.
-  /// \param[in] arg Instance that is moved to the wrapper.
-  wrapper_class(T arg) : wrapped(std::move(arg)) {
-    static_assert(std::is_pointer<T>::value, "Cannot wrap around pointers.");
-  }
-  /// \brief Function call operator that calls the wrapped instance.
-  /// \param[in] data Data passed to the wrapped instance.
-  void operator()(const ::std::string &data) { wrapped.call(data); }
+    /// \brief Constructor initializing the class with the wrapped class.
+    /// \param[in] arg Instance that is moved to the wrapper.
+    wrapper_class(T arg)
+        : wrapped(std::move(arg))
+    {
+        static_assert(!std::is_pointer<T>::value, "Cannot wrap around pointers.");
+    }
+    /// \brief Function call operator that calls the wrapped instance.
+    /// \param[in] data Data passed to the wrapped instance.
+    void operator()(const ::std::string& data) { wrapped.call(data); }
 
 private:
-  /// \brief Wrapped instance.
-  T wrapped;
+    /// \brief Wrapped instance.
+    T wrapped;
 };
 
 } // namespace header

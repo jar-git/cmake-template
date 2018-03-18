@@ -16,7 +16,8 @@
 /// \brief Main method for unit tests (also defined by the gtest::main lib).
 /// For command line parameters, see:
 /// https://github.com/google/googletest/blob/master/googletest/docs/AdvancedGuide.md
-//int main(int argc, char **argv) {
-//  ::testing::InitGoogleTest(&argc, argv);
-//  return RUN_ALL_TESTS();
-//}
+int main(int argc, char** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

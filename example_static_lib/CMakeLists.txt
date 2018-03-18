@@ -41,7 +41,7 @@ target_include_directories(static
             ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Set compiler warning flags.  See:
-# https://cmake.org/cmake/help/v3.5/variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_<LANG>_COMPILER_ID
+# https://cmake.org/cmake/help/v3.5/variable/CMAKE_LANG_COMPILER_ID.html
 # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#Warning-Options
 # https://clang.llvm.org/docs/UsersManual.html
 # https://msdn.microsoft.com/en-us/library/fwkeyyhe.aspx
@@ -50,6 +50,10 @@ target_compile_options(static
             $<$<CXX_COMPILER_ID:GNU>: -Wextra -Wall -Wpedantic>
             $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
             $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
+
+#target_link_libraries(static
+#        PUBLIC
+#         -static-libasan)
 
 # Add unit tests.
 add_subdirectory(test)

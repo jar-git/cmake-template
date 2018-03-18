@@ -21,23 +21,27 @@ namespace shared {
 
 /// \brief Strong typed enumeration (just to test cxx_strong_enums with the
 /// compiler requirements).
-enum class Code : unsigned { Ok, Error };
+enum class Code : unsigned {
+    Ok,
+    Error
+};
 
 /// \brief Class definition for a dummy class.
 class library {
 public:
-  /// \brief Constructor initializing dummy data.
-  /// \param[in] str String value contained by the class.
-  library(std::string str);
-  // \brief Destructor.
-  ~library() = default;
-  /// \brief Dummy functionality.
-  /// \param[in] ext External dummy data.
-  int call(const std::string &ext);
+    /// \brief Constructor initializing dummy data.
+    /// \param[in] str String value contained by the class.
+    // NOLINTNEXTLINE(fuchsia-default-arguments)
+    library(std::string str);
+    // \brief Destructor.
+    ~library() = default;
+    /// \brief Dummy functionality.
+    /// \param[in] ext External dummy data.
+    int call(const std::string& ext);
 
 private:
-  /// \brief Dummy data.
-  std::string data;
+    /// \brief Dummy data.
+    std::string data;
 };
 
 } // namespace shared

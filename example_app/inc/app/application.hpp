@@ -14,19 +14,35 @@
 #ifndef ROOT_PROJECT_APPLICATION_HPP
 #define ROOT_PROJECT_APPLICATION_HPP
 
+#if defined(__GNUC__)
+#define ATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
+#define ATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_thread))
+#elif defined(__clang__)
+#define ATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_("address")))
+#define ATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_("thread")))
+#else
+#define ATTRIBUTE_NO_SANITIZE_ADDRESS
+#define ATTRIBUTE_NO_SANITIZE_UNDEFINED
+#endif
+
 /// \brief Application specific namespace.
 namespace app {
 
 /// \brief Dummy application class.
 class application {
 public:
-  /// \brief Default constructor.
-  application() = default;
-  /// \brief Destructor.
-  ~application() = default;
-  /// \brief Run the application.
-  /// \return Always 0.
-  int run();
+    /// \brief Default constructor.
+    application() = default;
+    /// \brief Destructor.
+    ~application() = default;
+    /// \brief Run the application.
+    /// \return Always 0.
+    int run();
+
+private:
+    /// \brief Call me.
+    /// \return Always 0.
+    int call();
 };
 
 } // namespace app

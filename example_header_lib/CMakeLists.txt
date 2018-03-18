@@ -1,6 +1,3 @@
-# Define minimum CMake version.
-cmake_minimum_required(VERSION 3.5)
-
 # Define library name, version and language.
 project(header-only VERSION 0.0.1 LANGUAGES CXX)
 

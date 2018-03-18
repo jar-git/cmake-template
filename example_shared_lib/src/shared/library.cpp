@@ -19,11 +19,16 @@
 
 namespace shared {
 
-library::library(std::string str) : data(std::move(str)) {}
-
-int library::call(const std::string &ext) {
-  std::cout << "Shared call result: " << data << ext << std::endl;
-  return std::stoi(data);
+library::library(std::string str)
+    : data(std::move(str))
+{
 }
 
-} // namespace shared
+int library::call(const std::string& ext)
+{
+    std::cout << "Shared call result: " << data << ext << std::endl;
+    // Disabling static code checks.
+    return std::stoi(data);  // NOLINT(fuchsia-default-arguments)
+}
+
+}  // namespace shared

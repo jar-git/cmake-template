@@ -1,0 +1,1 @@
+# -fsanitize=memory -fPIE -pie -fno-omit-frame-pointer -g -O2

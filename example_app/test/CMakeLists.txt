@@ -16,7 +16,7 @@ target_sources(app-unit-test
 # Add unit testing framework as a linked library to the target.
 target_link_libraries(app-unit-test
         PRIVATE
-            testframe
+            unit_test_framework
             shared::library
             static::library
             header::only)

@@ -16,7 +16,8 @@
 /// \brief Application main function.
 /// \param[in] argc Argument count,
 /// \param[in] argv Pointer to build-in array of application arguments.
-int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-  app::application application;
-  application.run();
+int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
+{
+    app::application application;
+    application.run();
 }

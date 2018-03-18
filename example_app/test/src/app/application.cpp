@@ -15,7 +15,8 @@
 
 #include "app/application.hpp"
 
-TEST(ApplicationTest, Run) {
-  ::app::application application;
-  EXPECT_EQ(0, application.run());
+TEST(ApplicationTest, Run)
+{
+    ::app::application application;
+    EXPECT_EQ(0, application.run());
 }

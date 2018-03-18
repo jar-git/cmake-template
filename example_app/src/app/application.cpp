@@ -13,18 +13,39 @@
 // limitations under the License.
 #include "app/application.hpp"
 
+#include <future>
+#include <string>        // for string
+#include <system_error>  // for system_error
+
 #include <header/wrapper_class.hpp>
 #include <shared/library.hpp>
 #include <static/library.hpp>
 
 namespace app {
 
-int application::run() {
-
-  static_lib::library static_lib(5);
-  shared::library shared_lib("5");
-
-  return 0;
+// Disable address sanitizer.
+ATTRIBUTE_NO_SANITIZE_ADDRESS
+int application::run()
+{
+    static_lib::library static_lib(1);
+    // disabling string construction as an example.
+    shared::library shared_lib(std::string{ "5" });
+    return call();
 }
 
-} // namespace app
+// Disable thread sanitizer.
+ATTRIBUTE_NO_SANITIZE_THREAD
+int application::call()
+{
+    auto future = std::async(std::launch::async, []() {
+        header::wrapper_class<shared::library>
+            wrapped_lib(shared::library(std::string{ "10" }));
+        wrapped_lib.operator()(std::string{ "data" });
+    });
+
+    future.wait();
+
+    return 0;
+}
+
+}  // namespace app
