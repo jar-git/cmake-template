@@ -1,10 +1,12 @@
-#Template project for CMake
+# Template project for CMake
 
 Purpose of this project (cmake-template) is to learn how to use various CMake 
 features, and how to embed the tools that are useful for C/C++ development to 
-the project as CMake modules or scripts. This template requires CMake 3.6 or above.
+the project as CMake modules or scripts. This template requires CMake 3.6 or 
+above, and it is assumed that the example projects are using C++ 17 features.
 
-##Project structure:
+
+## Project structure:
 
 The main project (root) contains all of the sub-projects, third party dependencies 
 (not sources), build-scripts (under tools) and custom CMake modules.
@@ -32,7 +34,7 @@ The main project (root) contains all of the sub-projects, third party dependenci
 
 </pre>
 
-##Sub-project structure:
+## Sub-project structure:
 
 Each target (executables, libraries and header-only libraries) in the template 
 project is a sub-project of the main project (root). The directory structure for 
@@ -50,7 +52,7 @@ each target type is displayed below.
   +--/test       - Test directory for this sub-project (gtest)
 </pre>
 
-##List of tools used by the template
+## List of tools used by the template
 
 It is expected that the tools are installed on the system and found from the PATH 
 environment variable. CMake options control whether an individual tool is *ON* or 
