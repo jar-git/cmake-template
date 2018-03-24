@@ -26,7 +26,7 @@ target_link_libraries(application
             shared::library
             static::library
             header::only
-            ${CMAKE_THREAD_LIBS_INIT})
+            Threads::Threads)
 
 # Define headers for this library and add public include directories for any
 # project that compiles against this target. See:
