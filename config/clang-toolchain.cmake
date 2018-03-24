@@ -10,8 +10,8 @@ set(CMAKE_C_COMPILER clang CACHE sring "Clang C compiler" FORCE)
 set(CMAKE_CXX_COMPILER clang++ CACHE string "Clang C++ compiler" FORCE)
 # set(CMAKE_CXX_COMPILER_TARGET ${clang-options})
 
-# WTF?
-set(THREADS_PTHREAD_ARG "ON" CACHE string "whye, o whye." FORCE)
+# Needs to be set when cross compiling.
+set(THREADS_PTHREAD_ARG "ON" CACHE string "Don't try." FORCE)
 
 # set(CMAKE_AR      "/usr/bin/llvm-ar")
 # https://lld.llvm.org/
