@@ -2,6 +2,7 @@
 # Link time optimization.
 ################################################################################
 
+# Enable link time optimization by default.
 option(gold "Enable gold linker." ON)
 
 # Defines a function that will set gnu gold on when called if it exists. Function:

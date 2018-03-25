@@ -1,12 +1,17 @@
+################################################################################
+# ccache enables faster builds
+################################################################################
+
+# Enable ccache by default. ccache:
+# https://ccache.samba.org/
 option(ccache "Enable ccache." ON)
-# Check if ccache is installed, see:
-# https://cmake.org/cmake/help/v3.5/command/find_program.html
+
+# Check if ccache is installed with find_program. Command:
+# https://cmake.org/cmake/help/v3.6/command/find_program.html
 find_program(CCACHE_DIR ccache)
 
 if(ccache)
     if(EXISTS ${CCACHE_DIR})
-        # ccache enables faster builds, see:
-        # https://ccache.samba.org/
         set(CMAKE_C_COMPILER_LAUNCHER "ccache")
         set(CMAKE_CXX_COMPILER_LAUNCHER "ccache")
     else()
