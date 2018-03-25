@@ -29,9 +29,9 @@ target_sources(${PROJECT_NAME}
 # https://cmake.org/cmake/help/v3.6/command/target_link_libraries.html
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        shared::library
-        static::library
-        header::only
+        lib::shared
+        lib::static
+        lib::header
         Threads::Threads)
 
 # Define the include directories for header files for the target. Command:

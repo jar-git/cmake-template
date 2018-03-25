@@ -1,4 +1,8 @@
-# Define minimum CMake version. Language help:
+################################################################################
+# Example cmake-template project.
+################################################################################
+
+# Define minimum CMake version. Language definition:
 # https://cmake.org/cmake/help/v3.6/manual/cmake-language.7.html
 cmake_minimum_required(VERSION 3.6)
 
@@ -19,7 +23,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Enable testing for the sub projects.
 enable_testing()
 
-# Print Installing, but not the Up-to-date messages when using the install command.
+# Print Installing, but not the Up-to-date messages when using install command.
 set(CMAKE_INSTALL_MESSAGE LAZY)
 
 # Enable linker flags -r -u to create warnings for unused dependencies at link time.
