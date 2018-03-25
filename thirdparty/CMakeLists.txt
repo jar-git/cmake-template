@@ -1,4 +1,4 @@
-# Helper module for defining external projects. Module help:
+# CMake module for defining 3rd party dependencies as external projects. Module:
 # https://cmake.org/cmake/help/v3.5/module/ExternalProject.html
 include(ExternalProject)
 
