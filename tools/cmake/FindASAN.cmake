@@ -3,7 +3,7 @@ option(ASAN "Enable AddressSanitizer." ON)
 
 #if(ASAN AND (TSAN OR MSAN OR UBSAN))
 # Fail out if we have incompatible configuration. Command help:
-# https://cmake.org/cmake/help/v3.6/command/message.html
+# https://cmake.org/cmake/help/v3.8/command/message.html
 #    message(FATAL_ERROR "AddressSanitizer is not compatible with ThreadSanitizer"
 #            "MemorySanitizer or UndefinedBehaviorSanitizer.")
 #endif()

@@ -3,11 +3,11 @@
 ################################################################################
 
 # Enable ccache by default. Command:
-# https://cmake.org/cmake/help/v3.6/command/option.html
+# https://cmake.org/cmake/help/v3.8/command/option.html
 option(ccache "Enable ccache." ON)
 
 # Check if ccache is installed with find_program. Command:
-# https://cmake.org/cmake/help/v3.6/command/find_program.html
+# https://cmake.org/cmake/help/v3.8/command/find_program.html
 find_program(CCACHE_DIR ccache)
 
 if(ccache)

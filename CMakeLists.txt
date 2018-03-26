@@ -3,19 +3,18 @@
 ################################################################################
 
 # Define minimum CMake version. Language definition:
-# https://cmake.org/cmake/help/v3.6/manual/cmake-language.7.html
-cmake_minimum_required(VERSION 3.6)
-
+# https://cmake.org/cmake/help/v3.8/manual/cmake-language.7.html
+cmake_minimum_required(VERSION 3.8)
 # Define project name, version and languages. Commands:
-# https://cmake.org/cmake/help/v3.6/manual/cmake-commands.7.html
+# https://cmake.org/cmake/help/v3.8/manual/cmake-commands.7.html
 project(template VERSION 0.0.1 LANGUAGES CXX)
 
 # Helper module for selecting option based on multiple values. Module help:
-# https://cmake.org/cmake/help/v3.6/module/CMakeDependentOption.html
+# https://cmake.org/cmake/help/v3.8/module/CMakeDependentOption.html
 include(CMakeDependentOption)
 
 # Set language, compiler and linker variables. Variables:
-# https://cmake.org/cmake/help/v3.6/manual/cmake-variables.7.html
+# https://cmake.org/cmake/help/v3.8/manual/cmake-variables.7.html
 set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_FLAGS_DEBUG ...)
 #set(CMAKE_LINKER_FLAGS_DEBUG ...)
@@ -31,16 +30,16 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 # set(CMAKE_LINK_WHAT_YOU_USE ON)
 
 # Prefer pthreads and find the thread module. Module help:
-# https://cmake.org/cmake/help/v3.1/module/FindThreads.html
+# https://cmake.org/cmake/help/v3.8/module/FindThreads.html
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 # Append custom directory to CMake module search path. Pre-defined modules:
-# https://cmake.org/cmake/help/v3.6/manual/cmake-modules.7.html
+# https://cmake.org/cmake/help/v3.8/manual/cmake-modules.7.html
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/)
 
 # Require custom modules from the previously set directory. See find_package:
-# https://cmake.org/cmake/help/v3.6/command/find_package.html
+# https://cmake.org/cmake/help/v3.8/command/find_package.html
 find_package(CCache QUIET)
 find_package(ClangTidy QUIET)
 find_package(Gold QUIET)

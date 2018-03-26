@@ -3,7 +3,7 @@ option(doc "Build documentation" OFF)
 
 if (doc)
     # Find doxygen, Module help:
-    # https://cmake.org/cmake/help/v3.6/module/FindDoxygen.html
+    # https://cmake.org/cmake/help/v3.8/module/FindDoxygen.html
     find_package(Doxygen)
 
     if (DOXYGEN_FOUND)
@@ -18,7 +18,7 @@ if (doc)
         configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
 
         # Add custom target for building the documentation. Command help:
-        # https://cmake.org/cmake/help/v3.6/command/add_custom_target.html
+        # https://cmake.org/cmake/help/v3.8/command/add_custom_target.html
         add_custom_target(build_doc ${DOC_DIR}
                 COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}

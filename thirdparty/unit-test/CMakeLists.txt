@@ -61,7 +61,7 @@ else()
             GTest::Main)
 
     # Set the target library import location and include googletest directories. See:
-    # https://cmake.org/cmake/help/v3.6/manual/cmake-properties.7.html
+    # https://cmake.org/cmake/help/v3.8/manual/cmake-properties.7.html
     set_target_properties(${PROJECT_NAME} PROPERTIES
         IMPORTED_LOCATION ${GTEST_LIBRARIES}
         IMPORTED_LINK_INTERFACE_LIBRARIES ${CMAKE_THREAD_LIBS_INIT}

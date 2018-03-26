@@ -2,7 +2,7 @@
 
 # Script that could possibly be used for something, like configuring CMake from
 # the command line or running the compiled executable with parameters. CMake:
-# https://cmake.org/cmake/help/v3.6/manual/cmake.1.html
+# https://cmake.org/cmake/help/v3.8/manual/cmake.1.html
 
 # Configure echoed value from CMake.
 echo @ECHO_VALUE@

@@ -5,6 +5,9 @@
 # include-what-you-use is enabled by default.
 option(IWYU "Enable include-what-you-use." ON)
 
+# https://github.com/include-what-you-use/include-what-you-use/blob/master/docs/IWYUPragmas.md
+# https://include-what-you-use.org/
+
 if(IWYU)
 
     # Check if iwyu is installed with find_program.
