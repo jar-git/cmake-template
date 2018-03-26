@@ -23,6 +23,7 @@ if(tidy)
         function(enable_clang_tidy TARGET)
             set_target_properties(
                     ${test_name} PROPERTIES
+                    C_CLANG_TIDY "${CLANG_TIDY_PROGRAM}"
                     CXX_CLANG_TIDY "${CLANG_TIDY_PROGRAM}"
             )
         endfunction(enable_clang_tidy)

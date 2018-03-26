@@ -14,8 +14,7 @@
 #include "app/application.hpp"
 
 #include <future>
-#include <string>        // for string
-#include <system_error>  // for system_error
+#include <string>
 
 #include <header/wrapper_class.hpp>
 #include <shared/library.hpp>

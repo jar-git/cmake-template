@@ -5,6 +5,7 @@
 # Facade function for enabling all static analysis tools.
 function(add_static_analysis TARGET)
     enable_clang_tidy(${TARGET})
+    enable_iwyu(${TARGET})
 endfunction(add_static_analysis)
 
 # Override add_library command.
