@@ -30,4 +30,3 @@ target_include_directories(${test_name}
 # https://cmake.org/cmake/help/v3.6/command/add_test.html
 # https://cmake.org/cmake/help/v3.6/module/CTest.html
 add_test(NAME ${test_name} COMMAND ${test_name})
-
