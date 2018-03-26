@@ -1,7 +1,7 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,*'
-WarningsAsErrors: ''
-HeaderFilterRegex: ''
+Checks:          '*,-fuchsia-default-arguments'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '-thirdparty/'
 AnalyzeTemporaryDtors: true
 FormatStyle:     none
 User:            user
@@ -254,6 +254,4 @@ CheckOptions:
     value:           '0'
   - key:             readability-static-accessed-through-instance.NameSpecifierNestingThreshold
     value:           '3'
-  - key:             fuchsia-default-argumentsasdasd
-    value:           '1'
 ...

@@ -55,6 +55,11 @@ find_package(CppLint QUIET)
 find_package(CppClean QUIET)
 find_package(IWYU QUIET)
 
+# Include Command module for common command overrides. Overrides could be used
+# when some build steps like static analysis should be disabled for unit tests
+# or thirdparty library facades (wrappers).
+# include(Command)
+
 # Add sub project directories to the main template project. Exclude tools from
 # ALL target, because it contains scripts for debugging, running and building,
 # which are not needed when using this template project from an IDE.

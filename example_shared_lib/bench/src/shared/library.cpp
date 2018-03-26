@@ -18,10 +18,11 @@
 // NOLINTNEXTLINE (runtime/references)
 void run_shared(benchmark::State& state)
 {
-  shared::library lib("10");
-  while (state.KeepRunning()) {
-    lib.call("test");
-  }
+    shared::library lib("10");
+    while (state.KeepRunning()) {
+        lib.call("test");
+    }
 }
 
+// NOLINTNEXTLINE - bench
 BENCHMARK(run_shared);

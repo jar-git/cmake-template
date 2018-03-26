@@ -18,11 +18,12 @@
 // NOLINTNEXTLINE (runtime/references)
 void run_application(benchmark::State& state)
 {
-  ::app::application application;
+    ::app::application application;
 
-  while (state.KeepRunning()) {
-     application.run();
-  }
+    while (state.KeepRunning()) {
+        application.run();
+    }
 }
 
+// NOLINTNEXTLINE - bench
 BENCHMARK(run_application);

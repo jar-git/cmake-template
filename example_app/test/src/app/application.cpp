@@ -15,8 +15,10 @@
 
 #include "app/application.hpp"
 
+// NOLINTNEXTLINE - gtest
 TEST(ApplicationTest, Run)
 {
     ::app::application application;
+    // NOLINTNEXTLINE - gtest
     EXPECT_EQ(0, application.run());
 }

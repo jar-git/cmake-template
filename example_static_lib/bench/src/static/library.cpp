@@ -18,10 +18,11 @@
 // NOLINTNEXTLINE (runtime/references)
 void run_static(benchmark::State& state)
 {
-  static_lib::library lib(10);
-  while (state.KeepRunning()) {
-    lib.call("test");
-  }
+    static_lib::library lib(10);
+    while (state.KeepRunning()) {
+        lib.call("test");
+    }
 }
 
+// NOLINTNEXTLINE - bench
 BENCHMARK(run_static);

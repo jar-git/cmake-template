@@ -15,8 +15,10 @@
 
 #include "shared/library.hpp"
 
+// NOLINTNEXTLINE - gtest
 TEST(SharedLibraryTest, Call)
 {
     shared::library lib("10");
+    // NOLINTNEXTLINE - gtest
     EXPECT_EQ(10, lib.call("test"));
 }

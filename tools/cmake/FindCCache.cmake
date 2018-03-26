@@ -2,8 +2,8 @@
 # ccache enables faster builds
 ################################################################################
 
-# Enable ccache by default. ccache:
-# https://ccache.samba.org/
+# Enable ccache by default. Command:
+# https://cmake.org/cmake/help/v3.6/command/option.html
 option(ccache "Enable ccache." ON)
 
 # Check if ccache is installed with find_program. Command:

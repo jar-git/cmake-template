@@ -15,8 +15,10 @@
 
 #include "static/library.hpp"
 
+// NOLINTNEXTLINE - gtest
 TEST(StaticLibraryTest, Call)
 {
     static_lib::library lib(10);
+    // NOLINTNEXTLINE - gtest
     EXPECT_EQ(10, lib.call("test"));
 }
