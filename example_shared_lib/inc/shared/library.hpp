@@ -32,7 +32,7 @@ public:
     /// \brief Constructor initializing dummy data.
     /// \param[in] str String value contained by the class.
     // NOLINTNEXTLINE(fuchsia-default-arguments)
-    library(std::string str);
+    explicit library(std::string str);
     // \brief Destructor.
     ~library() = default;
     /// \brief Dummy functionality.

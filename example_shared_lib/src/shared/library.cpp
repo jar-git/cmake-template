@@ -19,11 +19,13 @@
 
 namespace shared {
 
+// cppcheck-suppress passedByValue
 library::library(std::string str)
     : data(std::move(str))
 {
 }
 
+// cppcheck-suppress unusedFunction
 int library::call(const std::string& ext)
 {
     std::cout << "Shared call result: " << data << ext << std::endl;

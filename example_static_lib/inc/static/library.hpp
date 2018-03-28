@@ -24,7 +24,7 @@ class library {
 public:
   /// \brief Constructor initializing dummy data.
   /// \param[in] value Value contained by the class.
-  library(int value);
+  explicit library(int value);
   // \brief Destructor.
   ~library() = default;
   /// \brief Dummy functionality.

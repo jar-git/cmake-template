@@ -28,7 +28,7 @@ class wrapper_class {
 public:
     /// \brief Constructor initializing the class with the wrapped class.
     /// \param[in] arg Instance that is moved to the wrapper.
-    wrapper_class(T arg)
+    explicit wrapper_class(T arg)
         : wrapped(std::move(arg))
     {
         static_assert(!std::is_pointer<T>::value, "Cannot wrap around pointers.");

@@ -23,6 +23,7 @@ library::library(int value)
 {
 }
 
+// cppcheck-suppress unusedFunction
 int library::call(const std::string& ext)
 {
 // Check the pre-processor macro value defined in the FindDoc.cmake
@@ -36,6 +37,7 @@ int library::call(const std::string& ext)
     return value;
 }
 
+// cppcheck-suppress unusedFunction
 constexpr int library::something(int n) { return ++n; }
 
 }  // namespace static_lib

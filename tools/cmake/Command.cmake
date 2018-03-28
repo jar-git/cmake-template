@@ -7,6 +7,7 @@ function(add_static_analysis TARGET)
     enable_clang_tidy(${TARGET})
     enable_iwyu(${TARGET})
     enable_cpplint(${TARGET})
+    enable_cppcheck(${TARGET})
 endfunction(add_static_analysis)
 
 # Override add_library command.
