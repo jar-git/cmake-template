@@ -12,9 +12,14 @@ if(cpplint)
 
     if(CPPLINT_PROGRAM)
 
+        # Set cpplint program + options.
+        set(CPPLINT_RUNNABLE
+                ${CPPLINT_PROGRAM}
+                --quiet)
+
         # Set cpplint for all sub-projects of the main project.
-        set(CMAKE_C_CPPLINT "${CPPLINT_PROGRAM}")
-        set(CMAKE_CXX_CPPLINT "${CPPLINT_PROGRAM}")
+        set(CMAKE_C_CPPLINT "${CPPLINT_RUNNABLE}")
+        set(CMAKE_CXX_CPPLINT "${CPPLINT_RUNNABLE}")
 
         # Define a function for enabling cpplint per target. The option above
         # makes this redundant, as it enables it for all targets already. This
@@ -23,8 +28,8 @@ if(cpplint)
         function(enable_cpplint TARGET)
             set_target_properties(
                     ${test_name} PROPERTIES
-                    C_CPPLINT "${CPPLINT_PROGRAM}"
-                    CXX_CPPLINT "${CPPLINT_PROGRAM}"
+                    C_CPPLINT "${CPPLINT_RUNNABLE}"
+                    CXX_CPPLINT "${CPPLINT_RUNNABLE}"
             )
         endfunction(enable_cpplint)
 
