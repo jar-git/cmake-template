@@ -55,6 +55,13 @@ target_compile_options(${PROJECT_NAME}
 # https://clang.llvm.org/docs/UsersManual.html
 # https://msdn.microsoft.com/en-us/library/fwkeyyhe.aspx
 
+# Add static analysis for project.
+add_static_analysis(${PROJECT_NAME})
+
+# Set parent project name, test projects will use it to add include directories,
+# sources and link libraries with generator expressions.
+set(PARENT_PROJECT ${PROJECT_NAME})
+
 # Add unit tests.
 add_subdirectory(test)
 add_subdirectory(bench)

@@ -11,19 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <benchmark/benchmark.h>
 
-#include "app/application.hpp"
+#ifndef TEMPLATE_BENCH_APP_HPP
+#define TEMPLATE_BENCH_APP_HPP
+
+namespace benchmark {
+class State;
+}  // namespace benchmark
 
 // NOLINTNEXTLINE (runtime/references)
-void run_application(benchmark::State& state)
-{
-    ::app::application application;
+void run_application(benchmark::State& state);
 
-    while (state.KeepRunning()) {
-        application.run();
-    }
-}
-
-// NOLINTNEXTLINE - bench
-BENCHMARK(run_application);
+#endif  //TEMPLATE_BENCH_APP_HPP

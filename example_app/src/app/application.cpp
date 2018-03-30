@@ -17,8 +17,8 @@
 #include <string>
 
 #include <header/wrapper_class.hpp>
-#include <shared/library.hpp>
-#include <static/library.hpp>
+#include <shared/shared_library.hpp>
+#include <static/static_library.hpp>
 
 namespace app {
 
@@ -29,7 +29,7 @@ int application::run()
 {
     static_lib::library static_lib(1);
     // disabling string construction as an example.
-    shared::library shared_lib(std::string{ "5" });
+    shared::shared_library shared_lib(std::string{ "5" });
     return call();
 }
 
@@ -38,8 +38,8 @@ ATTRIBUTE_NO_SANITIZE_THREAD
 int application::call()
 {
     auto future = std::async(std::launch::async, []() {
-        header::wrapper_class<shared::library>
-            wrapped_lib(shared::library(std::string{ "10" }));
+        header::wrapper_class<shared::shared_library>
+            wrapped_lib(shared::shared_library(std::string{ "10" }));
         wrapped_lib.operator()(std::string{ "data" });
     });
 

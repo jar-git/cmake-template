@@ -21,8 +21,8 @@ target_compile_definitions(${PROJECT_NAME}
 # Add sources to the target.
 target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/static/library.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/library.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/static/static_library.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/static_library.cpp)
 
 # Define headers for this library and add public include directories for any
 # project that links against this target.
@@ -40,6 +40,9 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:GNU>: -Wextra -Wall -Wpedantic>
         $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
         $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
+
+# Add static analysis for project.
+add_static_analysis(${PROJECT_NAME})
 
 # Add unit tests.
 add_subdirectory(test)

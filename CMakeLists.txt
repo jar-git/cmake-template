@@ -55,6 +55,9 @@ find_package(CppCheck QUIET)
 find_package(CppClean QUIET)
 find_package(IWYU QUIET)
 
+# Include module for static analysis commands.
+include(StaticAnalysis)
+
 # Include Command module for common command overrides. Overrides could be used
 # when some build steps like static analysis should be disabled for unit tests
 # or thirdparty library facades (wrappers).

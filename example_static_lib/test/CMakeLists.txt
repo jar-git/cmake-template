@@ -9,7 +9,7 @@ add_executable(${test_name} ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
 # Add unit test sources to the target.
 target_sources(${test_name}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/library.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/test_static.cpp)
 
 # Link the unit test target against unit testing framework and the parent project.
 target_link_libraries(${test_name}

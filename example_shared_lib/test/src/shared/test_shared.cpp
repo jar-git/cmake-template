@@ -11,18 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <benchmark/benchmark.h>
+#include <gtest/gtest.h>
 
-#include "static/library.hpp"
+#include <string>
 
-// NOLINTNEXTLINE (runtime/references)
-void run_static(benchmark::State& state)
+#include "shared/shared_library.hpp"
+
+// NOLINTNEXTLINE - gtest
+TEST(SharedLibraryTest, Call)
 {
-    static_lib::library lib(10);
-    while (state.KeepRunning()) {
-        lib.call("test");
-    }
+    shared::shared_library lib("10");
+    // NOLINTNEXTLINE - gtest
+    EXPECT_EQ(10, lib.call("test"));
 }
-
-// NOLINTNEXTLINE - bench
-BENCHMARK(run_static);

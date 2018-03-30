@@ -27,14 +27,14 @@ enum class Code : unsigned {
 };
 
 /// \brief Class definition for a dummy class.
-class library {
+class shared_library {
 public:
     /// \brief Constructor initializing dummy data.
     /// \param[in] str String value contained by the class.
     // NOLINTNEXTLINE(fuchsia-default-arguments)
-    explicit library(std::string str);
+    explicit shared_library(std::string str);
     // \brief Destructor.
-    ~library() = default;
+    ~shared_library() = default;
     /// \brief Dummy functionality.
     /// \param[in] ext External dummy data.
     int call(const std::string& ext);

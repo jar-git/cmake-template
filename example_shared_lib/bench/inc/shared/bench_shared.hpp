@@ -11,14 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <gtest/gtest.h>
 
-#include "static/library.hpp"
+#ifndef TEMPLATE_BENCH_SHARED_HPP
+#define TEMPLATE_BENCH_SHARED_HPP
 
-// NOLINTNEXTLINE - gtest
-TEST(StaticLibraryTest, Call)
-{
-    static_lib::library lib(10);
-    // NOLINTNEXTLINE - gtest
-    EXPECT_EQ(10, lib.call("test"));
-}
+namespace benchmark {
+class State;
+}  // namespace benchmark
+
+// NOLINTNEXTLINE (runtime/references)
+void run_shared(benchmark::State& state);
+
+#endif //TEMPLATE_BENCH_SHARED_HPP

@@ -1,26 +1,35 @@
 ################################################################################
 # Benchmarks for static library.
 ################################################################################
-set(test_name static_benchmark)
+project(static_benchmark)
 
 # Define target for the benchmark.
-add_executable(${test_name} ${CMAKE_CURRENT_SOURCE_DIR}/src/bench.cpp)
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/bench.cpp)
 
 # Add benchmark sources.
-target_sources(${test_name}
+target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/library.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/static/bench_static.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/bench_static.cpp)
 
 # Link the benchmark target against benchmark library and the parent project.
-target_link_libraries(${test_name}
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
         benchmark_framework
         lib::static)
 
+# Set include directories.
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
 # Add a test for the parent project to be run by ctest.
-add_test(NAME ${test_name} COMMAND ${test_name})
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 # Set the label for the benchmark "tests", so that they will be excluded by
 # default when running the unit tests with ctest. Command:
 # https://cmake.org/cmake/help/v3.8/command/set_tests_properties.html
-set_tests_properties(${test_name} PROPERTIES LABELS "BenchmarkTest")
+set_tests_properties(${PROJECT_NAME} PROPERTIES LABELS "BenchmarkTest")
+
+# Add static analysis for project.
+add_static_analysis(${PROJECT_NAME})

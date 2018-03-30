@@ -11,26 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include <iostream>
-#include <string>
-#include <utility>
+#include "app/bench_app.hpp"
 
-#include "shared/library.hpp"
+#include <benchmark/benchmark.h>
 
-namespace shared {
+#include "app/application.hpp"
 
-// cppcheck-suppress passedByValue
-library::library(std::string str)
-    : data(std::move(str))
+// NOLINTNEXTLINE (runtime/references)
+void run_application(benchmark::State& state)
 {
+    ::app::application application;
+
+    while (state.KeepRunning()) {
+        application.run();
+    }
 }
 
-// cppcheck-suppress unusedFunction
-int library::call(const std::string& ext)
-{
-    std::cout << "Shared call result: " << data << ext << std::endl;
-    // Disabling static code checks.
-    return std::stoi(data);  // NOLINT(fuchsia-default-arguments)
-}
-
-}  // namespace shared
+// NOLINTNEXTLINE - bench
+BENCHMARK(run_application);

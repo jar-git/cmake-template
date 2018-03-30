@@ -21,8 +21,8 @@ target_compile_features(${PROJECT_NAME}
 # Add shared library sources to the target.
 target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/shared/library.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/shared/library.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/shared/shared_library.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/shared/shared_library.cpp)
 
 # Define include directories for this library and add public include directories
 # for any project that links against this target.
@@ -40,6 +40,9 @@ target_compile_options(${PROJECT_NAME}
             $<$<CXX_COMPILER_ID:GNU>: -Wextra -Wall -Wpedantic>
             $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
             $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
+
+# Add static analysis for project.
+add_static_analysis(${PROJECT_NAME})
 
 # Add unit tests.
 add_subdirectory(test)

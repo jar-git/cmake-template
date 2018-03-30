@@ -13,31 +13,24 @@
 // limitations under the License.
 #include <iostream>
 #include <string>
+#include <utility>
 
-#include "static/library.hpp"
+#include "shared/shared_library.hpp"
 
-namespace static_lib {
+namespace shared {
 
-library::library(int value)
-    : value(value)
+// cppcheck-suppress passedByValue
+shared_library::shared_library(std::string str)
+    : data(std::move(str))
 {
 }
 
 // cppcheck-suppress unusedFunction
-int library::call(const std::string& ext)
+int shared_library::call(const std::string& ext)
 {
-// Check the pre-processor macro value defined in the FindDoc.cmake
-#ifndef HEXADECIMAL
-    std::cout << "Shared call result: " << std::hex << value << ext << std::endl;
-#elif !defined OCTAL
-    std::cout << "Shared call result: " << std::oct << value << ext << std::endl;
-#else
-    std::cout << "Shared call result: " << std::dec << value << ext << std::endl;
-#endif
-    return value;
+    std::cout << "Shared call result: " << data << ext << std::endl;
+    // Disabling static code checks.
+    return std::stoi(data);  // NOLINT(fuchsia-default-arguments)
 }
 
-// cppcheck-suppress unusedFunction
-constexpr int library::something(int n) { return ++n; }
-
-}  // namespace static_lib
+}  // namespace shared
