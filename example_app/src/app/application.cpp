@@ -24,7 +24,6 @@ namespace app {
 
 // Disable address sanitizer.
 ATTRIBUTE_NO_SANITIZE_ADDRESS
-// cppcheck-suppress unusedFunction
 int application::run()
 {
     static_lib::library static_lib(1);

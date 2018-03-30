@@ -23,7 +23,6 @@ library::library(int value)
 {
 }
 
-// cppcheck-suppress unusedFunction
 int library::call(const std::string& ext)
 {
 // Check the pre-processor macro value defined in the FindDoc.cmake

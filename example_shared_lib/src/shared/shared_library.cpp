@@ -25,7 +25,6 @@ shared_library::shared_library(std::string str)
 {
 }
 
-// cppcheck-suppress unusedFunction
 int shared_library::call(const std::string& ext)
 {
     std::cout << "Shared call result: " << data << ext << std::endl;

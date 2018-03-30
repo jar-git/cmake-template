@@ -12,8 +12,9 @@ if(cppcheck)
 
     if(CPPCHECK_PROGRAM)
 
-        # Set cppcheck cache directory
+        # Set and create cppcheck cache directory
         set(CPPCHECK_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/cppcheck_cache)
+        file(MAKE_DIRECTORY ${CPPCHECK_BUILD_DIR})
 
         # Set cppcheck supressions file.
         set(CPPCHECK_SUPRESSIONS ${CMAKE_CURRENT_SOURCE_DIR}/config/cppcheck.cfg)
@@ -24,7 +25,7 @@ if(cppcheck)
         # Set cppcheck program + options.
         set(CPPCHECK_RUNNABLE
                 ${CPPCHECK_PROGRAM}
-                --enable=all
+                --enable=warning,style
                 --quiet
                 --inline-suppr
                 --platform=native
