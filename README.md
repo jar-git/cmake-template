@@ -2,7 +2,7 @@
 
 Purpose of this project (cmake-template) is to learn how to use various CMake 
 features, and how to embed the tools that are useful for C/C++ development to 
-the project as CMake modules or scripts. This template requires CMake 3.8 or 
+the project as CMake modules or scripts. This template requires CMake v3.10 or
 above, and it is assumed that the example projects are using C++ 17 features.
 
 
