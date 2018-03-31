@@ -17,7 +17,7 @@ if(cppcheck)
         file(MAKE_DIRECTORY ${CPPCHECK_BUILD_DIR})
 
         # Set cppcheck supressions file.
-        set(CPPCHECK_SUPRESSIONS ${CMAKE_CURRENT_SOURCE_DIR}/config/cppcheck.cfg)
+        set(CPPCHECK_SUPRESSIONS ${CMAKE_HOME_DIRECTORY}/config/cppcheck.cfg)
 
         # Set message template
         set(CPPCHECK_TEMPLATE "[{file}:{line}] ({severity}) {message} ({id})")

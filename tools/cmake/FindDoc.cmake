@@ -9,7 +9,7 @@ if (doc)
     if (DOXYGEN_FOUND)
 
         # Set input and output file for configuration.
-        set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/config/doxyfile.in)
+        set(DOXYGEN_IN ${CMAKE_HOME_DIRECTORY}/config/doxyfile.in)
         set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/doxyfile)
         # Set doxygen documentation directory.
         set(DOC_DIR documentation)

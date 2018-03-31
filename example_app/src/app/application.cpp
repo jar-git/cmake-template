@@ -22,8 +22,6 @@
 
 namespace app {
 
-// Disable address sanitizer.
-ATTRIBUTE_NO_SANITIZE_ADDRESS
 int application::run()
 {
     static_lib::library static_lib(1);
@@ -32,8 +30,6 @@ int application::run()
     return call();
 }
 
-// Disable thread sanitizer.
-ATTRIBUTE_NO_SANITIZE_THREAD
 int application::call()
 {
     auto future = std::async(std::launch::async, []() {

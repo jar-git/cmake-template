@@ -62,6 +62,9 @@ add_static_analysis(${PROJECT_NAME})
 # sources and link libraries with generator expressions.
 set(PARENT_PROJECT ${PROJECT_NAME})
 
+# Create sanitizer wrapper script for the application.
+# add_sanitizer_wrapper(${PROJECT_NAME} ON)
+
 # Add unit tests.
 add_subdirectory(test)
 add_subdirectory(bench)

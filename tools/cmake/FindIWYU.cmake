@@ -16,7 +16,7 @@ if(IWYU)
     if(IWYU_PROGRAM)
 
         # Set iwyu mapping file.
-        set(IWYU_MAP ${CMAKE_CURRENT_SOURCE_DIR}/config/iwyu.cfg)
+        set(IWYU_MAP ${CMAKE_HOME_DIRECTORY}/config/iwyu.cfg)
 
         # Set iwyu program + options.
         set(IWYU_RUNNABLE

@@ -1,6 +1,8 @@
 ################################################################################
 # Static analysis
 ################################################################################
+# Include guard for static analysis module.
+include_guard(GLOBAL)
 
 #! add_static_analysis : add static analysis to a target
 # Facade function for enabling all static analysis tools on a target.

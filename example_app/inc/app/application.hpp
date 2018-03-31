@@ -14,17 +14,6 @@
 #ifndef ROOT_PROJECT_APPLICATION_HPP
 #define ROOT_PROJECT_APPLICATION_HPP
 
-#if defined(__GNUC__)
-#define ATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
-#define ATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_thread))
-#elif defined(__clang__)
-#define ATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_("address")))
-#define ATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_("thread")))
-#else
-#define ATTRIBUTE_NO_SANITIZE_ADDRESS
-#define ATTRIBUTE_NO_SANITIZE_UNDEFINED
-#endif
-
 /// \brief Application specific namespace.
 namespace app {
 

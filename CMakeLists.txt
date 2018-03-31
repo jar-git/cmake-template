@@ -55,13 +55,14 @@ find_package(CppCheck QUIET)
 find_package(CppClean QUIET)
 find_package(IWYU QUIET)
 
-# Include module for static analysis commands.
+# Include modules for static analysers and sanitizers.
 include(StaticAnalysis)
+include(Sanitizers)
 
 # Include Command module for common command overrides. Overrides could be used
 # when some build steps like static analysis should be disabled for unit tests
 # or thirdparty library facades (wrappers).
-# include(Command)
+include(Command)
 
 # Add sub project directories to the main template project. Exclude tools from
 # ALL target, because it contains scripts for debugging, running and building,
