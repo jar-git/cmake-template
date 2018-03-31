@@ -6,7 +6,7 @@
 option(gold "Enable gold linker." ON)
 
 # Defines a function that will set gnu gold on when called if it exists. Function:
-# https://cmake.org/cmake/help/v3.8/command/function.html
+# https://cmake.org/cmake/help/v3.10/command/function.html
 function(enable_gnu_gold LD_VERSION)
     if ("${LD_VERSION}" MATCHES "GNU gold")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold -Wl,--disable-new-dtags")
@@ -20,7 +20,7 @@ endfunction()
 if(gold)
     if(CMAKE_COMPILER_IS_GNUCXX)
         # Check the if gold is availalbe with execute_process. Command:
-        # https://cmake.org/cmake/help/v3.8/command/execute_process.html
+        # https://cmake.org/cmake/help/v3.10/command/execute_process.html
         execute_process(COMMAND ${CMAKE_CXX_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION_OUT)
         enable_gnu_gold(${LD_VERSION_OUT})
     elseif(CMAKE_COMPILER_IS_GNUCC)

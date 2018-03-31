@@ -1,6 +1,7 @@
 ################################################################################
 # Clang tool-chain for host system.
 ################################################################################
+# Tool-chains: https://cmake.org/cmake/help/v3.10/manual/cmake-toolchains.7.html
 
 # Set host system and processor.
 set(CMAKE_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME})
