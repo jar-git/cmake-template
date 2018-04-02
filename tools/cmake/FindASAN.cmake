@@ -60,6 +60,12 @@ function(add_asan_wrapper EXECUTABLE PRELOAD)
             endif(NOT EXISTS ${SANITIZER_LIBRARY})
         endif(PRELOAD)
 
+        # Check whether LeakSanitizer should be disabled or not. Usually enabled
+        # with the AddressSanitizer (recommended option).
+        if(NOT LSAN)
+            set(ENV{${SANITIZER_ENVIRON}} "detect_leaks=0")
+        endif(NOT LSAN)
+
         # Add the wrapper script for sanitizer.
         add_sanitizer_script(${EXECUTABLE} ${SANITIZER_ENVIRON} ${SANITIZER_LIBRARY})
 
