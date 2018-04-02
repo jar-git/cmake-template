@@ -10,6 +10,7 @@ include_guard(GLOBAL)
 # \param:PRELOAD PRELOAD Specifies if libasan should be preloaded.
 function(add_sanitizer_wrapper EXECUTABLE PRELOAD)
     add_asan_wrapper(${EXECUTABLE} ${PRELOAD})
+    add_tsan_wrapper(${EXECUTABLE} ${PRELOAD})
 endfunction(add_sanitizer_wrapper EXECUTABLE PRELOAD)
 
 #! add_sanitizer_static_link : Adds static linking to sanitizer library
@@ -17,14 +18,21 @@ endfunction(add_sanitizer_wrapper EXECUTABLE PRELOAD)
 # \param:TARGET TARGET specify the target to be linked against.
 function(add_sanitizer_static_link TARGET)
     add_asan_static_link(${TARGET})
+    add_tsan_static_link(${TARGET})
 endfunction(add_sanitizer_static_link TARGET)
 
-#! make_sanitizer_wrapper : Adds a sanitizer wrapper script to target directory
-# This script is used to define the LD_PRELOAD and ASAN_OPTIONS environment
-# variables while running the original executable.
+#! add_sanitizer_script : Adds a sanitizer wrapper script to target directory
+# This script is used to define the LD_PRELOAD and <SAN>_OPTIONS environment
+# variable while running the original executable.
 # \param:EXECUTABLE EXECUTABLE specify the target for the wrapper.
+# \param:SANITIZER_ENVIRON SANITIZER_ENVIRON Specifies the sanitizer environment variable.
 # \param:SANITIZER_LIBRARY SANITIZER_LIBRARY Specifies the library file to be preloaded.
-function(add_sanitizer_script EXECUTABLE SANITIZER_OPTIONS SANITIZER_LIBRARY)
+function(add_sanitizer_script EXECUTABLE SANITIZER_ENVIRON SANITIZER_LIBRARY)
+
+    # Configure generic options for all sanitizers. Environment:
+    # https://cmake.org/cmake/help/v3.10/variable/ENV.html
+    set(SANITIZER_OPTIONS
+            "$ENV{${SANITIZER_ENVIRON}} abort_on_error=1 print_suppressions=0")
 
     # Set asan wrapper template path.
     set(ASAN_WRAPPER ${CMAKE_HOME_DIRECTORY}/tools/sanitizer_wrapper.py)
@@ -39,4 +47,5 @@ function(add_sanitizer_script EXECUTABLE SANITIZER_OPTIONS SANITIZER_LIBRARY)
     # Add execute and read permissions to the wrapper.
     add_permissions(${EXE_ASAN_WRAPPER} OWNER_EXECUTE OWNER_READ)
 
-endfunction(add_sanitizer_script EXECUTABLE SANITIZER_OPTIONS SANITIZER_LIBRARY)
+endfunction(add_sanitizer_script EXECUTABLE SANITIZER_ENVIRON SANITIZER_LIBRARY)
+

@@ -24,6 +24,7 @@ try:
     executable = "@EXECUTABLE@"
     sanitizer_library = "@SANITIZER_LIBRARY@"
     sanitizer_options = "@SANITIZER_OPTIONS@"
+    sanitizer_environ = "@SANITIZER_ENVIRON@"
 
     arguments = ' '.join(str(e) for e in sys.argv)
 
@@ -31,7 +32,7 @@ try:
         os.environ["LD_PRELOAD"] = sanitizer_library.strip()
 
     if sanitizer_options:
-        os.environ["ASAN_OPTIONS"] = sanitizer_options.strip()
+        os.environ[sanitizer_environ.strip()] = sanitizer_options.strip()
 
     call([executable, arguments])
 except Exception as e:

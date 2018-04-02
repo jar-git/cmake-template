@@ -63,7 +63,7 @@ add_static_analysis(${PROJECT_NAME})
 set(PARENT_PROJECT ${PROJECT_NAME})
 
 # Create sanitizer wrapper script for the application.
-# add_sanitizer_wrapper(${PROJECT_NAME} ON)
+add_sanitizer_wrapper(${PROJECT_NAME} ON)
 
 # Add unit tests.
 add_subdirectory(test)
