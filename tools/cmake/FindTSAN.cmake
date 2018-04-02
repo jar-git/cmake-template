@@ -43,9 +43,9 @@ function(add_tsan_wrapper EXECUTABLE PRELOAD)
             # TODO: Check that executable has dynamic linking to tsan.
 
             if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
-                find_library(SANITIZER_LIBRARY NAMES libtsan libtsan.so.0)
+                find_library(SANITIZER_LIBRARY NAMES tsan libtsan.so.0)
             elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-                find_library(SANITIZER_LIBRARY NAMES libtsan libclang_rt.tsan-x86_64.so)
+                find_library(SANITIZER_LIBRARY NAMES tsan libclang_rt.tsan-x86_64.so)
             endif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 
             # Assert that the libtsan was found.

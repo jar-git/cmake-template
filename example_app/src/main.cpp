@@ -20,4 +20,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
     app::application application;
     application.run();
+
+    return 0;
 }

@@ -11,6 +11,7 @@ include_guard(GLOBAL)
 function(add_sanitizer_wrapper EXECUTABLE PRELOAD)
     add_asan_wrapper(${EXECUTABLE} ${PRELOAD})
     add_tsan_wrapper(${EXECUTABLE} ${PRELOAD})
+    add_ubsan_wrapper(${EXECUTABLE} ${PRELOAD})
 endfunction(add_sanitizer_wrapper EXECUTABLE PRELOAD)
 
 #! add_sanitizer_static_link : Adds static linking to sanitizer library
@@ -19,6 +20,7 @@ endfunction(add_sanitizer_wrapper EXECUTABLE PRELOAD)
 function(add_sanitizer_static_link TARGET)
     add_asan_static_link(${TARGET})
     add_tsan_static_link(${TARGET})
+    add_ubsan_static_link(${TARGET})
 endfunction(add_sanitizer_static_link TARGET)
 
 #! add_sanitizer_script : Adds a sanitizer wrapper script to target directory

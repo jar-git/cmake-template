@@ -46,11 +46,11 @@ function(add_asan_wrapper EXECUTABLE PRELOAD)
                 # Find asan library from the system. Command:
                 # https://cmake.org/cmake/help/v3.10/command/find_library.html
                 find_library(SANITIZER_LIBRARY NAMES
-                        libasan libasan.so.4 libasan.so.3 libasan.so.2 libasan.so.1)
+                        asan libasan.so.4 libasan.so.3 libasan.so.2 libasan.so.1)
             elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
                 # TODO: How to find correct asan library when using clang?
                 find_library(SANITIZER_LIBRARY NAMES
-                        libasan libclang_rt.asan-x86_64.so)
+                        asan libclang_rt.asan-x86_64.so)
             endif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 
             # Assert that the libasan was found.
