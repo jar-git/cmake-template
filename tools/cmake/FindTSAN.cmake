@@ -27,7 +27,7 @@ function(add_tsan_static_link TARGET)
 endfunction(add_tsan_static_link TARGET)
 
 #! add_tsan_wrapper : Adds a tsan wrapper script to target directory
-# This script is used to define the LD_PRELOAD and ASAN_OPTIONS environment
+# This script is used to define the LD_PRELOAD and TSAN_OPTIONS environment
 # variables while running the original executable.
 # \param:EXECUTABLE EXECUTABLE specify the target to be wrapped.
 # \param:PRELOAD PRELOAD Specifies if libasan should be preloaded.

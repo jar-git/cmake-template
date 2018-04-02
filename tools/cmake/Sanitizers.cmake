@@ -12,6 +12,7 @@ function(add_sanitizer_wrapper EXECUTABLE PRELOAD)
     add_asan_wrapper(${EXECUTABLE} ${PRELOAD})
     add_tsan_wrapper(${EXECUTABLE} ${PRELOAD})
     add_ubsan_wrapper(${EXECUTABLE} ${PRELOAD})
+    add_msan_wrapper(${EXECUTABLE} ${PRELOAD})
 endfunction(add_sanitizer_wrapper EXECUTABLE PRELOAD)
 
 #! add_sanitizer_static_link : Adds static linking to sanitizer library
