@@ -30,5 +30,7 @@ if(tidy)
 
     else(CLANG_TIDY_PROGRAM)
         message(WARNING "Program 'clang-tidy' not found, unable to run 'clang-tidy'.")
+        function(enable_clang_tidy TARGET)
+        endfunction(enable_clang_tidy)
     endif(CLANG_TIDY_PROGRAM)
 endif(tidy)

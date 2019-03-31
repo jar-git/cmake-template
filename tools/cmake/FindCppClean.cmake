@@ -33,5 +33,7 @@ if(cppclean)
 
     else(CPPCLEAN_PROGRAM)
         message(WARNING "Program 'cppclean' not found, unable to run 'cppclean'.")
+        function(enable_cppclean TARGET)
+        endfunction(enable_cppclean)
     endif(CPPCLEAN_PROGRAM)
 endif(cppclean)

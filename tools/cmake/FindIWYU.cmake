@@ -42,5 +42,7 @@ if(IWYU)
 
     else(IWYU_PROGRAM)
         message(WARNING "Program 'iwyu' not found, unable to run 'include-what-you-use'.")
+        function(enable_iwyu TARGET)
+        endfunction(enable_iwyu)
     endif(IWYU_PROGRAM)
 endif(IWYU)

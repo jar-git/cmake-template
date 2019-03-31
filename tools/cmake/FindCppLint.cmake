@@ -35,5 +35,7 @@ if(cpplint)
 
     else(CPPLINT_PROGRAM)
         message(WARNING "Program 'cpplint' not found, unable to run 'cpplint'.")
+        function(enable_cpplint TARGET)
+        endfunction(enable_cpplint)
     endif(CPPLINT_PROGRAM)
 endif(cpplint)
