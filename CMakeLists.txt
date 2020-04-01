@@ -37,8 +37,8 @@ enable_testing()
 set(CMAKE_INSTALL_MESSAGE LAZY)
 
 # Enable linker flags -r -u to create warnings for unused dependencies at link time.
-# Warning: Unused direct dependencies: '/lib/x86_64-linux-gnu/libm.so.6'
-# set(CMAKE_LINK_WHAT_YOU_USE ON)
+# Warning: Unused direct dependencies: '/usr/lib/libm.so.6' (required by std)
+set(CMAKE_LINK_WHAT_YOU_USE ON)
 
 # Prefer pthreads and find the thread module. Module help:
 # https://cmake.org/cmake/help/latest/module/FindThreads.html
