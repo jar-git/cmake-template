@@ -22,14 +22,14 @@ function(add_executable TARGET)
 endfunction(add_executable)
 
 #! add_permissions : Adds permissions to a file.
-# See https://cmake.org/cmake/help/v3.10/command/install.html for list of
+# See https://cmake.org/cmake/help/latest/command/install.html for list of
 # possible permissions.
 # \argn: File permissions.
 # \param:FILE FILE specify the target file
 function(add_permissions FILE)
 
     # Get filename without the extension from the input file. Command:
-    # https://cmake.org/cmake/help/v3.10/command/get_filename_component.html
+    # https://cmake.org/cmake/help/latest/command/get_filename_component.html
     get_filename_component(FILENAME ${FILE} NAME)
 
     # Create temporary directory for the temporary file.

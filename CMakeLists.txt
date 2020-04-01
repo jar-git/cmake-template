@@ -1,20 +1,33 @@
-################################################################################
-# Example cmake-template project.
-################################################################################
+# Copyright 2020 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# CMake template project
 
 # Define minimum CMake version. Language definition:
-# https://cmake.org/cmake/help/v3.10/manual/cmake-language.7.html
+# https://cmake.org/cmake/help/latest/manual/cmake-language.7.html
 cmake_minimum_required(VERSION 3.10)
+
 # Define project name, version and languages. Commands:
-# https://cmake.org/cmake/help/v3.10/manual/cmake-commands.7.html
+# https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html
 project(template VERSION 0.0.1 LANGUAGES CXX)
 
 # Helper module for selecting option based on multiple values. Module help:
-# https://cmake.org/cmake/help/v3.10/module/CMakeDependentOption.html
+# https://cmake.org/cmake/help/latest/module/CMakeDependentOption.html
 include(CMakeDependentOption)
 
 # Set language, compiler and linker variables. Variables:
-# https://cmake.org/cmake/help/v3.10/manual/cmake-variables.7.html
+# https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 set(CMAKE_CXX_STANDARD 17)
 
 # Enable testing for the sub projects.
@@ -28,16 +41,16 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 # set(CMAKE_LINK_WHAT_YOU_USE ON)
 
 # Prefer pthreads and find the thread module. Module help:
-# https://cmake.org/cmake/help/v3.10/module/FindThreads.html
+# https://cmake.org/cmake/help/latest/module/FindThreads.html
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 # Append custom directory to CMake module search path. Pre-defined modules:
-# https://cmake.org/cmake/help/v3.10/manual/cmake-modules.7.html
+# https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/)
 
 # Require custom modules from the previously set directory. See find_package:
-# https://cmake.org/cmake/help/v3.10/command/find_package.html
+# https://cmake.org/cmake/help/latest/command/find_package.html
 find_package(CCache QUIET)
 find_package(ClangTidy QUIET)
 find_package(Gold QUIET)

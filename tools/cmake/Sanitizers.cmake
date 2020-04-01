@@ -35,7 +35,7 @@ endfunction(add_sanitizer_static_link TARGET)
 function(add_sanitizer_script EXECUTABLE SANITIZER_ENVIRON SANITIZER_LIBRARY)
 
     # Configure generic options for all sanitizers. Environment:
-    # https://cmake.org/cmake/help/v3.10/variable/ENV.html
+    # https://cmake.org/cmake/help/latest/variable/ENV.html
     set(SANITIZER_OPTIONS
             "$ENV{${SANITIZER_ENVIRON}} abort_on_error=1 print_suppressions=0")
 

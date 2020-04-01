@@ -12,7 +12,7 @@ endif(LSAN AND NOT ASAN)
 
 # Check that the build configuration is not imcompatible.
 if(ONLY_LSAN AND (TSAN OR MSAN OR UBSAN))
-    # Command: https://cmake.org/cmake/help/v3.10/command/message.html
+    # Command: https://cmake.org/cmake/help/latest/command/message.html
     message(FATAL_ERROR "LeakSanitizer is not compatible with ThreadSanitizer"
             "MemorySanitizer or UndefinedBehaviorSanitizer.")
 endif(ONLY_LSAN AND (TSAN OR MSAN OR UBSAN))
@@ -50,7 +50,7 @@ function(add_lsan_wrapper EXECUTABLE PRELOAD)
 
             if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
                 # Find asan library from the system. Command:
-                # https://cmake.org/cmake/help/v3.10/command/find_library.html
+                # https://cmake.org/cmake/help/latest/command/find_library.html
                 find_library(SANITIZER_LIBRARY NAMES lsan liblsan.so.0)
             elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
                 # TODO: How to find correct asan library when using clang?

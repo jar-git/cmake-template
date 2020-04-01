@@ -31,7 +31,7 @@ add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 # Set the label for the benchmark "tests", so that they will be excluded by
 # default when running the unit tests with ctest. Command:
-# https://cmake.org/cmake/help/v3.10/command/set_tests_properties.html
+# https://cmake.org/cmake/help/latest/command/set_tests_properties.html
 set_tests_properties(${PROJECT_NAME} PROPERTIES LABELS "BenchmarkTest")
 
 # Add static analysis for project.

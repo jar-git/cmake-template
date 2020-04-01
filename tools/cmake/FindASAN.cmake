@@ -7,7 +7,7 @@ option(ASAN "Enable AddressSanitizer." ON)
 
 # Check that the build configuration is not imcompatible.
 if(ASAN AND (TSAN OR MSAN OR UBSAN))
-    # Command: https://cmake.org/cmake/help/v3.10/command/message.html
+    # Command: https://cmake.org/cmake/help/latest/command/message.html
     message(FATAL_ERROR "AddressSanitizer is not compatible with ThreadSanitizer"
             "MemorySanitizer or UndefinedBehaviorSanitizer.")
 endif(ASAN AND (TSAN OR MSAN OR UBSAN))
@@ -44,7 +44,7 @@ function(add_asan_wrapper EXECUTABLE PRELOAD)
 
             if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
                 # Find asan library from the system. Command:
-                # https://cmake.org/cmake/help/v3.10/command/find_library.html
+                # https://cmake.org/cmake/help/latest/command/find_library.html
                 find_library(SANITIZER_LIBRARY NAMES
                         asan libasan.so.4 libasan.so.3 libasan.so.2 libasan.so.1)
             elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")

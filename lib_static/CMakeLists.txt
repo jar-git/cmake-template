@@ -12,7 +12,7 @@ add_library(${PROJECT_NAME})
 add_library(lib::static ALIAS ${PROJECT_NAME})
 
 # Define pre-processor macro values for the target library. Command:
-# https://cmake.org/cmake/help/v3.10/command/target_compile_definitions.html
+# https://cmake.org/cmake/help/latest/command/target_compile_definitions.html
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         HEXADECIMAL=1
