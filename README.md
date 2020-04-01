@@ -21,7 +21,7 @@ The main project (root) contains all of the sub-projects, third party dependenci
   |
   +--/dependencies  - Sub-project for common 3rd party dependencies
   |
-  +--/app           - Sub-project with executable target
+  +--/exe_service   - Sub-project with executable target
   |
   +--/lib_header    - Sub-project with header-only library target
   |
@@ -48,6 +48,7 @@ project (root). The directory structure for each target type is displayed below.
   +--/src        - Directory for the source- and private header files of this sub-project
   |
   +--/test       - Test directory for this sub-project (gtest)
+
 </pre>
 
 ## List of tools used by the template
