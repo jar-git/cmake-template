@@ -67,7 +67,7 @@ include(Command)
 # ALL target, because it contains scripts for debugging, running and building,
 # which are not needed when using this template project from an IDE.
 add_subdirectory(tools)
-add_subdirectory(thirdparty)
+add_subdirectory(dependencies)
 add_subdirectory(lib_header)
 add_subdirectory(lib_static)
 add_subdirectory(lib_shared)

@@ -11,25 +11,25 @@ The main project (root) contains all of the sub-projects, third party dependenci
 (under tools) and custom CMake modules.
 
 <pre>
- root            - Main project
+ root               - Main project
   |
-  +--/build      - Temporary directory for build objects
+  +--/build         - Temporary directory for build objects
   |
-  +--/config     - Project wide configuration files
+  +--/config        - Project wide configuration files
   |
-  +--/app        - Sub-project with executable target
+  +--/app           - Sub-project with executable target
   |
-  +--/lib_header - Sub-project with header-only library target
+  +--/lib_header    - Sub-project with header-only library target
   |
-  +--/lib_shared - Sub-project with shared library target
+  +--/lib_shared    - Sub-project with shared library target
   |
-  +--/lib_static - Sub-project with static library target
+  +--/lib_static    - Sub-project with static library target
   |
-  +--/thirdparty - Sub-project for common third-party dependencies
+  +--/dependencies  - Sub-project for common third-party dependencies
   |
-  +--/tools      - Scripts
+  +--/tools         - Scripts
      |
-     +--/cmake   - CMake modules used to embed the tools to project
+     +--/cmake      - CMake modules used to embed the tools to project
 
 </pre>
 
