@@ -29,6 +29,7 @@ include(CMakeDependentOption)
 # Set language, compiler and linker variables. Variables:
 # https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Enable testing for the sub projects.
 enable_testing()
