@@ -25,7 +25,7 @@ project(template VERSION 0.0.1 LANGUAGES CXX)
 # https://cmake.org/cmake/help/latest/module/CMakeDependentOption.html
 include(CMakeDependentOption)
 
-# Set language, compiler and linker variables. Variables:
+# Set language standard and export compile commands. Variables:
 # https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
