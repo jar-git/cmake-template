@@ -29,7 +29,7 @@ The main project (root) contains all of the sub-projects, third party dependenci
   |
   +--/lib_static    - Sub-project with static library target
   |
-  +--/tools         - Scripts
+  +--/scripts       - Scripts
 
 </pre>
 

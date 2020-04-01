@@ -69,15 +69,12 @@ find_package(IWYU QUIET)
 include(StaticAnalysis)
 include(Sanitizers)
 
-# Include Command module for common command overrides. Overrides could be used
-# when some build steps like static analysis should be disabled for unit tests
-# or thirdparty library facades (wrappers).
+# Include Command module for common command overrides. Overrides could be used when some build steps like static
+# analysis should be disabled for unit tests or 3rd party library facades (wrappers).
 include(Command)
 
-# Add sub project directories to the main template project. Exclude tools from
-# ALL target, because it contains scripts for debugging, running and building,
-# which are not needed when using this template project from an IDE.
-add_subdirectory(tools)
+# Add sub project directories to the main template project.
+add_subdirectory(scripts)
 add_subdirectory(dependencies)
 add_subdirectory(lib_header)
 add_subdirectory(lib_static)

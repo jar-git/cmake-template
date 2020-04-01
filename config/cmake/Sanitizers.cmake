@@ -40,7 +40,7 @@ function(add_sanitizer_script EXECUTABLE SANITIZER_ENVIRON SANITIZER_LIBRARY)
             "$ENV{${SANITIZER_ENVIRON}} abort_on_error=1 print_suppressions=0")
 
     # Set asan wrapper template path.
-    set(ASAN_WRAPPER ${CMAKE_HOME_DIRECTORY}/tools/sanitizer_wrapper.py)
+    set(ASAN_WRAPPER ${CMAKE_HOME_DIRECTORY}/scripts/sanitizer_wrapper.py)
     # Define name for the executable specific asan wrapper.
     set(EXE_ASAN_WRAPPER ${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE}.py)
     # Add directory to the executable.
