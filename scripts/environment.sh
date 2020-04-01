@@ -1,5 +1,5 @@
-#!/usr/bin/env python3.5
-
+#!/bin/sh
+#
 # Copyright 2017 Jani Arola, All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,27 +13,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import os
-import sys
+#
 
-from subprocess import call
+# Configurable sanitizer options.
+SANITIZER_LIBRARY="@SANITIZER_LIBRARY@"
+SANITIZER_OPTIONS="@SANITIZER_OPTIONS@"
+SANITIZER_ENVIRON=@SANITIZER_ENVIRON@
 
-del sys.argv[0]
+# Export LD_PRELOAD. This is required when using sanitized shared library with an unsanitized executable when using
+# shared sanitizer library.
+if [[ -z "$SANITIZER_LIBRARY" ]]; then
+  export LD_PRELOAD=$SANITIZER_LIBRARY
+fi
 
-try:
-    executable = "@EXECUTABLE@"
-    sanitizer_library = "@SANITIZER_LIBRARY@"
-    sanitizer_options = "@SANITIZER_OPTIONS@"
-    sanitizer_environ = "@SANITIZER_ENVIRON@"
-
-    arguments = ' '.join(str(e) for e in sys.argv)
-
-    if sanitizer_library:
-        os.environ["LD_PRELOAD"] = sanitizer_library.strip()
-
-    if sanitizer_options:
-        os.environ[sanitizer_environ.strip()] = sanitizer_options.strip()
-
-    call([executable, arguments])
-except Exception as e:
-    print(str(e))
+# Export sanitizer options if set.
+if [[ -z "$SANITIZER_ENVIRON" ]] && [[ -z "$SANITIZER_ENVIRON" ]]; then
+  export $SANITIZER_ENVIRON=SANITIZER_OPTIONS
+else
+  echo "No sanitizer options defined."
+fi

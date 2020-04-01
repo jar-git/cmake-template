@@ -74,10 +74,8 @@ include(Sanitizers)
 include(Command)
 
 # Add sub project directories to the main template project.
-add_subdirectory(scripts)
 add_subdirectory(dependencies)
 add_subdirectory(lib_header)
 add_subdirectory(lib_static)
 add_subdirectory(lib_shared)
 add_subdirectory(example_app)
-

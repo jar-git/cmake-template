@@ -1,6 +1,18 @@
-################################################################################
-# MemorySanitizer
-################################################################################
+# Copyright 2017 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 # Note: libraries will generate alot of false positivies. See:
 # https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo
 
@@ -26,12 +38,12 @@ if(MSAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O1 -fsanitize=memory -fno-omit-frame-pointer")
 endif(MSAN)
 
-#! add_msan_wrapper : Adds a msan wrapper script to target directory
+#! add_msan_env : Adds a msan wrapper script to target directory
 # This script is used to define the LD_PRELOAD and MSAN_OPTIONS environment
 # variables while running the original executable.
 # \param:EXECUTABLE EXECUTABLE specify the target to be wrapped.
 # \param:PRELOAD PRELOAD Specifies if libasan should be preloaded.
-function(add_msan_wrapper EXECUTABLE PRELOAD)
+function(add_msan_env EXECUTABLE PRELOAD)
     if(MSAN)
         # Define sanitizer library, environment variable and options values.
         set(SANITIZER_LIBRARY " ")
@@ -43,4 +55,4 @@ function(add_msan_wrapper EXECUTABLE PRELOAD)
         add_sanitizer_script(${EXECUTABLE} ${SANITIZER_ENVIRON} ${SANITIZER_LIBRARY})
 
     endif(MSAN)
-endfunction(add_msan_wrapper EXECUTABLE PRELOAD)
+endfunction(add_msan_env EXECUTABLE PRELOAD)

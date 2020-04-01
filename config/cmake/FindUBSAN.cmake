@@ -1,6 +1,17 @@
-################################################################################
-# UndefinedBehaviorSanitizer
-################################################################################
+# Copyright 2017 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 # UndefinedBehaviorSanitizer is disabled by default.
 option(UBSAN "Enable UndefinedBehaviorSanitizer." OFF)
@@ -26,12 +37,12 @@ function(add_ubsan_static_link TARGET)
     endif(UBSAN AND CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endfunction(add_ubsan_static_link TARGET)
 
-#! add_ubsan_wrapper : Adds a ubsan wrapper script to target directory
+#! add_ubsan_env : Adds a ubsan wrapper script to target directory
 # This script is used to define the LD_PRELOAD and UBSAN_OPTIONS environment
 # variables while running the original executable.
 # \param:EXECUTABLE EXECUTABLE specify the target to be wrapped.
 # \param:PRELOAD PRELOAD Specifies if libasan should be preloaded.
-function(add_ubsan_wrapper EXECUTABLE PRELOAD)
+function(add_ubsan_env EXECUTABLE PRELOAD)
     if(UBSAN)
         # Define sanitizer library, environment variable and options values.
         set(SANITIZER_LIBRARY)
@@ -58,4 +69,4 @@ function(add_ubsan_wrapper EXECUTABLE PRELOAD)
         # Add the wrapper script for sanitizer.
         add_sanitizer_script(${EXECUTABLE} ${SANITIZER_ENVIRON} ${SANITIZER_LIBRARY})
     endif(UBSAN)
-endfunction(add_ubsan_wrapper EXECUTABLE PRELOAD)
+endfunction(add_ubsan_env EXECUTABLE PRELOAD)

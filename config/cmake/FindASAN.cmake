@@ -1,6 +1,17 @@
-################################################################################
-# AddressSanitizer
-################################################################################
+# Copyright 2017 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 # AddressSanitizer is enabled by default.
 option(ASAN "Enable AddressSanitizer." ON)
@@ -31,7 +42,7 @@ endfunction(add_asan_static_link TARGET)
 # variables while running the original executable.
 # \param:EXECUTABLE EXECUTABLE specify the target to be wrapped.
 # \param:PRELOAD PRELOAD Specifies if libasan should be preloaded.
-function(add_asan_wrapper EXECUTABLE PRELOAD)
+function(add_asan_env EXECUTABLE PRELOAD)
     if(ASAN)
         # Define sanitizer library, environment variable and options values.
         set(SANITIZER_LIBRARY)
@@ -70,4 +81,4 @@ function(add_asan_wrapper EXECUTABLE PRELOAD)
         add_sanitizer_script(${EXECUTABLE} ${SANITIZER_ENVIRON} ${SANITIZER_LIBRARY})
 
     endif(ASAN)
-endfunction(add_asan_wrapper EXECUTABLE PRELOAD)
+endfunction(add_asan_env EXECUTABLE PRELOAD)
