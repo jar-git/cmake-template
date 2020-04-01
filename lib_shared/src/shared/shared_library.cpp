@@ -29,7 +29,8 @@ int shared_library::call(const std::string& ext)
 {
     std::cout << "Shared call result: " << data << ext << std::endl;
     // Disabling static code checks.
-    return std::stoi(data);  // NOLINT(fuchsia-default-arguments)
+    // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
+    return std::stoi(data);
 }
 
 }  // namespace shared

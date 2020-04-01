@@ -15,6 +15,8 @@
 #define ROOT_PROJECT_APPLICATION_HPP
 
 /// \brief Application specific namespace.
+#include <cstdint>
+
 namespace app {
 
 /// \brief Dummy application class.
@@ -31,7 +33,9 @@ public:
 private:
     /// \brief Call me.
     /// \return Always 0.
-    int call();
+    static int call();
+
+    std::int32_t m_unused{0};
 };
 
 } // namespace app

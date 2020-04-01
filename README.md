@@ -1,15 +1,14 @@
 # Template project for CMake
 
-Purpose of this project (cmake-template) is to learn how to use various CMake 
-features, and how to embed the tools that are useful for C/C++ development to 
-the project as CMake modules or scripts. This template requires CMake v3.10 or
-above, and it is assumed that the example projects are using C++ 17 features.
+Purpose of this project (cmake-template) is to learn how to use various CMake features, and how to embed the tools that 
+are useful for C/C++ development to the project as CMake modules or scripts. This template requires CMake v3.10 or 
+above. The example projects are using C++ 17 features.
 
 
 ## Project structure:
 
-The main project (root) contains all of the sub-projects, third party dependencies 
-(not sources), build-scripts (under tools) and custom CMake modules.
+The main project (root) contains all of the sub-projects, third party dependencies (not sources), build-scripts 
+(under tools) and custom CMake modules.
 
 <pre>
  root            - Main project
@@ -20,11 +19,11 @@ The main project (root) contains all of the sub-projects, third party dependenci
   |
   +--/app        - Sub-project with executable target
   |
-  +--/header     - Sub-project with header-only library target
+  +--/lib_header - Sub-project with header-only library target
   |
-  +--/shared     - Sub-project with shared library target
+  +--/lib_shared - Sub-project with shared library target
   |
-  +--/static     - Sub-project with static library target
+  +--/lib_static - Sub-project with static library target
   |
   +--/thirdparty - Sub-project for common third-party dependencies
   |
@@ -36,9 +35,8 @@ The main project (root) contains all of the sub-projects, third party dependenci
 
 ## Sub-project structure:
 
-Each target (executables, libraries and header-only libraries) in the template 
-project is a sub-project of the main project (root). The directory structure for 
-each target type is displayed below.
+Each target (executables, libraries and header-only libraries) in the template project is a sub-project of the main 
+project (root). The directory structure for each target type is displayed below.
 
 <pre>
  exe             - Sub project

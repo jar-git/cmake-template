@@ -13,14 +13,13 @@
 // limitations under the License.
 #include <gtest/gtest.h>
 
-#include <string>
-
-#include "shared/shared_library.hpp"
+#include "static/static_library.hpp"
 
 // NOLINTNEXTLINE - gtest
-TEST(SharedLibraryTest, Call)
+TEST(StaticLibraryTest, Call)
 {
-    shared::shared_library lib("10");
+    static constexpr const std::int8_t n{10};
+    static_lib::library lib(n);
     // NOLINTNEXTLINE - gtest
     EXPECT_EQ(10, lib.call("test"));
 }

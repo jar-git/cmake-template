@@ -13,12 +13,15 @@
 // limitations under the License.
 #include <gtest/gtest.h>
 
-#include "static/static_library.hpp"
+#include <string>
+
+#include "shared/shared_library.hpp"
 
 // NOLINTNEXTLINE - gtest
-TEST(StaticLibraryTest, Call)
+TEST(SharedLibraryTest, Call)
 {
-    static_lib::library lib(10);
+    // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
+    shared::shared_library lib("10");
     // NOLINTNEXTLINE - gtest
     EXPECT_EQ(10, lib.call("test"));
 }

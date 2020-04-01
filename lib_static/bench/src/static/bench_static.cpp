@@ -20,8 +20,10 @@
 // NOLINTNEXTLINE (runtime/references)
 void run_static(benchmark::State& state)
 {
-    static_lib::library lib(10);
+    static constexpr const std::int8_t n{10};
+    static_lib::library lib(n);
     while (state.KeepRunning()) {
+        // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
         lib.call("test");
     }
 }

@@ -50,6 +50,14 @@ target_compile_options(${PROJECT_NAME}
             $<$<CXX_COMPILER_ID:Clang>: -Wextra -Wall -pedantic>
             $<$<CXX_COMPILER_ID:MSVC>: /Wall /analyze>)
 
+#target_link_options(
+#    PUBLIC
+#)
+
+#target_link_directories(
+#    PUBLIC
+#)
+
 # Compiler options for the compilers defined above:
 # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#Warning-Options
 # https://clang.llvm.org/docs/UsersManual.html

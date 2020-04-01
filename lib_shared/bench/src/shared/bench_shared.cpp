@@ -22,8 +22,10 @@
 // NOLINTNEXTLINE (runtime/references)
 void run_shared(benchmark::State& state)
 {
+    // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
     shared::shared_library lib("10");
     while (state.KeepRunning()) {
+        // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
         lib.call("test");
     }
 }

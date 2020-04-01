@@ -68,8 +68,8 @@ include(Command)
 # which are not needed when using this template project from an IDE.
 add_subdirectory(tools)
 add_subdirectory(thirdparty)
-add_subdirectory(example_header_lib)
-add_subdirectory(example_static_lib)
-add_subdirectory(example_shared_lib)
+add_subdirectory(lib_header)
+add_subdirectory(lib_static)
+add_subdirectory(lib_shared)
 add_subdirectory(example_app)
 
