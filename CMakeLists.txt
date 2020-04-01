@@ -1,4 +1,4 @@
-# Copyright 2020 Jani Arola, All rights reserved.
+# Copyright 2017 Jani Arola, All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# CMake template project
 
 # Define minimum CMake version. Language definition:
 # https://cmake.org/cmake/help/latest/manual/cmake-language.7.html
@@ -48,7 +47,7 @@ find_package(Threads REQUIRED)
 
 # Append custom directory to CMake module search path. Pre-defined modules:
 # https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake/)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/config/cmake/)
 
 # Require custom modules from the previously set directory. See find_package:
 # https://cmake.org/cmake/help/latest/command/find_package.html

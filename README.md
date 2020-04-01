@@ -5,7 +5,7 @@ are useful for C/C++ development to the project as CMake modules or scripts. Thi
 above. The example projects are using C++ 17 features.
 
 
-## Project structure:
+## Project structure
 
 The main project (root) contains all of the sub-projects, third party dependencies (not sources), build-scripts 
 (under tools) and custom CMake modules.
@@ -16,6 +16,10 @@ The main project (root) contains all of the sub-projects, third party dependenci
   +--/build         - Temporary directory for build objects
   |
   +--/config        - Project wide configuration files
+  |  |
+  |  +--/cmake      - CMake modules used to embed the tools to project
+  |
+  +--/dependencies  - Sub-project for common 3rd party dependencies
   |
   +--/app           - Sub-project with executable target
   |
@@ -25,15 +29,11 @@ The main project (root) contains all of the sub-projects, third party dependenci
   |
   +--/lib_static    - Sub-project with static library target
   |
-  +--/dependencies  - Sub-project for common third-party dependencies
-  |
   +--/tools         - Scripts
-     |
-     +--/cmake      - CMake modules used to embed the tools to project
 
 </pre>
 
-## Sub-project structure:
+## Sub-project structure
 
 Each target (executables, libraries and header-only libraries) in the template project is a sub-project of the main 
 project (root). The directory structure for each target type is displayed below.
