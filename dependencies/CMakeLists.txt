@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 # CMake module for defining 3rd party dependencies as external projects. Module:
-# https://cmake.org/cmake/help/v3.5/module/ExternalProject.html
+# https://cmake.org/cmake/help/latest/module/ExternalProject.html
 include(ExternalProject)
 
 add_subdirectory(unit-test)
