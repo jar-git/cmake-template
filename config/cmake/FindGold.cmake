@@ -1,6 +1,17 @@
-################################################################################
-# Link time optimization.
-################################################################################
+# Copyright 2017 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 # Enable link time optimization by default.
 option(gold "Enable gold linker." ON)
@@ -27,8 +38,8 @@ if(gold)
         execute_process(COMMAND ${CMAKE_C_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION_OUT)
         enable_gnu_gold(${LD_VERSION_OUT})
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        # Clang is using the LLVM Linker instead of the LLVM gold plugin. This is
-        # because the LLVM linker is faster. Linker and plugin:
+        # Clang is using the LLVM Linker instead of the LLVM gold plugin. This is because the LLVM linker is faster.
+        # Linker and plugin:
         # The LLVM-Linker     : https://lld.llvm.org/
         # The LLVM gold plugin: https://llvm.org/docs/GoldPlugin.html
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")

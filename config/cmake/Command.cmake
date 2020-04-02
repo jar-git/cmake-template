@@ -14,7 +14,7 @@
 #
 
 # Include guard for commands module. Command:
-# https://cmake.org/cmake/help/v3.11/command/include_guard.html
+# https://cmake.org/cmake/help/latest/command/include_guard.html
 include_guard(GLOBAL)
 
 #! add_library : Overrides add_library command.

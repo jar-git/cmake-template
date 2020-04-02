@@ -1,6 +1,17 @@
-################################################################################
-# cppcheck
-################################################################################
+# Copyright 2017 Jani Arola, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 # cppcheck is enabled by default.
 option(cppcheck "Enable cppcheck." ON)
@@ -32,19 +43,14 @@ if(cppcheck)
                 --cppcheck-build-dir=${CPPCHECK_BUILD_DIR}
                 --template=${CPPCHECK_TEMPLATE}
                 --suppressions-list=${CPPCHECK_SUPRESSIONS}
-                --std=c++14)
+                --std=c++17)
 
-        # Set cppcheck for all sub-projects of the main project.
-        set(CMAKE_C_CPPCHECK "${CPPCHECK_RUNNABLE}")
-        set(CMAKE_CXX_CPPCHECK "${CPPCHECK_RUNNABLE}")
-
-        # Define a function for enabling cppcheck per target. The option above
-        # makes this redundant, as it enables it for all targets already. This
-        # could be used in combination with custom target commands or by
-        # overriding the add_* commands with custom implementation.
+        # Define a function for enabling cppcheck per target. The option above makes this redundant, as it enables it
+        # for all targets already. This could be used in combination with custom target commands or by  overriding
+        # the add_* commands with custom implementation.
         function(enable_cppcheck TARGET)
-            set_target_properties(
-                    ${test_name} PROPERTIES
+            set_target_properties(${TARGET}
+                PROPERTIES
                     C_CPPCHECK "${CPPCHECK_RUNNABLE}"
                     CXX_CPPCHECK "${CPPCHECK_RUNNABLE}"
             )
