@@ -6,7 +6,7 @@
 project(static VERSION 0.0.1 LANGUAGES CXX)
 
 # Library target definition (generates warning for missing source files).
-add_library(${PROJECT_NAME})
+add_library(${PROJECT_NAME} STATIC)
 
 # Alias target for the static library to be used outside of the project.
 add_library(lib::static ALIAS ${PROJECT_NAME})
@@ -16,13 +16,15 @@ add_library(lib::static ALIAS ${PROJECT_NAME})
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         HEXADECIMAL=1
-        OCTAL=0)
+        OCTAL=0
+)
 
 # Add sources to the target.
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/static/static_library.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/static_library.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/static/static_library.cpp
+)
 
 # Define headers for this library and add public include directories for any
 # project that links against this target.
