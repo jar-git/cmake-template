@@ -3,6 +3,14 @@
 Purpose of this project (cmake-template) is to learn how to use various CMake features, and how to embed the tools that 
 are useful for C/C++ development to the project as CMake modules or scripts.
 
+## Requirements
+This template won't work without the following unless modified:
+* CMake v3.10 and above.
+* C++17 and above.
+* GCC-7 and above (or clang-6 and above).
+
+MSVC is not supported.
+
 ## Project structure
 
 The main project (root) contains all of the sub-projects, third party dependencies (not sources), build-scripts 
