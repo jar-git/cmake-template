@@ -1,9 +1,7 @@
 # Template project for CMake
 
 Purpose of this project (cmake-template) is to learn how to use various CMake features, and how to embed the tools that 
-are useful for C/C++ development to the project as CMake modules or scripts. This template requires CMake v3.10 or 
-above. The example projects are using C++ 17 features.
-
+are useful for C/C++ development to the project as CMake modules or scripts.
 
 ## Project structure
 
@@ -41,13 +39,15 @@ project (root). The directory structure for each target type is displayed below.
 <pre>
  exe             - Sub project
   |
-  +--/bench      - Benchmark directory for this sub-project (google bench)
-  |
   +--/inc        - Directory for the public header files of this sub-project
   |
   +--/src        - Directory for the source- and private header files of this sub-project
   |
-  +--/test       - Test directory for this sub-project (gtest)
+  +--/test       - Test directory for this sub-project
+    |
+    +--/bench    - Benchmark directory for this sub-project (google bench)
+    |
+    +--/unit     - Unit test directory for this sub-project (gtest)
 
 </pre>
 
