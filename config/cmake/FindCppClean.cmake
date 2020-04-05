@@ -34,7 +34,7 @@ if(cppclean)
             # Include directories are also set from target properties.
             add_custom_command(TARGET ${TARGET}
                 PRE_BUILD COMMAND
-                    ${CPPCLEAN_PROGRAM}
+                    ${CPPCLEAN_PROGRAM} --quiet
                     -I$<JOIN:$<TARGET_PROPERTY:${TARGET},INCLUDE_DIRECTORIES>,$<1:${SPACE}>-I>
                      $<JOIN:$<TARGET_PROPERTY:${TARGET},SOURCES>,$<1:${SPACE}>>
             )
