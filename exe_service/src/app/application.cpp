@@ -16,9 +16,7 @@
 #include <future>
 #include <string>
 
-#include <header/wrapper_class.hpp>
 #include <shared/shared_library.hpp>
-#include <static/static_library.hpp>
 
 namespace app {
 
@@ -26,7 +24,6 @@ int application::run()
 {
     ++m_unused;
 
-    static_lib::library static_lib(1);
     // disabling string construction as an example.
     // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
     shared::shared_library shared_lib(std::string { "5" });
@@ -36,11 +33,6 @@ int application::run()
 int application::call()
 {
     auto future = std::async(std::launch::async, []() {
-        header::wrapper_class<shared::shared_library>
-            // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
-            wrapped_lib(shared::shared_library(std::string { "10" }));
-        // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
-        wrapped_lib.operator()(std::string { "data" });
     });
 
     future.wait();

@@ -41,8 +41,8 @@ target_sources(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         lib::shared
-        lib::static
-        lib::header
+        lib::sys
+#        lib::header
         Threads::Threads)
 
 # Define the include directories for header files for the target. Command:
