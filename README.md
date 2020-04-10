@@ -71,19 +71,19 @@ build.
 This category contains tools that can be used to makes the compiling and linking 
 faster. Only supports GCC and Clang based toolchains.
 
-##### [ccache] [1] (default - ON)
+##### [ccache][1] (default - ON)
 > ccache is a compiler cache. It speeds up recompilation by caching previous 
 > compilations and detecting when the same compilation is being done again.
 
 To disable ccache pass option **_ccache_** to CMake from the command line 
 `-Dccache:BOOL=OFF` or from a build script. 
 
-##### [GNU gold] [2] (default - ON)
+##### [GNU gold][2] (default - ON)
 > gold is an ELF linker.  It is intended to have complete support for ELF and to
 > run as fast as possible on modern systems.  For normal use it is a drop-in 
 > replacement for the older GNU linker.
   
-##### [LLVM gold plugin] [3] (default - ON)
+##### [LLVM gold plugin][3] (default - ON)
 > Building with link time optimization requires cooperation from the system
 > linker. LTO support on Linux systems requires that you use the gold linker or
 > ld.bfd from binutils >= 2.21.51.0.2, as they support LTO via plugins.
@@ -102,7 +102,7 @@ Most of the tools in this category are not compatible with each other, the
 exception is clang-tidy (compatible with all others). Also, LeakSanitizer is 
 integrated into AddressSanitizer and both enabled at the same time by deafult.
 
-##### [clang-tidy] [11] (default - ON)
+##### [clang-tidy][11] (default - ON)
 > clang-tidy is a clang-based C++ “linter” tool. Its purpose is to provide an 
 > extensible framework for diagnosing and fixing typical programming errors, 
 > like style violations, interface misuse, or bugs that can be deduced via 
@@ -115,11 +115,11 @@ individual clang-tidy options, the file is located in the root directory
 
 The default clang-tidy flags are `-checks=\*` (from the configuration file).
 
-##### [cgovr] [4] (default - OFF)
+##### [cgovr][4] (default - OFF)
 > Gcovr provides a utility for managing the use of the GNU gcov utility and 
 > generating summarized code coverage results.
 
-##### [llvm-cov] [5] (default - OFF)
+##### [llvm-cov][5] (default - OFF)
 > The llvm-cov tool shows code coverage information for programs that are 
 > instrumented to emit profile data. It can be used to work with gcov-style
 > coverage or with clang’s instrumentation based profiling.
@@ -134,41 +134,41 @@ The default coverage flags are `-O0 -fprofile-arcs -ftest-coverage -fPIC`. By
 default the coverage option generates a HTML web page for each file. The pages 
 are generated to the `build/coverage/` directory. 
 
-##### [ASan] [6] (default - ON)
+##### [ASan][6] (default - ON)
 > AddressSanitizer is a memory error detector for C/C++.
 
 To disable AddressSanitizer pass option **_ASAN_** to CMake from the command line 
 `-DASAN:BOOL=OFF` or from a build script. Enabling any other tool of this category 
 will automatically disable AddressSanitizer.
 
-The default ASan flags are `-O1 -g -fno-omit-frame-pointer`. To set [ASan specific] [20] 
+The default ASan flags are `-O1 -g -fno-omit-frame-pointer`. To set [ASan specific][20] 
 runtime flags, use the **ASAN_OPTIONS** environment variable, it also accepts 
-[common] [19] sanitizer runtime flags.
+[common][19] sanitizer runtime flags.
 
 
-##### [LSan] [7] (default - ON)
+##### [LSan][7] (default - ON)
 > LeakSanitizer (is a memory leak detector which is integrated into AddressSanitizer. 
 
 To disable LeakSanitizer pass option **_LSAN_** to CMake from the command line 
 `-DLSAN:BOOL=OFF` or from a build script. For stand-alone LSan use the options 
 LSAN _ON_ and ASAN _OF_.
 
-There are no separate flags set for LSan by default. To set [LSan specific] [22] 
+There are no separate flags set for LSan by default. To set [LSan specific][22] 
 runtime flags, use the **LSAN_OPTIONS** environment variable, it also accepts 
-[common] [19] sanitizer runtime flags.
+[common][19] sanitizer runtime flags.
 
-##### [TSan] [8] (default - OFF)
+##### [TSan][8] (default - OFF)
 > ThreadSanitizer is a data race detector for C/C++.
 
 To enable ThreadSanitizer pass option **_TSAN_** to CMake from the command line 
 `-DTSAN:BOOL=ON` or from a build script. Enabling TSan will automatically disable 
 the other tools of this category.
 
-The default TSan flags are `-O2 -g`. To set [TSan specific] [21] runtime flags, 
-use the **TSAN_OPTIONS** environment variable, it also accepts [common] [19] 
+The default TSan flags are `-O2 -g`. To set [TSan specific][21] runtime flags, 
+use the **TSAN_OPTIONS** environment variable, it also accepts [common][19] 
 sanitizer runtime flags.
 
-##### [MSan] [9] (default - OFF)
+##### [MSan][9] (default - OFF)
 > MemorySanitizer is a detector of uninitialized memory reads in C/C++ programs.
 
 To enable MemorySanitizer pass option **_MSAN_** to CMake from the command line 
@@ -176,17 +176,17 @@ To enable MemorySanitizer pass option **_MSAN_** to CMake from the command line
 the other tools of this category. MSan is only supported by Clang compilers.
 
 The default MSan flags are `-O1 -g -fno-omit-frame-pointer -fsanitize-memory-track-origins 
--fPIE -pie`. To set [MSan runtime] [19] flags, use the **MSAN_OPTIONS** 
+-fPIE -pie`. To set [MSan runtime][19] flags, use the **MSAN_OPTIONS** 
 environment variable.
 
-##### [UBSan] [10] (default - OFF)
+##### [UBSan][10] (default - OFF)
 > UndefinedBehaviorSanitizer is a fast undefined behavior detector for C/C++. 
 
 To enable UndefinedBehaviorSanitizer pass option **_UBSAN_** to CMake from the 
 command line `-DUBSAN:BOOL=ON` or from a build script. Enabling UBSan will 
 automatically disable the other tools of this category.
 
-The default UBSan flags are `-O1 -g -fno-omit-frame-pointer`. To set [UBSan] [19] 
+The default UBSan flags are `-O1 -g -fno-omit-frame-pointer`. To set [UBSan][19] 
 runtime flags, use the **UBSAN_OPTIONS** environment variable.
 
 ### Debugging, profiling and documentation tools
@@ -195,7 +195,7 @@ This category contains tools that executed separately from the compiling process
 , or optionally, during the compiling process but still as an independent CMake 
 target.
 
-##### Debuggers: [gdb] [15] and [LLDB] [16] (external)
+##### Debuggers: [gdb][15] and [LLDB][16] (external)
 
 * GNU Project Debugger
 > GDB, the GNU Project debugger, allows you to see what is going on `inside' 
@@ -210,7 +210,7 @@ target.
 There are no CMake modules, or scripts for the debuggers, instead they should be 
 used from an IDE or command line.
 
-##### [callgrind] [14] (default - OFF)
+##### [callgrind][14] (default - OFF)
 > Callgrind is a profiling tool that records the call history among functions in 
 > a program's run as a call-graph. By default, the collected data consists of 
 > the number of instructions executed, their relationship to source lines, the 
@@ -218,14 +218,14 @@ used from an IDE or command line.
 > Optionally, cache simulation and/or branch prediction can produce further 
 > information about the runtime behavior of an application.
 
-##### [afl] [13] (default - OFF)
+##### [afl][13] (default - OFF)
 > American fuzzy lop is a security-oriented fuzzer that employs a novel type of 
 > compile-time instrumentation and genetic algorithms to automatically discover 
 > clean, interesting test cases that trigger new internal states in the targeted 
 > binary. This substantially improves the functional coverage for the fuzzed 
 > code.
 
-##### [doxygen] [12] (default - OFF)
+##### [doxygen][12] (default - OFF)
 > Doxygen is the de facto standard tool for generating documentation from 
 > annotated C++ sources, but it also supports other popular programming languages 
 > such as C, Objective-C, C#, PHP, Java, Python, IDL (Corba, Microsoft, and 
