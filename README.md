@@ -14,7 +14,7 @@ MSVC is not supported.
 ## Project structure
 
 The main project (root) contains all of the sub-projects, third party dependencies (not sources), build-scripts 
-(under tools) and custom CMake modules.
+and custom CMake modules.
 
 <pre>
  root               - Main project
