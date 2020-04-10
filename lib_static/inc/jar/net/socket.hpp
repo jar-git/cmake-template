@@ -20,9 +20,9 @@
 
 #include "jar/fs/file_descriptor.hpp"
 
-#include "../../../../lib_header/inc/jar/net/shutdown_mode.hpp"
-#include "../../../../lib_header/inc/jar/net/socket_family.hpp"
-#include "../../../../lib_header/inc/jar/net/socket_type.hpp"
+#include <jar/net/shutdown_mode.hpp>
+#include <jar/net/socket_family.hpp>
+#include <jar/net/socket_type.hpp>
 
 namespace jar::net {
 

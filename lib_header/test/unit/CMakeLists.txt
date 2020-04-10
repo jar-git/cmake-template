@@ -27,7 +27,7 @@ target_sources(${TEST_NAME}
 target_link_libraries(${TEST_NAME}
     PRIVATE
         unit_test_framework
-        lib::util
+        lib::header
 )
 
 # Add a test for the parent project to be run by ctest. Command and module:

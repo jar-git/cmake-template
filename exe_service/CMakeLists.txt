@@ -42,8 +42,9 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         lib::shared
         lib::static
-#        lib::header
-        Threads::Threads)
+        lib::header
+        Threads::Threads
+)
 
 # Define the include directories for header files for the target. Command:
 # https://cmake.org/cmake/help/latest/command/target_include_directories.html

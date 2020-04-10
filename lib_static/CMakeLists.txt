@@ -56,7 +56,7 @@ target_include_directories(${PROJECT_NAME}
 # Add dependency to lib_header (aka lib::util).
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        lib::util
+        lib::header
 )
 
 # Set all compiler warnings on.

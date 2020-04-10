@@ -14,13 +14,13 @@
 #
 
 # Define library name, version and language.
-project(util VERSION 0.0.1 LANGUAGES CXX)
+project(header VERSION 0.0.1 LANGUAGES CXX)
 
 # Interface library is the target definition for a header-only library.
 add_library(${PROJECT_NAME} INTERFACE)
 
 # Alias target for the interface library to be used outside of the project.
-add_library(lib::util ALIAS ${PROJECT_NAME})
+add_library(lib::header ALIAS ${PROJECT_NAME})
 
 # Add the template class to target sources.
 target_sources(${PROJECT_NAME}
@@ -36,6 +36,14 @@ target_include_directories(${PROJECT_NAME}
     INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
         $<INSTALL_INTERFACE:inc>
+)
+
+# Define requirement for the compiler to support strongly typed enumerations. See:
+# https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html
+# https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html
+target_compile_features(${PROJECT_NAME}
+    INTERFACE
+        cxx_strong_enums
 )
 
 # Add unit tests and benchmarks.

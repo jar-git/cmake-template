@@ -17,8 +17,6 @@
 #ifndef JAR_NET_SOCKET_ADDRESS_HPP
 #define JAR_NET_SOCKET_ADDRESS_HPP
 
-#include "../../../../lib_header/inc/jar/net/socket_family.hpp"
-
 struct sockaddr;
 
 namespace jar::net {
