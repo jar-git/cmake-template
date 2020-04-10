@@ -12,81 +12,74 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file posix.hpp
+/// \file contract.hpp
 ///
 
 #ifndef JAR_UTIL_CONTRACT_HPP
 #define JAR_UTIL_CONTRACT_HPP
 
-namespace jar::util {
+#include <system_error>
 
-/// \brief Utility class for checking pre and post conditions for defensive programming
+/// \brief Namespace that offers utility functions for checking pre and post conditions (defensive programming)
+namespace jar::util::contract {
+
+/// \brief Check the return value from a system API
 ///
-/// This class improves code readability.
+/// \param[in]  return_value    Return value
 ///
 /// \tparam N   Return type of the API (e.g. decltype(::socket(0,0,0))
 /// \tparam I   Invalid value (e.g. -1)
-template <typename N, N I> class contract {
-public:
-  /// \brief Check the return value from a system API
-  ///
-  /// \param[in]  return_value    Return value
-  ///
-  /// \throws std::system_error
-  static void check_api_result(N return_value)
-  {
-    if (I == return_value) {
-      throw std::system_error{errno, std::system_category()};
-    }
+///
+/// \throws std::system_error
+template <typename N, N I> static void sys_result_ok(N return_value)
+{
+  if (I == return_value) {
+    throw std::system_error{errno, std::system_category()};
   }
+}
 
-  /// \brief Check that pointer is not null
-  ///
-  /// \param[in]  value           Pointer to check
-  /// \param[in]  message         Exception message
-  ///
-  /// \tparam T                   Pointer type
-  /// \throws std::system_error
-  template <typename T> static void not_null(const T* value, char const* const message)
-  {
-    if (nullptr == value) {
-      throw std::invalid_argument{message};
-    }
+/// \brief Check that pointer is not null
+///
+/// \param[in]  value           Pointer to check
+/// \param[in]  message         Exception message
+///
+/// \tparam T                   Pointer type
+/// \throws std::system_error
+template <typename T> void not_null(const T* value, char const* const message)
+{
+  if (nullptr == value) {
+    throw std::invalid_argument{message};
   }
+}
 
-  /// \brief Check that function pointer or std::function is not null
-  ///
-  /// \param[in]  value           Function pointer to check
-  /// \param[in]  message         Exception message
-  ///
-  /// \tparam F                   Function type
-  /// \throws std::system_error
-  template <typename F> static void not_null(const F& value, char const* const message)
-  {
-    if (nullptr == value) {
-      throw std::invalid_argument{message};
-    }
+/// \brief Check that function pointer or std::function is not null
+///
+/// \param[in]  value           Function pointer to check
+/// \param[in]  message         Exception message
+///
+/// \tparam F                   Function type
+/// \throws std::system_error
+template <typename F> void not_null(const F& value, char const* const message)
+{
+  if (nullptr == value) {
+    throw std::invalid_argument{message};
   }
+}
 
-  /// \brief Check that value is not zero
-  ///
-  /// \param[in]  value           Value to check
-  /// \param[in]  message         Exception message
-  ///
-  /// \tparam T                   Value type
-  /// \throws std::system_error
-  template <typename T> static void not_zero(T value, char const* const message)
-  {
-    if (T{0} == value) {
-      throw std::invalid_argument{message};
-    }
+/// \brief Check that value is not zero
+///
+/// \param[in]  value           Value to check
+/// \param[in]  message         Exception message
+///
+/// \tparam T                   Value type
+/// \throws std::system_error
+template <typename T> void not_zero(T value, char const* const message)
+{
+  if (T{0} == value) {
+    throw std::invalid_argument{message};
   }
+}
 
-private:
-  /// \brief Private constructor to prevent instantiation
-  contract() = default;
-};
-
-}  // namespace jar::util
+}  // namespace jar::util::contract
 
 #endif  // JAR_UTIL_CONTRACT_HPP

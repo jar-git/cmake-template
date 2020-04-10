@@ -20,26 +20,26 @@
 
 namespace jar::util::test {
 
-using contract_t = contract<int, -1>;
-
 TEST(contract_test, api_check)
 {
-  EXPECT_NO_THROW(contract_t::check_api_result(0));
-  EXPECT_THROW(contract_t::check_api_result(-1), std::system_error);
+  static constexpr auto sys_result_ok = contract::sys_result_ok<int, -1>;
+
+  EXPECT_NO_THROW(sys_result_ok(0));
+  EXPECT_THROW(sys_result_ok(-1), std::system_error);
 }
 
 TEST(contract_test, not_null)
 {
   static constexpr const std::array<int, 1> value{5};
 
-  EXPECT_NO_THROW(contract_t::not_null(value.data(), ""));
-  EXPECT_THROW(contract_t::not_null(nullptr, ""), std::invalid_argument);
+  EXPECT_NO_THROW(contract::not_null(value.data(), ""));
+  EXPECT_THROW(contract::not_null(nullptr, ""), std::invalid_argument);
 }
 
 TEST(contract_test, not_zero)
 {
-  EXPECT_NO_THROW(contract_t::not_zero(5, ""));
-  EXPECT_THROW(contract_t::not_zero(0, ""), std::invalid_argument);
+  EXPECT_NO_THROW(contract::not_zero(5, ""));
+  EXPECT_THROW(contract::not_zero(0, ""), std::invalid_argument);
 }
 
 }  // namespace jar::util::test
