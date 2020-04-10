@@ -30,7 +30,7 @@ target_sources(${TEST_NAME}
 target_link_libraries(${TEST_NAME}
     PRIVATE
         unit_test_framework
-        lib::sys
+        lib::static
 )
 
 # Create domain socket paths.

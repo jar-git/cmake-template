@@ -26,6 +26,9 @@ add_library(lib::util ALIAS ${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/util/contract.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/shutdown_mode.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_family.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_type.hpp
 )
 
 # Include directories for the header-only library.

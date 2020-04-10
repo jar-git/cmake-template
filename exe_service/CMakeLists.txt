@@ -41,7 +41,7 @@ target_sources(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         lib::shared
-        lib::sys
+        lib::static
 #        lib::header
         Threads::Threads)
 

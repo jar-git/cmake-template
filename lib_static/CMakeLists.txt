@@ -14,14 +14,14 @@
 #
 
 # Define library name, version and language.
-project(sys VERSION 0.0.1 LANGUAGES CXX)
+project(static VERSION 0.0.1 LANGUAGES CXX)
 
 # Define library as static. The explicit static definition is not required, if left out the default seems to be static
 # library. If implicit static is used, then it can be controlled via the BUILD_SHARED_LIBS variable.
 add_library(${PROJECT_NAME} STATIC)
 
 # Alias target for the interface library to be used outside of the project.
-add_library(lib::sys ALIAS ${PROJECT_NAME})
+add_library(lib::static ALIAS ${PROJECT_NAME})
 
 # Add the template class to target sources.
 target_sources(${PROJECT_NAME}
@@ -35,9 +35,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/domain_address.cpp
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/fs/file_descriptor.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/shutdown_mode.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_family.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_type.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_address.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/domain_address.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket.hpp

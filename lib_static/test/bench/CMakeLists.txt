@@ -31,7 +31,7 @@ target_sources(${BENCHMARK_NAME}
 target_link_libraries(${BENCHMARK_NAME}
     PRIVATE
         benchmark_framework
-        lib::sys
+        lib::static
 )
 
 # Set include directories.
