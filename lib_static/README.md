@@ -10,10 +10,10 @@ As for now, this sub-project only compiles if you have a posix compatible enviro
 
 ## Unit tests
 
-Unit tests use [Google Test] [1] as the unit testing framework. These tests are mainly for generating test coverage 
+Unit tests use [Google Test][1] as the unit testing framework. These tests are mainly for generating test coverage 
 reports with the CMake template. The unit tests can be found under the `test/unit` directory.
  
-For gtest features and usage, see the [primer] [2].
+For gtest features and usage, see the [primer][2].
 
 ### Execute
 
@@ -23,7 +23,7 @@ For gtest features and usage, see the [primer] [2].
 
 ## Benchmarks
 
-Benchmarks use [(google) Benchmark] [3] as the benchmarking framework. These benchmarks are mainly for generating 
+Benchmarks use [(google) Benchmark][3] as the benchmarking framework. These benchmarks are mainly for generating 
 performance reports with the CMake template. The benchmarks can be found under the `test/bench` directory.
 
 ### Execute
