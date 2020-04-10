@@ -52,7 +52,7 @@ public:
   stream_server_socket& operator=(stream_server_socket&&) noexcept = default;
 
   /// \brief Destructor
-  ~stream_server_socket() noexcept = default;
+  ~stream_server_socket() = default;
 
   /// \brief Bind to a local address
   ///

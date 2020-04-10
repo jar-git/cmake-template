@@ -41,7 +41,7 @@ public:
   /// \brief Returns address size
   ///
   /// \return Address size
-  std::size_t get_size() const noexcept { return m_size; }
+  [[nodiscard]] std::size_t get_size() const noexcept { return m_size; }
 
   /// \brief Sets new address size
   ///
@@ -65,7 +65,7 @@ public:
   /// \param[in]  rh          Right hand side
   ///
   /// \return True if equal; otherwise false
-  bool is_equal(const domain_address& rh) const noexcept
+  [[nodiscard]] bool is_equal(const domain_address& rh) const noexcept
   {
     return (m_address.sun_family == rh.m_address.sun_family) &&
         (std::string_view{&m_address.sun_path[0], s_max_size} ==

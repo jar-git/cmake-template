@@ -53,11 +53,11 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# Add dependency to lib_header (aka lib::util).
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE
-        lib::header
-)
+# Add dependencies could be added if needed.
+#target_link_libraries(${PROJECT_NAME}
+#    PRIVATE
+#        lib::header
+#)
 
 # Set all compiler warnings on.
 target_compile_options(${PROJECT_NAME}

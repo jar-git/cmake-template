@@ -40,10 +40,7 @@ public:
   /// \param[in]  rh      Right hand side
   ///
   /// \return True if the values are equal; otherwise false
-  friend bool operator==(const T& lh, const T& rh) noexcept
-  {
-    return (lh.implementation().is_equal(rh));
-  }
+  friend bool operator==(const T& lh, const T& rh) noexcept { return (lh.implementation().is_equal(rh)); }
 
   /// \brief Gets the native socket address
   ///
@@ -66,7 +63,7 @@ public:
   /// \brief Returns address size
   ///
   /// \return Address size
-  std::size_t size() const noexcept { return implementation().get_size(); }
+  [[nodiscard]] std::size_t size() const noexcept { return implementation().get_size(); }
 
   /// \brief Sets new address size
   ///

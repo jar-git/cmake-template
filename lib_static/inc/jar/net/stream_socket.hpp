@@ -78,7 +78,7 @@ public:
   /// \return Process credentials of the peer
   ///
   /// \throws std::system_error
-  credentials get_credentials();
+  [[nodiscard]] credentials get_credentials();
 
 private:
   /// \brief Constructor

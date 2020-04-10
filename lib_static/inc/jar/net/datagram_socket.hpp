@@ -114,8 +114,8 @@ private:
   ///
   /// \throws std::system_error
   /// \throws std::invalid_argument
-  std::size_t send(const std::uint8_t* buffer, std::size_t length, const ::sockaddr* remote_address,
-                   std::size_t address_size);
+  [[nodiscard]] std::size_t send(const std::uint8_t* buffer, std::size_t length, const ::sockaddr* remote_address,
+                                 std::size_t address_size);
 
   /// \brief Receive bytes from the remote peer
   ///
@@ -128,7 +128,8 @@ private:
   ///
   /// \throws std::system_error
   /// \throws std::invalid_argument
-  std::size_t receive(std::uint8_t* buffer, std::size_t length, ::sockaddr* remote_address, std::size_t& address_size);
+  [[nodiscard]] std::size_t receive(std::uint8_t* buffer, std::size_t length, ::sockaddr* remote_address,
+                                    std::size_t& address_size);
 };
 
 }  // namespace jar::net
