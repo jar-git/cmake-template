@@ -20,12 +20,12 @@
 
 namespace jar::util::test {
 
+using contract = contract<int, -1>;
+
 TEST(contract_test, api_check)
 {
-  static constexpr auto sys_result_ok = contract::sys_result_ok<int, -1>;
-
-  EXPECT_NO_THROW(sys_result_ok(0));
-  EXPECT_THROW(sys_result_ok(-1), std::system_error);
+  EXPECT_NO_THROW(contract::no_system_error(0));
+  EXPECT_THROW(contract::no_system_error(-1), std::system_error);
 }
 
 TEST(contract_test, not_null)
