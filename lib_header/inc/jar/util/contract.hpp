@@ -33,7 +33,7 @@ public:
   /// \param[in]  return_value    Return value
   ///
   /// \throws std::system_error
-  static void static no_system_error(R return_value)
+  static void no_system_error(R return_value)
   {
     if (I == return_value) {
       throw std::system_error{errno, std::system_category()};
