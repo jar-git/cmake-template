@@ -30,7 +30,7 @@ performance reports with the CMake template. The benchmarks can be found under t
 
 ```
 sudo cpupower frequency-set --governor performance
-./lib_static/test/bench/sys_benchmark --benchmark_counters_tabular=true --benchmark_format=json --benchmark_out=socket.json
+./lib_static/test/bench/static_benchmark --benchmark_counters_tabular=true --benchmark_format=json --benchmark_out=socket.json
 sudo cpupower frequency-set --governor powersave
 ```
 

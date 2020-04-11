@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-set(BENCHMARK_NAME sys_benchmark)
+set(BENCHMARK_NAME static_benchmark)
 
 # Define executable benchmark target.
 add_executable(${BENCHMARK_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/bench.cpp)
