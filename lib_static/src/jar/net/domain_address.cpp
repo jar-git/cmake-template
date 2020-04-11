@@ -19,8 +19,6 @@
 #include <algorithm>
 #include <sys/socket.h>
 
-#include "jar/util/contract.hpp"
-
 namespace jar::net {
 
 domain_address::domain_address()
