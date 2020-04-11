@@ -18,7 +18,7 @@ For gtest features and usage, see the [primer][2].
 ### Execute
 
 ```
-./lib_static/test/unit/sys_unit_test
+./lib_static/test/unit/static_unit_test
 ```
 
 ## Benchmarks

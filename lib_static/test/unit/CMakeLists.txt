@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-set(TEST_NAME sys_unit_test)
+set(TEST_NAME static_unit_test)
 
 # Unit test executable.
 add_executable(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
