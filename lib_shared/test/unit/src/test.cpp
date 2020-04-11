@@ -11,24 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include "shared/bench_shared.hpp"
+#include <gtest/gtest.h>
 
-#include <benchmark/benchmark.h>
-
-#include <string>
-
-#include "shared/shared_library.hpp"
-
-// NOLINTNEXTLINE (runtime/references)
-void run_shared(benchmark::State& state)
+/// \brief Main method for unit tests (also defined by the gtest::main lib).
+/// For command line parameters, see:
+/// https://github.com/google/googletest/blob/master/googletest/docs/primer.md
+int main(int argc, char** argv)
 {
-    // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
-    shared::shared_library lib("10");
-    while (state.KeepRunning()) {
-        // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
-        lib.call("test");
-    }
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
-
-// NOLINTNEXTLINE - bench
-BENCHMARK(run_shared);
