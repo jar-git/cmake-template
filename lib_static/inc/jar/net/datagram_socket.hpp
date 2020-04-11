@@ -30,7 +30,6 @@ public:
   /// \param[in]  family      Socket family
   ///
   /// \throws std::system_error
-  /// \throws std::invalid_argument
   explicit datagram_socket(socket_family family);
 
   /// \brief Deleted copy constructor
