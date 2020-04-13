@@ -25,9 +25,9 @@ namespace jar::net::test {
 class basic_socket_test : public ::testing::Test {
 public:
   /// \brief Length of the test data
-  static constexpr const std::size_t s_size{11U};
+  static constexpr std::size_t s_size{11U};
   /// \brief Test data
-  static constexpr const std::array<std::uint8_t, s_size> s_data{'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'};
+  static constexpr std::array<std::uint8_t, s_size> s_data{'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'};
 };
 
 }  // namespace jar::net::test

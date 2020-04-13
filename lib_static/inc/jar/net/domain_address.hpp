@@ -86,7 +86,7 @@ private:
   }
 
   /// \brief Max size with null termination
-  static constexpr const std::size_t s_max_size{sizeof(::sockaddr_un::sun_path) - 1U};
+  static constexpr std::size_t s_max_size{sizeof(::sockaddr_un::sun_path) - 1U};
 
   ::sockaddr_un m_address;
   std::size_t m_size;

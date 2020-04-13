@@ -122,7 +122,7 @@ private:
   [[nodiscard]] int get_descriptor_flags() const;
 
   /// \brief Invalid file descriptor value
-  static constexpr const int s_invalid_value{-1};
+  static constexpr int s_invalid_value{-1};
 
   int m_value;
 };

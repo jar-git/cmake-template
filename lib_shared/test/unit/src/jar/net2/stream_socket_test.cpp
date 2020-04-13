@@ -295,7 +295,7 @@ TEST_F(stream_socket_test, get_credentials)
 TEST_F(stream_socket_test, send_buffer)
 {
   // Create buffer that is equal to '/proc/sys/net/core/wmem_default'
-  static constexpr const std::size_t wmem_default{212992U};
+  static constexpr std::size_t wmem_default{212992U};
   std::array<std::uint8_t, wmem_default> buffer{};
   std::fill(buffer.begin(), buffer.end(), 'A');
 

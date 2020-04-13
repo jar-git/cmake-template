@@ -30,7 +30,7 @@ socket_descriptor make_descriptor(socket_family family, socket_type type)
 {
   // Default protocol is used when a single protocol exists for the socket type. If multiple protocols exist then it
   // must be defined. See: /etc/protocols, https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
-  static constexpr const int default_protocol{0};
+  static constexpr int default_protocol{0};
 
   auto return_value{::socket(to_integral(family), to_integral(type), default_protocol)};
   contract::no_system_error(return_value);
