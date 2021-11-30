@@ -20,8 +20,7 @@ SANITIZER_LIBRARY="@SANITIZER_LIBRARY@"
 SANITIZER_OPTIONS="@SANITIZER_OPTIONS@"
 SANITIZER_ENVIRON=@SANITIZER_ENVIRON@
 
-# Export LD_PRELOAD. This is required when using sanitized shared library with an unsanitized executable when using
-# shared sanitizer library.
+# Export LD_PRELOAD. This is required when linking sanitized shared library with an unsanitized executable.
 if [[ -z "$SANITIZER_LIBRARY" ]]; then
   export LD_PRELOAD=$SANITIZER_LIBRARY
 fi
