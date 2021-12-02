@@ -30,7 +30,7 @@ enum class shutdown_mode : int {
   both      ///< Shutdown both
 };
 
-/// \brief Converts shutdown mode to an integral type
+/// \brief Converts shutdown mode enumeration to an integral type
 ///
 /// \param[in]  mode    Shutdown mode
 ///
@@ -40,7 +40,7 @@ enum class shutdown_mode : int {
   return static_cast<std::underlying_type_t<shutdown_mode>>(mode);
 }
 
-/// \brief Converts mode to a string literal
+/// \brief Converts shutdown mode enumeration to a string literal
 ///
 /// \param[in]  mode    Shutdown mode
 ///
