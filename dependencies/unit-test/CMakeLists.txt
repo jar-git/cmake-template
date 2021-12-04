@@ -15,7 +15,7 @@
 project(unit_test_framework)
 
 # Set googletest version.
-set(GTEST_VERSION 1.10.0)
+set(GTEST_VERSION 1.11.0)
 set(GTEST_PREFIX ${CMAKE_BINARY_DIR}/gtest-${GTEST_VERSION})
 set(GTEST_LIBDIR ${GTEST_PREFIX}/lib)
 

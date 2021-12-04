@@ -15,7 +15,7 @@
 project(benchmark_framework)
 
 # Set benchmark version.
-set(BENCHMARK_VERSION 1.5.0)
+set(BENCHMARK_VERSION 1.5.3)
 set(BENCHMARK_PREFIX ${CMAKE_BINARY_DIR}/benchmark-${BENCHMARK_VERSION})
 set(BENCHMARK_LIBDIR ${BENCHMARK_PREFIX}/lib)
 
