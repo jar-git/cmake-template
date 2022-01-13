@@ -20,10 +20,6 @@ add_executable(${TEST_NAME}  ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
 # Add sources to the target.
 target_sources(${TEST_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/stream_socket_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/stream_socket_test.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/datagram_socket_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/datagram_socket_test.hpp
 )
 
 # Link the unit test target against unit testing framework and the parent project.

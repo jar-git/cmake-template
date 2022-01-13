@@ -25,25 +25,9 @@ add_library(lib::shared ALIAS ${PROJECT_NAME})
 # Add shared library sources to the target.
 target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/stream_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/stream_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/datagram_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/datagram_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/domain_address.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net2/domain_address.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/fs2/file_descriptor.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/fs2/file_descriptor.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/util2/contract.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/connection.cpp
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/shutdown_mode.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/socket_family.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/socket_type.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/socket_address.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/basic_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/basic_datagram_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net2/basic_stream_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/connection.hpp
 )
 
 # Define include directories for this library and add public include directories

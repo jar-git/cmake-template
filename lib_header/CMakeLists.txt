@@ -17,7 +17,7 @@
 project(header VERSION 0.0.1 LANGUAGES CXX)
 
 # Interface library is the target definition for a header-only library.
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME} INTERFACE inc/jar/core/enum.hpp inc/jar/core/type_traits.hpp)
 
 # Alias target for the interface library to be used outside of the project.
 add_library(lib::header ALIAS ${PROJECT_NAME})
@@ -25,10 +25,10 @@ add_library(lib::header ALIAS ${PROJECT_NAME})
 # Add the template class to target sources.
 target_sources(${PROJECT_NAME}
     INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/util/contract.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/shutdown_mode.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_family.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_type.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/core/enum.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/core/type_traits.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/core/contract.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/system/basic_handle.hpp
 )
 
 # Include directories for the header-only library.

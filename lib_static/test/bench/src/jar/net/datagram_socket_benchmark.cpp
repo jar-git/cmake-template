@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-namespace jar::net::bench {
+namespace jar::com::bench {
 
 /// \brief A benchmark case for datagram socket throughput
 ///
@@ -29,22 +29,30 @@ BENCHMARK_DEFINE_F(datagram_socket_benchmark, throughput)(::benchmark::State& st
 {
   using ::benchmark::Counter;
 
-  std::int64_t bytes{0}, items{0};
+  std::int64_t bytes{0}, messages{0};
+  ipc::datagram_socket socket;
+  socket.bind(endpoint_b());
 
   for (auto _ : state) {
     state.PauseTiming();
     auto data = generate();
-    bytes += data.size() * 2;
-    ++items;
-    domain_address endpoint_r;
+    messages += 2;
+    ipc::address endpoint_r;
     state.ResumeTiming();
 
-    channel_b().send(data.data(), data.size(), endpoint_a());
-    channel_b().receive(&data[0], data.size(), endpoint_r);
+    auto const bytes_send = socket.send_to(endpoint_a(), data.data(), data.size());
+    auto const bytes_received = socket.receive_from(endpoint_r, &data[0], data.size());
+
+    assert(bytes_send == data.size());
+    assert(bytes_received == data.size());
+
+    bytes += bytes_send + bytes_received;
   }
 
+  socket.shutdown();
+
   state.counters["Bytes"] = Counter(bytes, ::benchmark::Counter::kIsRate, Counter::kIs1024);
-  state.counters["Messages"] = Counter(items, Counter::kIsRate, Counter::kIs1000);
+  state.counters["Messages"] = Counter(messages, Counter::kIsRate, Counter::kIs1000);
 }
 
 /// \brief A benchmark configuration for throughput with message sizes between 64 and 4096 bytes
@@ -65,4 +73,4 @@ BENCHMARK_REGISTER_F(datagram_socket_benchmark, throughput)
     ->Range(64, 4096)
     ->Iterations(1'000'000);
 
-}  // namespace jar::net::bench
+}  // namespace jar::com::bench

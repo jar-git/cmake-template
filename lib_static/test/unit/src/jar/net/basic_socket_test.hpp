@@ -19,7 +19,7 @@
 
 #include <gtest/gtest.h>
 
-namespace jar::net::test {
+namespace jar::com::test {
 
 /// \brief Test fixture for datagram socket test cases
 class basic_socket_test : public ::testing::Test {
@@ -27,9 +27,10 @@ public:
   /// \brief Length of the test data
   static constexpr std::size_t s_size{11U};
   /// \brief Test data
-  static constexpr std::array<std::uint8_t, s_size> s_data{'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'};
+  static constexpr std::array<std::uint8_t, s_size> s_data{0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20,
+                                                           0x77, 0x6f, 0x72, 0x6c, 0x64};
 };
 
-}  // namespace jar::net::test
+}  // namespace jar::com::test
 
 #endif  // JAR_NET_BASIC_SOCKET_TEST_HPP

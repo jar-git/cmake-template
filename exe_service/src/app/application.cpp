@@ -16,7 +16,7 @@
 #include <future>
 #include <string>
 
-#include <shared/shared_library.hpp>
+#include <jar/com/connection.hpp>
 
 namespace app {
 
@@ -26,7 +26,8 @@ int application::run()
 
     // disabling string construction as an example.
     // NOLINTNEXTLINE (fuchsia-default-arguments-calls)
-    shared::shared_library shared_lib(std::string { "5" });
+    jar::com::connection();
+
     return call();
 }
 

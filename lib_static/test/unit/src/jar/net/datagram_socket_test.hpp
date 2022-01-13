@@ -19,17 +19,16 @@
 
 #include "basic_socket_test.hpp"
 
-#include <jar/net/datagram_socket.hpp>
-#include <jar/net/domain_address.hpp>
+#include <jar/com/ipc/ipc.hpp>
 
-namespace jar::net::test {
+namespace jar::com::test {
 
 /// \brief Test fixture for datagram socket test cases
 class datagram_socket_test : public basic_socket_test {
 protected:
   /// \brief Constructor
   datagram_socket_test()
-    : m_datagram_socket{socket_family::domain}
+    : m_datagram_socket{}
     , m_address_a{DGRAM_CHANNEL_A}
   {
   }
@@ -41,24 +40,23 @@ protected:
   void TearDown() override
   {
     m_datagram_socket.shutdown();
-    m_datagram_socket.close();
   }
 
   /// \brief Returns datagram socket bound to channel A
   ///
   /// \return Datagram socket bound to channel A
-  datagram_socket& socket_channel_a() noexcept { return m_datagram_socket; }
+  ipc::datagram_socket& socket_channel_a() noexcept { return m_datagram_socket; }
 
   /// \brief Returns address for socket channel A
   ///
   /// \return Address for channel A
-  const domain_address& address_a() const noexcept { return m_address_a; }
+  const ipc::address& address_a() const noexcept { return m_address_a; }
 
 private:
-  datagram_socket m_datagram_socket;
-  domain_address m_address_a;
+  ipc::datagram_socket m_datagram_socket;
+  ipc::address m_address_a;
 };
 
-}  // namespace jar::net::test
+}  // namespace jar::com::test
 
 #endif  // JAR_NET_DATAGRAM_SOCKET_TEST_HPP

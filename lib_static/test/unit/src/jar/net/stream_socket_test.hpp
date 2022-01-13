@@ -21,17 +21,16 @@
 
 #include <future>
 
-#include <jar/net/domain_address.hpp>
-#include <jar/net/stream_server_socket.hpp>
+#include <jar/com/ipc/ipc.hpp>
 
-namespace jar::net::test {
+namespace jar::com::test {
 
 /// \brief Test fixture for stream socket test cases
 class stream_socket_test : public basic_socket_test {
 protected:
   /// \brief Constructor
   stream_socket_test()
-    : m_server_socket{socket_family::domain}
+    : m_server_socket{}
     , m_server_address{SOCKET_ADDRESS}
   {
   }
@@ -47,7 +46,6 @@ protected:
   void TearDown() override
   {
     m_server_socket.shutdown();
-    m_server_socket.close();
   }
 
   /// \brief Accept connections asynchronously
@@ -55,7 +53,7 @@ protected:
   /// \param[in]  handler     Handler for new connections
   ///
   /// \return Future of the asynchronously called handler
-  std::future<void> async_accept(stream_server_socket::handler_t handler)
+  std::future<void> async_accept(ipc::stream_server_socket::handler_type&& handler)
   {
     return std::async(std::launch::async, [this, handler = std::move(handler)]() mutable {
       // This will not return before the handler returns or socket is shutdown (or closed).
@@ -65,14 +63,14 @@ protected:
 
   /// \brief Get test server address
   ///
-  /// \return Socket address to server socket
-  const domain_address& server_address() const noexcept { return m_server_address; }
+  /// \return Address to server socket
+  const ipc::address& server_address() const noexcept { return m_server_address; }
 
 private:
-  stream_server_socket m_server_socket;
-  domain_address m_server_address;
+  ipc::stream_server_socket m_server_socket;
+  ipc::address m_server_address;
 };
 
-}  // namespace jar::net::test
+}  // namespace jar::com::test
 
 #endif  // JAR_NET_STREAM_SOCKET_TEST_HPP

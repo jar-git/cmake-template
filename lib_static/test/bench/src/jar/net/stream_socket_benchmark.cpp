@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-namespace jar::net::bench {
+namespace jar::com::bench {
 
 /// \brief A benchmark case for stream socket throughput
 ///
@@ -29,21 +29,27 @@ BENCHMARK_DEFINE_F(stream_socket_benchmark, throughput)(::benchmark::State& stat
 {
   using ::benchmark::Counter;
 
-  std::int64_t bytes{0}, items{0};
+  std::int64_t bytes{0}, messages{0};
+  ipc::stream_socket client;
+  client.connect(server_address());
 
   for (auto _ : state) {
     state.PauseTiming();
     auto data = generate();
-    bytes += data.size() * 2;
-    ++items;
+    messages += 2;
     state.ResumeTiming();
 
-    client().send(data.data(), data.size());
-    client().receive(&data[0], data.size());
+    auto const bytes_send = client.send(data.data(), data.size());
+    auto const bytes_received = client.receive(&data[0], data.size());
+
+    assert(bytes_send == data.size());
+    assert(bytes_received == data.size());
+
+    bytes += bytes_send + bytes_received;
   }
 
   state.counters["Bytes"] = Counter(bytes, ::benchmark::Counter::kIsRate, Counter::kIs1024);
-  state.counters["Messages"] = Counter(items, Counter::kIsRate, Counter::kIs1000);
+  state.counters["Messages"] = Counter(messages, Counter::kIsRate, Counter::kIs1000);
 }
 
 /// \brief A benchmark configuration for throughput with message sizes between 64 and 4096 bytes
@@ -64,4 +70,4 @@ BENCHMARK_REGISTER_F(stream_socket_benchmark, throughput)
     ->Range(64, 4096)
     ->Iterations(1'000'000);
 
-}  // namespace ipc::bench
+}  // namespace jar::com::bench

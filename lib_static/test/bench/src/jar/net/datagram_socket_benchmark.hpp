@@ -19,13 +19,12 @@
 
 #include "basic_socket_benchmark.hpp"
 
-#include <mutex>
+#include <future>
 #include <thread>
 
-#include <jar/net/datagram_socket.hpp>
-#include <jar/net/domain_address.hpp>
+#include <jar/com/ipc/ipc.hpp>
 
-namespace jar::net::bench {
+namespace jar::com::bench {
 
 /// \brief Benchmark fixture class for datagram sockets
 class datagram_socket_benchmark : public basic_socket_benchmark {
@@ -35,26 +34,11 @@ public:
   /// \param[in|out]  state       Benchmark state
   void SetUp(::benchmark::State& state) override
   {
-    open_channel(m_socket_channel_a, m_endpoint_a);
-    open_channel(m_socket_channel_b, m_endpoint_b);
-
-    m_thread = std::thread{[this]() {
-      domain_address endpoint_r;
-      std::array<std::uint8_t, 4096U> buffer{};
-      std::unique_lock lock{m_mutex};
-
-      do {
-        lock.unlock();
-        m_socket_channel_a.receive(&buffer[0], message_size(), endpoint_r);
-        lock.lock();
-
-        if (m_socket_channel_a.is_open()) {
-          m_socket_channel_a.send(buffer.data(), message_size(), m_endpoint_b);
-        }
-      } while (m_socket_channel_a.is_open());
-    }};
-
     basic_socket_benchmark::SetUp(state);
+    m_is_running.store(true);
+
+    auto thread_ready = make_channel_b_thread();
+    thread_ready.wait();
   }
 
   /// \brief Tears down the test fixture
@@ -62,12 +46,7 @@ public:
   /// \param[in|out]  state       Benchmark state
   void TearDown(::benchmark::State& state) override
   {
-    {
-      std::scoped_lock lock{m_mutex};
-      close_channel(m_socket_channel_a);
-    }
-    close_channel(m_socket_channel_b);
-
+    m_is_running.store(false);
     if (m_thread.joinable()) {
       m_thread.join();
     }
@@ -75,35 +54,54 @@ public:
     basic_socket_benchmark::TearDown(state);
   }
 
-  /// \brief Gets the channel b datagram socket
-  datagram_socket& channel_b() noexcept { return m_socket_channel_b; }
+  /// \brief Gets the ipc address b
+  ipc::address const& endpoint_b() noexcept { return m_endpoint_b; }
 
-  /// \brief Gets the channel a endpoint
-  const domain_address& endpoint_a() const noexcept { return m_endpoint_a; }
+  /// \brief Gets the ipc address a
+  ipc::address const& endpoint_a() const noexcept { return m_endpoint_a; }
 
 private:
-  static void open_channel(datagram_socket& socket_channel, const domain_address& channel)
+  /// \brief Init an echoing receive / send thread for the benchmark
+  ///
+  /// \return A future that indicates when the setup phase of the thread is done
+  std::future<void> make_channel_b_thread()
   {
-    if (!socket_channel.is_open()) {
-      socket_channel.open();
-    }
-    socket_channel.bind(channel);
+    std::promise<void> thread_init;
+    auto thread_ready = thread_init.get_future();
+
+    m_thread = std::thread{[this, thread_init = std::move(thread_init)]() mutable {
+      ipc::datagram_socket socket;
+      socket.bind(m_endpoint_a);
+      socket.set_timeout(std::chrono::milliseconds{100U});
+
+      ipc::address endpoint_r;
+      std::array<std::uint8_t, 4096U> buffer{};
+
+      thread_init.set_value();
+
+      try {
+        while (m_is_running.load()) {
+          auto const bytes_received = socket.receive_from(endpoint_r, &buffer[0], message_size());
+          static_cast<void>(bytes_received);
+          auto const bytes_send = socket.send_to(m_endpoint_b, buffer.data(), message_size());
+          static_cast<void>(bytes_send);
+        };
+      } catch (const std::system_error& e) {
+        contract::no_system_error_other_than(e.code().value(), ETIMEDOUT);
+      }
+
+      socket.shutdown();
+    }};
+
+    return thread_ready;
   }
 
-  static void close_channel(datagram_socket& socket_channel)
-  {
-    socket_channel.shutdown();
-    socket_channel.close();
-  }
-
-  const domain_address m_endpoint_a{DGRAM_CHANNEL_A};
-  const domain_address m_endpoint_b{DGRAM_CHANNEL_B};
-  datagram_socket m_socket_channel_a{socket_family::domain};
-  datagram_socket m_socket_channel_b{socket_family::domain};
+  ipc::address const m_endpoint_a{DGRAM_CHANNEL_A};
+  ipc::address const m_endpoint_b{DGRAM_CHANNEL_B};
+  std::atomic_bool m_is_running{true};
   std::thread m_thread;
-  std::mutex m_mutex;
 };
 
-}  // namespace jar::net::bench
+}  // namespace jar::com::bench
 
 #endif  // JAR_NET_DATAGRAM_SOCKET_BENCHMARK_HPP

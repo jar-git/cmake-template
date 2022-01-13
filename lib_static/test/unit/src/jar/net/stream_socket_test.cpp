@@ -14,44 +14,30 @@
 ///
 /// \file stream_socket_test.cpp
 ///
-#include <jar/net/stream_socket.hpp>
+#include <jar/com/stream_socket.hpp>
+
+#include <thread>
 
 #include "stream_socket_test.hpp"
 
-namespace jar::net::test {
+namespace jar::com::test {
 
 TEST_F(stream_socket_test, construct)
 {
-  stream_socket socket{socket_family::domain};
-  EXPECT_TRUE(socket.is_open());
+  ipc::stream_socket socket;
+  EXPECT_EQ(socket_family::ipc, socket.family());
+  EXPECT_EQ(socket_protocol::unspecified, socket.protocol());
   EXPECT_FALSE(socket.is_non_blocking());
-}
-
-TEST_F(stream_socket_test, open_and_close)
-{
-  stream_socket socket{socket_family::domain};
-
-  EXPECT_NO_THROW(socket.close());
-  EXPECT_FALSE(socket.is_open());
-
-  EXPECT_NO_THROW(socket.open());
-  EXPECT_TRUE(socket.is_open());
-
-  EXPECT_NO_THROW(socket.close());
-  EXPECT_FALSE(socket.is_open());
-  EXPECT_THROW(socket.close(), std::system_error);
 }
 
 TEST_F(stream_socket_test, connect)
 {
-  // Wait for the client socket to connect.
-  auto closing_connection = async_accept([](stream_socket&& client_socket) {
-    EXPECT_TRUE(client_socket.is_open());
-    client_socket.shutdown();
-    client_socket.close();
+  auto closing_connection = async_accept([](ipc::stream_socket&& client_socket) {
+    EXPECT_TRUE(client_socket.is_valid());
+    EXPECT_NO_THROW(client_socket.shutdown());
   });
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.connect(server_address());
 
   // Wait for the connection to close in orderly fashion.
@@ -60,12 +46,12 @@ TEST_F(stream_socket_test, connect)
 
 TEST_F(stream_socket_test, connect_refused)
 {
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
 
   EXPECT_THROW(
       {
         try {
-          domain_address no_connection{NO_ADDRESS};
+          ipc::address no_connection{NO_ADDRESS};
           socket.connect(no_connection);
         } catch (const std::system_error& e) {
           EXPECT_EQ(ECONNREFUSED, e.code().value());
@@ -81,8 +67,8 @@ TEST_F(stream_socket_test, send)
   auto connect = std::make_shared<std::promise<void>>();
   auto connecting = connect->get_future();
 
-  auto closing = async_accept([connect = std::move(connect)](stream_socket&& client_socket) mutable {
-    EXPECT_TRUE(client_socket.is_open());
+  auto closing = async_accept([connect = std::move(connect)](ipc::stream_socket&& client_socket) mutable {
+    EXPECT_TRUE(client_socket.is_valid());
 
     connect->set_value();
 
@@ -92,10 +78,9 @@ TEST_F(stream_socket_test, send)
     EXPECT_EQ(s_data, receive_buffer);
 
     client_socket.shutdown();
-    client_socket.close();
   });
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.connect(server_address());
 
   // Wait for the connection to be established.
@@ -109,7 +94,7 @@ TEST_F(stream_socket_test, send)
 
 TEST_F(stream_socket_test, send_fail)
 {
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
 
   // Test send while not connected.
   EXPECT_THROW(
@@ -133,18 +118,17 @@ TEST_F(stream_socket_test, receive)
   auto connect = std::make_shared<std::promise<void>>();
   auto connecting = connect->get_future();
 
-  auto closing = async_accept([connect = std::move(connect)](stream_socket&& client_socket) mutable {
-    EXPECT_TRUE(client_socket.is_open());
+  auto closing = async_accept([connect = std::move(connect)](ipc::stream_socket&& client_socket) mutable {
+    EXPECT_TRUE(client_socket.is_valid());
 
     connect->set_value();
 
     EXPECT_EQ(s_size, client_socket.send(s_data.data(), s_size));
 
     client_socket.shutdown();
-    client_socket.close();
   });
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.connect(server_address());
 
   // Wait for the connection to be established.
@@ -162,7 +146,7 @@ TEST_F(stream_socket_test, receive)
 
 TEST_F(stream_socket_test, receive_fail)
 {
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   std::array<std::uint8_t, s_size> buffer{};
 
   EXPECT_THROW(
@@ -187,8 +171,8 @@ TEST_F(stream_socket_test, shutdown_send)
   auto connecting = connect->get_future();
   auto shutdown = std::make_shared<std::promise<void>>();
 
-  auto closing = async_accept([connect = std::move(connect), shutdown](stream_socket&& client_socket) mutable {
-    EXPECT_TRUE(client_socket.is_open());
+  auto closing = async_accept([connect = std::move(connect), shutdown](ipc::stream_socket&& client_socket) mutable {
+    EXPECT_TRUE(client_socket.is_valid());
 
     connect->set_value();
 
@@ -197,10 +181,9 @@ TEST_F(stream_socket_test, shutdown_send)
     shutting_down.get();
 
     client_socket.shutdown();
-    client_socket.close();
   });
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.connect(server_address());
 
   // Wait for the connection to be established.
@@ -218,7 +201,6 @@ TEST_F(stream_socket_test, shutdown_send)
       },
       std::system_error);
   shutdown->set_value();
-  socket.close();
 
   // Wait for the connection to close in orderly fashion.
   EXPECT_NO_THROW(closing.get());
@@ -231,8 +213,8 @@ TEST_F(stream_socket_test, shutdown_receive)
   auto connecting = connect->get_future();
   auto shutdown = std::make_shared<std::promise<void>>();
 
-  auto closing = async_accept([connect = std::move(connect), shutdown](stream_socket&& client_socket) mutable {
-    EXPECT_TRUE(client_socket.is_open());
+  auto closing = async_accept([connect = std::move(connect), shutdown](ipc::stream_socket&& client_socket) mutable {
+    EXPECT_TRUE(client_socket.is_valid());
 
     connect->set_value();
 
@@ -252,10 +234,9 @@ TEST_F(stream_socket_test, shutdown_receive)
         std::system_error);
 
     client_socket.shutdown();
-    client_socket.close();
   });
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.connect(server_address());
 
   // Wait for the connection to be established.
@@ -271,27 +252,6 @@ TEST_F(stream_socket_test, shutdown_receive)
   EXPECT_NO_THROW(closing.get());
 }
 
-TEST_F(stream_socket_test, get_credentials)
-{
-  auto closing_connection = async_accept([](stream_socket&& client_socket) {
-    EXPECT_TRUE(client_socket.is_open());
-
-    auto credentials{client_socket.get_credentials()};
-    EXPECT_EQ(::getpid(), credentials.m_process_id);
-    EXPECT_EQ(::getuid(), credentials.m_process_uid);
-    EXPECT_EQ(::getgid(), credentials.m_process_gid);
-
-    client_socket.shutdown();
-    client_socket.close();
-  });
-
-  stream_socket socket{socket_family::domain};
-  socket.connect(server_address());
-
-  // Wait for the connection to close in orderly fashion.
-  EXPECT_NO_THROW(closing_connection.get());
-}
-
 TEST_F(stream_socket_test, send_buffer)
 {
   // Create buffer that is equal to '/proc/sys/net/core/wmem_default'
@@ -299,12 +259,12 @@ TEST_F(stream_socket_test, send_buffer)
   std::array<std::uint8_t, wmem_default> buffer{};
   std::fill(buffer.begin(), buffer.end(), 'A');
 
-  stream_socket socket{socket_family::domain};
+  ipc::stream_socket socket;
   socket.non_blocking(true);
   socket.connect(server_address());
 
   EXPECT_TRUE(socket.is_non_blocking());
-  EXPECT_EQ(wmem_default, socket.send_buffer_size());
+  EXPECT_EQ(wmem_default, socket.get_send_buffer_size());
 
   // Send buffer length of data and expect that it succeeds.
   EXPECT_NO_THROW(socket.send(buffer.data(), buffer.size()));
@@ -321,4 +281,4 @@ TEST_F(stream_socket_test, send_buffer)
       std::system_error);
 }
 
-}  // namespace jar::net::test
+}  // namespace jar::com::test

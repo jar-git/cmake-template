@@ -26,22 +26,27 @@ add_library(lib::static ALIAS ${PROJECT_NAME})
 # Add the template class to target sources.
 target_sources(${PROJECT_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/fs/file_descriptor.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/datagram_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/basic_stream_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/stream_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/stream_server_socket.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/domain_address.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/socket_family.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/socket_protocol.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/socket_type.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/shutdown_mode.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/system/posix/socket.cpp
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/fs/file_descriptor.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket_address.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/domain_address.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/datagram_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/basic_stream_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/stream_socket.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/net/stream_server_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/basic_address.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/basic_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/basic_stream_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/datagram_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/stream_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/stream_server_socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/shutdown_mode.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/socket_family.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/socket_protocol.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/socket_type.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/basic_protocol.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/ipc/basic_ipc_address.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/ipc/ipc.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/system/posix/socket.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/system/posix/ipc_address.hpp
 )
 
 # Include directories for the header-only library.
@@ -54,10 +59,11 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # Add dependencies could be added if needed.
-#target_link_libraries(${PROJECT_NAME}
-#    PRIVATE
-#        lib::header
-#)
+target_link_libraries(${PROJECT_NAME}
+    # Public dependency is required for libraries that are used in the interface of the static library.
+    PUBLIC
+        lib::header
+)
 
 # Set all compiler warnings on.
 target_compile_options(${PROJECT_NAME}

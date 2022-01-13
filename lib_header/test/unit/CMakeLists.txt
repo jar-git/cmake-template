@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-set(TEST_NAME util_unit_test)
+set(TEST_NAME header_unit_test)
 
 # Define target for the unit tests.
 add_executable(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
@@ -20,7 +20,8 @@ add_executable(${TEST_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
 # Add unit test sources.
 target_sources(${TEST_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/util/contract_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/core/contract_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/system/handle_test.cpp
 )
 
 # Add unit test dependencies.
