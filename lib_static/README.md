@@ -1,8 +1,8 @@
 # Sub-project lib_static
 
 This sub-project functions as an example of a static library for the CMake template. The main purpose of this 
-sub-project is to demonstrate how to use CMake features, the code is a placeholder for having something to test, 
-analyse and document.
+sub-project is to demonstrate how to use CMake features, the C++ source code is a placeholder for having something
+to test, analyse and document.
 
 Unit tests and benchmarks also demonstrate how to generate compile definitions. See the CMakeLists.txt files for more.
 
