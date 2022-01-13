@@ -65,7 +65,7 @@ public:
   ///
   /// \throws std::system_error if operation fails due to a system error
   /// \throws std::invalid_argument if the arguments are invalid
-  std::size_t send(const std::uint8_t* buffer, std::size_t length)
+  std::size_t send(std::uint8_t const* buffer, std::size_t length)
   {
     contract::not_null(buffer, "buffer cannot be nullptr");
     contract::not_zero(length, "length cannot be zero");
