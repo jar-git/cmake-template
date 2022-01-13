@@ -30,8 +30,8 @@ function(add_static_analysis TARGET)
         # Disable globally enabled analysers for now.
         enable_clang_tidy(${TARGET})
         #enable_iwyu(${TARGET})
-        enable_cppcheck(${TARGET})
-        enable_cppclean(${PROJECT_NAME})
+        #enable_cppcheck(${TARGET})
+        #enable_cppclean(${PROJECT_NAME})
 
     else(NOT ${IS_IMPORTED} AND NOT ${TARGET_TYPE} STREQUAL "INTERFACE_LIBRARY")
 
