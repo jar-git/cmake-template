@@ -69,4 +69,13 @@ TEST(contract_test, test_not_greater)
   EXPECT_THROW(not_greater(6, max, ""), std::invalid_argument);
 }
 
+TEST(contract_test, test_not_less)
+{
+  static constexpr int min{5};
+
+  EXPECT_NO_THROW(not_less(6, min, ""));
+  EXPECT_NO_THROW(not_less(5, min, ""));
+  EXPECT_THROW(not_less(4, min, ""), std::invalid_argument);
+}
+
 }  // namespace jar::contract::test

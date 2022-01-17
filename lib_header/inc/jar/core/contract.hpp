@@ -110,6 +110,21 @@ static constexpr void not_greater(T value, T max, char const* const message)
   value > max ? throw std::invalid_argument{message} : 0;
 }
 
+/// \brief Converts a value that is less than min to a std::invalid_argument exception and throws it
+///
+/// \param[in]  value           Value
+/// \param[in]  min             Minimum value
+/// \param[in]  message         Exception message
+///
+/// \throws std::invalid_argument if value is less than min
+///
+/// \tparam T   Value type
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
+static constexpr void not_less(T value, T min, char const* const message)
+{
+  value < min ? throw std::invalid_argument{message} : 0;
+}
+
 }  // namespace jar::contract
 
 #endif  // JAR_CORE_CONTRACT_HPP
