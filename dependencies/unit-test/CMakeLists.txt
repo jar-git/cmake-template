@@ -55,6 +55,7 @@ target_link_libraries(${PROJECT_NAME}
     INTERFACE
         Threads::Threads
         ${GTEST_LIBDIR}/libgtest.a
+        ${GTEST_LIBDIR}/libgmock.a
 )
 
 # Create directory for the includes.
