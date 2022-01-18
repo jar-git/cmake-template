@@ -125,6 +125,20 @@ static constexpr void not_less(T value, T min, char const* const message)
   value < min ? throw std::invalid_argument{message} : 0;
 }
 
+/// \brief Converts a actual vs. unexpected comparison to a std::domain_error exception and throws it
+///
+/// \param[in]  actual          Actual value
+/// \param[in]  unexpected      Unexpected value
+/// \param[in]  message         Exception message
+///
+/// \throws std::domain_error if actual equals unexpected
+///
+/// \tparam T   Value type
+template <typename T> static constexpr void not_equal(T actual, T unexpected, char const* const message)
+{
+  actual == unexpected ? throw std::domain_error{message} : 0;
+}
+
 }  // namespace jar::contract
 
 #endif  // JAR_CORE_CONTRACT_HPP

@@ -78,4 +78,10 @@ TEST(contract_test, test_not_less)
   EXPECT_THROW(not_less(4, min, ""), std::invalid_argument);
 }
 
+TEST(contract_test, test_no_domain_error)
+{
+  EXPECT_NO_THROW(not_equal(0, 1, ""));
+  EXPECT_THROW(not_equal(0, 0, ""), std::domain_error);
+}
+
 }  // namespace jar::contract::test
