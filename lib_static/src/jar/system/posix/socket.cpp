@@ -45,7 +45,7 @@ void socket::destroy(socket::native_type handle) noexcept
   auto result{::close(handle)};
   // NOLINTNEXTLINE (cppcoreguidelines-pro-bounds-array-to-pointer-decay)
   if (contract::is_system_error(result)) {
-    std::abort();
+    std::terminate();
   }
 }
 
