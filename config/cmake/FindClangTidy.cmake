@@ -44,7 +44,7 @@ if(tidy)
             set_target_properties(${TARGET}
                 PROPERTIES
                     C_CLANG_TIDY "${CLANG_TIDY_PROGRAM}"
-                    CXX_CLANG_TIDY "${CLANG_TIDY_PROGRAM}"
+                    CXX_CLANG_TIDY "${CLANG_TIDY_PROGRAM};--extra-arg-before=-std=c++17"
             )
 
         endfunction(enable_clang_tidy)
