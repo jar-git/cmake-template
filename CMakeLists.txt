@@ -27,6 +27,7 @@ include(CMakeDependentOption)
 
 # Set language standard and export compile commands. Variables:
 # https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
+set(CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
