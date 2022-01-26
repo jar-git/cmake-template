@@ -17,14 +17,15 @@ project(unit_test_framework)
 # Set googletest version.
 set(GTEST_VERSION 1.11.0)
 set(GTEST_PREFIX ${CMAKE_BINARY_DIR}/gtest-${GTEST_VERSION})
-set(GTEST_LIBDIR ${GTEST_PREFIX}/lib)
+set(LIB_GTEST_LOCATION ${GTEST_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+set(LIB_GMOCK_LOCATION ${GTEST_PREFIX}/lib/libgmock${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 # Configure googletest.
 list(APPEND GTEST_CMAKE_ARGS "-G${CMAKE_GENERATOR}")
 list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release")
 list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_CONFIGURATION_TYPES=Release")
 list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${GTEST_PREFIX}")
-list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_INSTALL_LIBDIR=${GTEST_LIBDIR}")
+list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_INSTALL_LIBDIR=${GTEST_PREFIX}/lib")
 list(APPEND GTEST_CMAKE_ARGS "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
 
 # Download and install GTest, also disable all output from ExternalProject_Add.
@@ -33,8 +34,8 @@ ExternalProject_Add(
     GIT_REPOSITORY https://github.com/google/googletest.git
     GIT_TAG release-${GTEST_VERSION}
     CMAKE_ARGS "${GTEST_CMAKE_ARGS}"
+    BUILD_BYPRODUCTS ${LIB_GTEST_LOCATION} ${LIB_GMOCK_LOCATION}
     BUILD_COMMAND ""
-    BUILD_BYPRODUCTS ${GTEST_LIBDIR}/libgtest.a
     LOG_DOWNLOAD 1
     LOG_UPDATE 1
     LOG_CONFIGURE 1
@@ -54,8 +55,8 @@ add_dependencies(${PROJECT_NAME} googletest)
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
         Threads::Threads
-        ${GTEST_LIBDIR}/libgtest.a
-        ${GTEST_LIBDIR}/libgmock.a
+        ${LIB_GTEST_LOCATION}
+        ${LIB_GMOCK_LOCATION}
 )
 
 # Create directory for the includes.
@@ -65,7 +66,7 @@ file(MAKE_DIRECTORY ${GTEST_PREFIX}/include)
 # https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
-        IMPORTED_LOCATION ${GTEST_LIBDIR}/libgtest.a
+        IMPORTED_LOCATION ${LIB_GTEST_LOCATION}
         IMPORTED_LINK_INTERFACE_LIBRARIES ${CMAKE_THREAD_LIBS_INIT}
         INTERFACE_INCLUDE_DIRECTORIES ${GTEST_PREFIX}/include
 )

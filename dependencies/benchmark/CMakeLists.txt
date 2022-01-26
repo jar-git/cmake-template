@@ -17,7 +17,7 @@ project(benchmark_framework)
 # Set benchmark version.
 set(BENCHMARK_VERSION 1.5.3)
 set(BENCHMARK_PREFIX ${CMAKE_BINARY_DIR}/benchmark-${BENCHMARK_VERSION})
-set(BENCHMARK_LIBDIR ${BENCHMARK_PREFIX}/lib)
+set(LIB_BENCHMARK_LOCATION ${BENCHMARK_PREFIX}/lib/libbenchmark${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 # Configure google benchmark.
 list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release")
@@ -25,7 +25,7 @@ list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_CONFIGURATION_TYPES=Release")
 list(APPEND BENCH_CMAKE_ARGS "-DBENCHMARK_ENABLE_TESTING=OFF")
 list(APPEND BENCH_CMAKE_ARGS "-DBENCHMARK_ENABLE_GTEST_TESTS=OFF")
 list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${BENCHMARK_PREFIX}")
-list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_INSTALL_LIBDIR=${BENCHMARK_LIBDIR}")
+list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_INSTALL_LIBDIR=${BENCHMARK_PREFIX}/lib")
 list(APPEND BENCH_CMAKE_ARGS "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
 
 # Download and install Google benchmark, also disable all output from ExternalProject_Add.
@@ -35,7 +35,7 @@ ExternalProject_Add(
     GIT_TAG v${BENCHMARK_VERSION}
     CMAKE_ARGS "${BENCH_CMAKE_ARGS}"
     BUILD_COMMAND ""
-    BUILD_BYPRODUCTS ${BENCHMARK_LIBDIR}/libbenchmark.a
+    BUILD_BYPRODUCTS ${LIB_BENCHMARK_LOCATION}
     LOG_DOWNLOAD 1
     LOG_UPDATE 1
     LOG_CONFIGURE 1
@@ -55,7 +55,7 @@ add_dependencies(${PROJECT_NAME} benchmark)
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
         Threads::Threads
-        ${BENCHMARK_LIBDIR}/libbenchmark.a
+        ${LIB_BENCHMARK_LOCATION}
 )
 
 # Create directory for the includes.
@@ -65,7 +65,7 @@ file(MAKE_DIRECTORY ${BENCHMARK_PREFIX}/include)
 # https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
-        IMPORTED_LOCATION ${BENCHMARK_LIBDIR}/libbenchmark.a
+        IMPORTED_LOCATION ${LIB_BENCHMARK_LOCATION}
         IMPORTED_LINK_INTERFACE_LIBRARIES ${CMAKE_THREAD_LIBS_INIT}
         INTERFACE_INCLUDE_DIRECTORIES ${BENCHMARK_PREFIX}/include
 )
