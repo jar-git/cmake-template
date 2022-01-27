@@ -50,7 +50,6 @@ TEST(scheduler_test, test_scheduling)
   scheduler sched{1U};
   mock_task task1, task2, task3;
 
-  testing::InSequence sequence;
   EXPECT_CALL(task1, op).Times(1U);
   EXPECT_CALL(task2, op_int(arg1)).Times(1U);
   EXPECT_CALL(task3, op_args(arg1, arg2)).Times(1U);
