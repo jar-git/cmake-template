@@ -15,8 +15,8 @@
 /// \file latch.hpp
 ///
 
-#ifndef JAR_ASYNC_LATCH_HPP
-#define JAR_ASYNC_LATCH_HPP
+#ifndef JAR_CONCURRENCY_LATCH_HPP
+#define JAR_CONCURRENCY_LATCH_HPP
 
 #include <atomic>
 #include <condition_variable>
@@ -52,4 +52,4 @@ private:
 
 }  // namespace jar::async
 
-#endif  // JAR_ASYNC_LATCH_HPP
+#endif  // JAR_CONCURRENCY_LATCH_HPP
