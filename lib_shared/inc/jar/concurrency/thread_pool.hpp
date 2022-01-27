@@ -20,6 +20,8 @@
 
 #include <algorithm>
 #include <thread>
+#include <vector>
+#include <optional>
 
 namespace jar::concurrency {
 
