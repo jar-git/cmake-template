@@ -40,10 +40,10 @@ public:
 
   bool try_wait() const noexcept { return s_destination == m_expected.load(std::memory_order_relaxed); }
 
-  void arrive_and_wait(std::size_t n = std::size_t{1});
+  void arrive_and_wait(std::size_t n = std::size_t{1U});
 
 private:
-  inline constexpr static std::size_t s_destination{0};
+  inline constexpr static std::size_t s_destination{0U};
 
   std::atomic_size_t m_expected;
   mutable std::condition_variable m_condition;
