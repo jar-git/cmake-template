@@ -15,8 +15,8 @@
 /// \file scheduler.hpp
 ///
 
-#ifndef JAR_ASYNC_SCHEDULER_HPP
-#define JAR_ASYNC_SCHEDULER_HPP
+#ifndef JAR_CONCURRENCY_SCHEDULER_HPP
+#define JAR_CONCURRENCY_SCHEDULER_HPP
 
 #include <atomic>
 #include <functional>
@@ -62,4 +62,4 @@ private:
 
 }  // namespace jar::concurrency
 
-#endif  // JAR_ASYNC_SCHEDULER_HPP
+#endif  // JAR_CONCURRENCY_SCHEDULER_HPP
