@@ -17,7 +17,7 @@
 project(header VERSION 0.0.1 LANGUAGES CXX)
 
 # Interface library is the target definition for a header-only library.
-add_library(${PROJECT_NAME} INTERFACE inc/jar/core/enum.hpp inc/jar/core/type_traits.hpp)
+add_library(${PROJECT_NAME} INTERFACE)
 
 # Alias target for the interface library to be used outside of the project.
 add_library(lib::header ALIAS ${PROJECT_NAME})
