@@ -26,8 +26,14 @@ add_library(lib::shared ALIAS ${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/connection.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/scheduler.cpp
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/connection.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/latch.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/queue.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/scheduler.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/thread_pool.hpp
 )
 
 # Define include directories for this library and add public include directories
@@ -50,10 +56,11 @@ target_compile_options(${PROJECT_NAME}
 )
 
 # Add dependencies could be added if needed.
-#target_link_libraries(${PROJECT_NAME}
-#    PRIVATE
-#        lib::header
-#)
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        lib::header
+        Threads::Threads
+)
 
 # Add static analysis for project.
 add_static_analysis(${PROJECT_NAME})
