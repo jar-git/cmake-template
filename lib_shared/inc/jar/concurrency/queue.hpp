@@ -15,8 +15,8 @@
 /// \file queue.hpp
 ///
 
-#ifndef JAR_ASYNC_QUEUE_HPP
-#define JAR_ASYNC_QUEUE_HPP
+#ifndef JAR_CONCURRENCY_QUEUE_HPP
+#define JAR_CONCURRENCY_QUEUE_HPP
 
 #include <condition_variable>
 #include <deque>
@@ -107,4 +107,4 @@ private:
 
 }  // namespace jar::concurrency
 
-#endif  // JAR_ASYNC_QUEUE_HPP
+#endif  // JAR_CONCURRENCY_QUEUE_HPP
