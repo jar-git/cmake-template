@@ -16,8 +16,6 @@
 ///
 #include "jar/concurrency/latch.hpp"
 
-#include <limits>
-
 namespace jar::concurrency {
 
 latch::latch(std::size_t expected) noexcept
