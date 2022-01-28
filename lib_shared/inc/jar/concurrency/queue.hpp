@@ -63,7 +63,7 @@ public:
   {
     {
       std::lock_guard<std::mutex> lock{m_mutex};
-      m_container.emplace_back(std::forward<T>(item));
+      m_container.emplace_back(std::move(item));
     }
     m_condition.notify_one();
   }
@@ -75,7 +75,7 @@ public:
       if (!lock) {
         return false;
       }
-      m_container.emplace_back(std::forward<T>(item));
+      m_container.emplace_back(std::move(item));
     }
     m_condition.notify_one();
     return true;
