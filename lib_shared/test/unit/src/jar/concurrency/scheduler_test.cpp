@@ -23,18 +23,6 @@
 
 #include "jar/concurrency/scheduler.hpp"
 
-class mock_task {
-public:
-  MOCK_METHOD(void, op, (), ());
-  void operator()() { op(); }
-
-  MOCK_METHOD(void, op_int, (int), ());
-  void operator()(int arg) { op_int(arg); }
-
-  MOCK_METHOD(void, op_args, (int, int), ());
-  void operator()(int arg1, int arg2) { op_args(arg1, arg2); }
-};
-
 namespace jar::concurrency::test {
 
 TEST(scheduler_test, test_precondition)
@@ -44,19 +32,24 @@ TEST(scheduler_test, test_precondition)
 
 TEST(scheduler_test, test_scheduling)
 {
-  static constexpr int arg1{1024}, arg2{2048};
+  class mock_task {
+  public:
+    MOCK_METHOD(void, op, (), ());
+    void operator()() { op(); }
+  };
+
   static constexpr unsigned task_count{3U};
 
   scheduler sched{1U};
   mock_task task1, task2, task3;
 
   EXPECT_CALL(task1, op).Times(1U);
-  EXPECT_CALL(task2, op_int(arg1)).Times(1U);
-  EXPECT_CALL(task3, op_args(arg1, arg2)).Times(1U);
+  EXPECT_CALL(task2, op()).Times(1U);
+  EXPECT_CALL(task3, op()).Times(1U);
 
   sched.schedule(std::ref(task1));
-  sched.schedule(std::ref(task2), arg1);
-  sched.schedule(std::ref(task3), arg1, arg2);
+  sched.schedule(std::ref(task2));
+  sched.schedule(std::ref(task3));
 
   auto worker = std::async(std::launch::async, [&sched]() {
     for (unsigned n = 0U; n < task_count; ++n) {

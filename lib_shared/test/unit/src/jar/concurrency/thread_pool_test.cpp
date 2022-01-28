@@ -17,10 +17,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <algorithm>
 #include <condition_variable>
 #include <mutex>
-#include <vector>
+#include <optional>
 
 #include "jar/concurrency/thread_pool.hpp"
 
@@ -35,6 +34,7 @@ public:
   class singleton {
   public:
     MOCK_METHOD(void, constructor, (unsigned), ());
+    MOCK_METHOD(void, schedule, (task_type), ());
     MOCK_METHOD(std::optional<task_type>, scheduled, ());
     MOCK_METHOD(void, clear, (), (noexcept));
 
@@ -55,6 +55,12 @@ public:
     instance.constructor(thread_count);
   }
 
+  void schedule(task_type task)
+  {
+    auto& instance = singleton::get_instance();
+    instance.schedule(std::forward<task_type>(task));
+  }
+
   std::optional<task_type> scheduled()
   {
     auto& instance = singleton::get_instance();
@@ -71,7 +77,7 @@ public:
 TEST(thread_pool_test, test_lifetime)
 {
   auto& instance = mock_scheduler::singleton::get_instance();
-  auto default_thread_count = std::thread::hardware_concurrency();
+  auto const default_thread_count = std::thread::hardware_concurrency();
 
   EXPECT_CALL(instance, constructor(default_thread_count)).Times(1U);
   EXPECT_CALL(instance, scheduled()).Times(default_thread_count);
@@ -95,7 +101,7 @@ TEST(thread_pool_test, test_lifetime)
   }
 }
 
-TEST(thread_pool_test, test_task_execution)
+TEST(thread_pool_test, test_execution)
 {
   static constexpr unsigned thread_count{4U};
   static constexpr auto task_count = thread_count;
@@ -132,4 +138,53 @@ TEST(thread_pool_test, test_task_execution)
   }
 }
 
-}  // namespace jar::async::test
+TEST(thread_pool_test, test_scheduler_adapter)
+{
+  class mock_task {
+  public:
+    MOCK_METHOD(void, op, (), ());
+    void operator()() { op(); }
+
+    MOCK_METHOD(void, op_int, (int), ());
+    void operator()(int arg) { op_int(arg); }
+
+    MOCK_METHOD(void, op_args, (int, int), ());
+    void operator()(int arg1, int arg2) { op_args(arg1, arg2); }
+  };
+
+  auto& instance = mock_scheduler::singleton::get_instance();
+
+  EXPECT_CALL(instance, constructor(1U)).Times(1U);
+  EXPECT_CALL(instance, scheduled()).Times(1U);
+  EXPECT_CALL(instance, clear()).Times(1U);
+  {
+    thread_pool<mock_scheduler> thread_pool{1U};
+    auto scheduler = thread_pool.get_scheduler();
+    EXPECT_TRUE(std::is_trivially_copyable_v<decltype(scheduler)>);
+
+    static constexpr int arg1{1024}, arg2{2048};
+    mock_task task1, task2, task3;
+
+    EXPECT_CALL(task1, op).Times(1U);
+    EXPECT_CALL(task2, op_int(arg1)).Times(1U);
+    EXPECT_CALL(task3, op_args(arg1, arg2)).Times(1U);
+
+    EXPECT_CALL(instance, schedule(::testing::_))
+        .Times(3U)
+        .WillOnce([](mock_scheduler::task_type task1) {
+          task1();
+        })
+        .WillOnce([](mock_scheduler::task_type task2) {
+          task2();
+        })
+        .WillOnce([](mock_scheduler::task_type task3) {
+          task3();
+        });
+
+    EXPECT_NO_THROW(scheduler.schedule(std::ref(task1)));
+    EXPECT_NO_THROW(scheduler.schedule(std::ref(task2), arg1));
+    EXPECT_NO_THROW(scheduler.schedule(std::ref(task3), arg1, arg2));
+  }
+}
+
+}  // namespace jar::concurrency::test

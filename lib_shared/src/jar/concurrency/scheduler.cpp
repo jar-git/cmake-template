@@ -50,7 +50,7 @@ void scheduler::clear() noexcept
   }
 }
 
-void scheduler::schedule_rr(task_type&& task)
+void scheduler::schedule(task_type&& task)
 {
   const std::size_t try_n_times{m_task_queue.size() * 4U};
 

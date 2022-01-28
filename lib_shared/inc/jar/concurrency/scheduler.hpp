@@ -21,7 +21,6 @@
 #include <atomic>
 #include <functional>
 #include <optional>
-#include <tuple>
 #include <vector>
 
 #include <jar/concurrency/queue.hpp>
@@ -36,24 +35,12 @@ public:
 
   std::optional<task_type> scheduled();
 
-  void clear() noexcept;
+  void schedule(task_type&& task);
 
-  template <typename Invocable, typename... Args> void schedule(Invocable&& invocable, Args&&... args)
-  {
-    static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
-    schedule_rr([invocable = std::move(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
-      return std::apply(
-          [&invocable](auto&&... args) {
-            std::invoke(invocable, args...);
-          },
-          std::move(args));
-    });
-  }
+  void clear() noexcept;
 
 private:
   using task_queue = std::vector<queue<task_type>>;
-
-  void schedule_rr(task_type&& task);
 
   task_queue m_task_queue;
   std::atomic_uint m_push_index;

@@ -19,13 +19,40 @@
 #define JAR_CONCURRENCY_THREAD_POOL_HPP
 
 #include <algorithm>
-#include <thread>
-#include <vector>
 #include <optional>
+#include <thread>
+#include <tuple>
+#include <vector>
 
 namespace jar::concurrency {
 
 template <typename Scheduler> class thread_pool {
+  class scheduler_adapter {
+    friend class thread_pool<Scheduler>;
+
+  public:
+    template <typename Invocable, typename... Args> void schedule(Invocable&& invocable, Args&&... args)
+    {
+      static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
+      m_scheduler.get().schedule(
+          [invocable = std::move(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
+            return std::apply(
+                [&invocable](auto&&... args) {
+                  std::invoke(invocable, args...);
+                },
+                std::move(args));
+          });
+    }
+
+  private:
+    explicit scheduler_adapter(std::reference_wrapper<Scheduler> scheduler)
+      : m_scheduler{scheduler}
+    {
+    }
+
+    std::reference_wrapper<Scheduler> m_scheduler;
+  };
+
 public:
   explicit thread_pool(unsigned thread_count = std::thread::hardware_concurrency())
     : m_thread_count{std::max(1U, thread_count)}
@@ -53,7 +80,7 @@ public:
     }
   }
 
-  Scheduler& get_scheduler() noexcept { return m_scheduler; }
+  auto get_scheduler() noexcept { return scheduler_adapter{std::ref(m_scheduler)}; }
 
 private:
   void run() noexcept
