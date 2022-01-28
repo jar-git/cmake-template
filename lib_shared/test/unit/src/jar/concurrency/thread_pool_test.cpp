@@ -105,7 +105,7 @@ TEST(thread_pool_test, test_execution)
 {
   static constexpr unsigned thread_count{4U};
   static constexpr auto task_count = thread_count;
-  static constexpr std::chrono::milliseconds task_duration{100U};
+  static constexpr std::chrono::milliseconds task_duration{30U};
   auto& instance = mock_scheduler::singleton::get_instance();
 
   std::mutex mutex;
@@ -130,11 +130,10 @@ TEST(thread_pool_test, test_execution)
   {
     thread_pool<mock_scheduler> thread_pool{thread_count};
 
-    auto tasks_completed = [&count]() {
-      return task_count == count;
-    };
     std::unique_lock<std::mutex> lock{mutex};
-    EXPECT_TRUE(condition.wait_for(lock, task_duration * 2, tasks_completed));
+    condition.wait(lock, [&count]() {
+      return task_count == count;
+    });
   }
 }
 
