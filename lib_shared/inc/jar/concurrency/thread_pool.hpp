@@ -28,9 +28,12 @@ namespace jar::concurrency {
 
 template <typename Scheduler> class thread_pool {
   class scheduler_adapter {
-    friend class thread_pool<Scheduler>;
-
   public:
+    explicit scheduler_adapter(std::reference_wrapper<Scheduler> scheduler)
+      : m_scheduler{scheduler}
+    {
+    }
+
     template <typename Invocable, typename... Args> void schedule(Invocable&& invocable, Args&&... args)
     {
       static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
@@ -45,11 +48,6 @@ template <typename Scheduler> class thread_pool {
     }
 
   private:
-    explicit scheduler_adapter(std::reference_wrapper<Scheduler> scheduler)
-      : m_scheduler{scheduler}
-    {
-    }
-
     std::reference_wrapper<Scheduler> m_scheduler;
   };
 
