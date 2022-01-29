@@ -22,6 +22,22 @@
 
 namespace jar::concurrency {
 
+template <typename Scheduler, typename = void> struct is_output_scheduler : std::false_type {
+};
+
+template <typename Scheduler>
+struct is_output_scheduler<Scheduler, std::enable_if_t<std::is_member_function_pointer_v<decltype(&Scheduler::schedule)>>>
+  : std::true_type {
+};
+
+template <typename Scheduler, typename = void> struct is_input_scheduler : std::false_type {
+};
+
+template <typename Scheduler>
+struct is_input_scheduler<Scheduler, std::void_t<decltype(std::declval<Scheduler>().scheduled())>>
+  : std::true_type {
+};
+
 template <typename Scheduler, typename = void> struct has_scheduler_adapter : std::false_type {
 };
 

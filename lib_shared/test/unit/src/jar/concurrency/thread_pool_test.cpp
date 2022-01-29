@@ -138,13 +138,4 @@ TEST(thread_pool_test, test_execution)
   }
 }
 
-TEST(thread_pool_test, test_get_scheduler)
-{
-  using get_scheduler_type = decltype(std::declval<thread_pool<mock_scheduler>>().get_scheduler());
-
-  static_assert(std::is_same_v<mock_scheduler, get_scheduler_type>,
-                "thread_pool<mock_scheduler> must return mock_scheduler type");
-  static_assert(std::is_trivially_copyable_v<get_scheduler_type>, "scheduler must be trivially copyable");
-}
-
 }  // namespace jar::concurrency::test

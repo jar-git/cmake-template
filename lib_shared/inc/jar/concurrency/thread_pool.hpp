@@ -34,6 +34,8 @@ public:
     , m_threads{m_thread_count}
     , m_scheduler{m_thread_count}
   {
+    static_assert(is_input_scheduler<Scheduler>::value, "scheduler must fulfill input Scheduler type requirements");
+
     for (auto& thread : m_threads) {
       thread = std::thread{[this]() {
         run();
