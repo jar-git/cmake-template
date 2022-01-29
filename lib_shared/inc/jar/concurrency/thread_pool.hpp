@@ -21,36 +21,13 @@
 #include <algorithm>
 #include <optional>
 #include <thread>
-#include <tuple>
 #include <vector>
+
+#include <jar/concurrency/scheduler_type_traits.hpp>
 
 namespace jar::concurrency {
 
 template <typename Scheduler> class thread_pool {
-  class scheduler_adapter {
-  public:
-    explicit scheduler_adapter(std::reference_wrapper<Scheduler> scheduler)
-      : m_scheduler{scheduler}
-    {
-    }
-
-    template <typename Invocable, typename... Args> void schedule(Invocable&& invocable, Args&&... args)
-    {
-      static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
-      m_scheduler.get().schedule(
-          [invocable = std::move(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
-            return std::apply(
-                [&invocable](auto&&... args) {
-                  std::invoke(invocable, args...);
-                },
-                std::move(args));
-          });
-    }
-
-  private:
-    std::reference_wrapper<Scheduler> m_scheduler;
-  };
-
 public:
   explicit thread_pool(unsigned thread_count = std::thread::hardware_concurrency())
     : m_thread_count{std::max(1U, thread_count)}
@@ -78,7 +55,13 @@ public:
     }
   }
 
-  auto get_scheduler() noexcept { return scheduler_adapter{std::ref(m_scheduler)}; }
+  auto get_scheduler()
+  {
+    if constexpr (has_scheduler_adapter<Scheduler>::value) {
+      return m_scheduler.get_adapter();
+    }
+    return m_scheduler;
+  }
 
 private:
   void run() noexcept

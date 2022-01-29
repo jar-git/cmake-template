@@ -12,32 +12,59 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file scheduler.hpp
+/// \file rr_scheduler.hpp
 ///
 
-#ifndef JAR_CONCURRENCY_SCHEDULER_HPP
-#define JAR_CONCURRENCY_SCHEDULER_HPP
+#ifndef JAR_CONCURRENCY_RR_SCHEDULER_HPP
+#define JAR_CONCURRENCY_RR_SCHEDULER_HPP
 
 #include <atomic>
 #include <functional>
 #include <optional>
+#include <tuple>
 #include <vector>
 
 #include <jar/concurrency/queue.hpp>
 
 namespace jar::concurrency {
 
-class scheduler {
+class rr_scheduler {
+  class adapter {
+  public:
+    explicit adapter(rr_scheduler* const schd)
+      : m_scheduler{schd}
+    {
+    }
+
+    template <typename Invocable, typename... Args> void schedule(Invocable&& invocable, Args&&... args)
+    {
+      static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
+      m_scheduler->schedule(
+          [invocable = std::move(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
+            return std::apply(
+                [&invocable](auto&&... args) {
+                  std::invoke(invocable, args...);
+                },
+                std::move(args));
+          });
+    }
+
+  private:
+    rr_scheduler* const m_scheduler;
+  };
+
 public:
   using task_type = std::function<void(void)>;
 
-  explicit scheduler(unsigned queue_count);
+  explicit rr_scheduler(unsigned queue_count);
 
   std::optional<task_type> scheduled();
 
   void schedule(task_type&& task);
 
   void clear() noexcept;
+
+  auto get_adapter() noexcept { return adapter{this}; }
 
 private:
   using task_queue = std::vector<queue<task_type>>;
@@ -49,4 +76,4 @@ private:
 
 }  // namespace jar::concurrency
 
-#endif  // JAR_CONCURRENCY_SCHEDULER_HPP
+#endif  // JAR_CONCURRENCY_RR_SCHEDULER_HPP

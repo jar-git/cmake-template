@@ -12,15 +12,15 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file scheduler.cpp
+/// \file rr_scheduler.cpp
 ///
-#include "jar/concurrency/scheduler.hpp"
+#include "jar/concurrency/rr_scheduler.hpp"
 
 #include <jar/core/contract.hpp>
 
 namespace jar::concurrency {
 
-scheduler::scheduler(unsigned queue_count)
+rr_scheduler::rr_scheduler(unsigned queue_count)
   : m_task_queue{queue_count}
   , m_push_index{0U}
   , m_pop_index{0U}
@@ -28,7 +28,7 @@ scheduler::scheduler(unsigned queue_count)
   contract::not_zero(queue_count, "queue_count cannot be zero");
 }
 
-std::optional<scheduler::task_type> scheduler::scheduled()
+std::optional<rr_scheduler::task_type> rr_scheduler::scheduled()
 {
   static thread_local unsigned const thread_index{m_pop_index.fetch_add(1U, std::memory_order_relaxed)};
 
@@ -43,14 +43,14 @@ std::optional<scheduler::task_type> scheduler::scheduled()
   return m_task_queue[thread_index % m_task_queue.size()].pop();
 }
 
-void scheduler::clear() noexcept
+void rr_scheduler::clear() noexcept
 {
   for (auto& queue : m_task_queue) {
     queue.clear();
   }
 }
 
-void scheduler::schedule(task_type&& task)
+void rr_scheduler::schedule(task_type&& task)
 {
   const std::size_t try_n_times{m_task_queue.size() * 4U};
 

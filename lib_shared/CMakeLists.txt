@@ -27,12 +27,14 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/connection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/scheduler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/rr_scheduler.cpp
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/connection.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/latch.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/queue.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/scheduler.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/scheduler_type_traits.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/rr_scheduler.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/schedule.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/thread_pool.hpp
 )
 

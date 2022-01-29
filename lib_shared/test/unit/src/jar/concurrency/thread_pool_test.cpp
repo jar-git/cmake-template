@@ -37,6 +37,7 @@ public:
     MOCK_METHOD(void, schedule, (task_type), ());
     MOCK_METHOD(std::optional<task_type>, scheduled, ());
     MOCK_METHOD(void, clear, (), (noexcept));
+    MOCK_METHOD(int, get_adapter, (), (noexcept));
 
     static singleton& get_instance() noexcept
     {
@@ -137,53 +138,13 @@ TEST(thread_pool_test, test_execution)
   }
 }
 
-TEST(thread_pool_test, test_scheduler_adapter)
+TEST(thread_pool_test, test_get_scheduler)
 {
-  class mock_task {
-  public:
-    MOCK_METHOD(void, op, (), ());
-    void operator()() { op(); }
+  using get_scheduler_type = decltype(std::declval<thread_pool<mock_scheduler>>().get_scheduler());
 
-    MOCK_METHOD(void, op_int, (int), ());
-    void operator()(int arg) { op_int(arg); }
-
-    MOCK_METHOD(void, op_args, (int, int), ());
-    void operator()(int arg1, int arg2) { op_args(arg1, arg2); }
-  };
-
-  auto& instance = mock_scheduler::singleton::get_instance();
-
-  EXPECT_CALL(instance, constructor(1U)).Times(1U);
-  EXPECT_CALL(instance, scheduled()).Times(1U);
-  EXPECT_CALL(instance, clear()).Times(1U);
-  {
-    thread_pool<mock_scheduler> thread_pool{1U};
-    auto scheduler = thread_pool.get_scheduler();
-    EXPECT_TRUE(std::is_trivially_copyable_v<decltype(scheduler)>);
-
-    static constexpr int arg1{1024}, arg2{2048};
-    mock_task task1, task2, task3;
-
-    EXPECT_CALL(task1, op).Times(1U);
-    EXPECT_CALL(task2, op_int(arg1)).Times(1U);
-    EXPECT_CALL(task3, op_args(arg1, arg2)).Times(1U);
-
-    EXPECT_CALL(instance, schedule(::testing::_))
-        .Times(3U)
-        .WillOnce([](mock_scheduler::task_type task1) {
-          task1();
-        })
-        .WillOnce([](mock_scheduler::task_type task2) {
-          task2();
-        })
-        .WillOnce([](mock_scheduler::task_type task3) {
-          task3();
-        });
-
-    EXPECT_NO_THROW(scheduler.schedule(std::ref(task1)));
-    EXPECT_NO_THROW(scheduler.schedule(std::ref(task2), arg1));
-    EXPECT_NO_THROW(scheduler.schedule(std::ref(task3), arg1, arg2));
-  }
+  static_assert(std::is_same_v<mock_scheduler, get_scheduler_type>,
+                "thread_pool<mock_scheduler> must return mock_scheduler type");
+  static_assert(std::is_trivially_copyable_v<get_scheduler_type>, "scheduler must be trivially copyable");
 }
 
 }  // namespace jar::concurrency::test

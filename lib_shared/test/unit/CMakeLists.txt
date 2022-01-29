@@ -23,7 +23,7 @@ target_sources(${TEST_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/queue_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/thread_pool_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/scheduler_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/rr_scheduler_test.cpp
 )
 
 # Link the unit test target against unit testing framework and the parent project.
