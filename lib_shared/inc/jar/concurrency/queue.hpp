@@ -59,7 +59,7 @@ public:
     return pop_front();
   }
 
-  void push(T item)
+  void push(T item) noexcept(std::is_nothrow_move_constructible_v<T>)
   {
     {
       std::lock_guard<std::mutex> lock{m_mutex};
@@ -68,7 +68,7 @@ public:
     m_condition.notify_one();
   }
 
-  bool try_push(T item)
+  bool try_push(T item) noexcept(std::is_nothrow_move_constructible_v<T>)
   {
     {
       std::unique_lock<std::mutex> lock{m_mutex, std::try_to_lock};
@@ -92,7 +92,7 @@ public:
   }
 
 private:
-  std::optional<T> pop_front()
+  std::optional<T> pop_front() noexcept(std::is_nothrow_move_constructible_v<T>)
   {
     auto item = std::move(m_container.front());
     m_container.pop_front();
