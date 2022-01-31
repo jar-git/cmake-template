@@ -35,6 +35,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/scheduler_type_traits.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/rr_scheduler.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/schedule.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/then.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/thread_pool.hpp
 )
 
