@@ -61,8 +61,9 @@ public:
   {
     if constexpr (has_scheduler_adapter<Scheduler>::value) {
       return m_scheduler.get_adapter();
+    } else {
+      return m_scheduler;
     }
-    return m_scheduler;
   }
 
 private:
