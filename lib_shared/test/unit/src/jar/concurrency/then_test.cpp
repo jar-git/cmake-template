@@ -19,6 +19,7 @@
 #include <string>
 #include <tuple>
 #include <future>
+#include <memory>
 
 #include "jar/concurrency/rr_scheduler.hpp"
 #include "jar/concurrency/schedule.hpp"
@@ -31,21 +32,27 @@ TEST(then_test, test_complete)
 {
   thread_pool<rr_scheduler> executor;
 
-  auto first = then(schedule(executor.get_scheduler()), []() {
+  auto step1 = then(schedule(executor.get_scheduler()), []() {
     return 42;
   });
-  auto after = then(std::move(first), [](int arg) {
-    return std::tuple<int, std::string>{arg, std::to_string(arg)};
+  auto step2 = then(std::move(step1), [](int arg) {
+    EXPECT_EQ(42, arg);
+    return std::tuple<int, std::string>{256, std::to_string(arg)};
+  });
+  auto final = then(std::move(step2), [](std::tuple<int, std::string> arg) {
+    EXPECT_EQ(256, std::get<int>(arg));
+    EXPECT_EQ("42", std::get<std::string>(arg));
+    return std::make_unique<int>(std::get<int>(arg) * 2);
   });
 
-  auto state = after.connect(details::receiver<std::tuple<int, std::string>>{});
-  auto future = state.get_future();
+  auto state = final.connect(details::receiver<std::unique_ptr<int>>{});
   state.start();
+  auto future = state.get_future();
 
   EXPECT_NO_THROW(future.wait());
-  auto [i, s] = future.get();
-  EXPECT_EQ(42, i);
-  EXPECT_EQ("42", s);
+  auto integer = future.get();
+  EXPECT_NE(nullptr, integer);
+  EXPECT_EQ(512, *integer);
 }
 
 TEST(then_test, test_fail) { }
