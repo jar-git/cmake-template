@@ -36,10 +36,15 @@ public:
   {
     static_assert(is_input_scheduler<Scheduler>::value, "scheduler must fulfill input Scheduler type requirements");
 
-    for (auto& thread : m_threads) {
-      thread = std::thread{[this]() {
-        run();
-      }};
+    try {
+      for (auto& thread : m_threads) {
+        thread = std::thread{[this]() {
+          run();
+        }};
+      }
+    } catch (...) {
+      join();
+      throw;
     }
   }
 
@@ -48,14 +53,7 @@ public:
   thread_pool& operator=(const thread_pool&) = delete;
   thread_pool& operator=(thread_pool&&) = delete;
 
-  ~thread_pool()
-  {
-    m_scheduler.clear();
-
-    for (auto& thread : m_threads) {
-      thread.join();
-    }
-  }
+  ~thread_pool() { join(); }
 
   auto get_scheduler()
   {
@@ -79,6 +77,17 @@ private:
         task.value()();
       }
     } while (task.has_value());
+  }
+
+  void join() noexcept
+  {
+    m_scheduler.clear();
+
+    for (auto& thread : m_threads) {
+      if (thread.joinable()) {
+        thread.join();
+      }
+    }
   }
 
   unsigned const m_thread_count;
