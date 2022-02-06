@@ -32,7 +32,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/connection.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/latch.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/queue.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/scheduler_type_traits.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/type_traits.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/utilities.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/rr_scheduler.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/schedule.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/then.hpp

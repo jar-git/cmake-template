@@ -18,82 +18,13 @@
 #ifndef JAR_CONCURRENCY_THEN_HPP
 #define JAR_CONCURRENCY_THEN_HPP
 
-#include <functional>
-#include <type_traits>
-#include <utility>
+#include <jar/concurrency/utilities.hpp>
 
 namespace jar::concurrency {
-namespace details {
-
-template <typename Receiver, typename Invocable> class then_receiver {
-public:
-  then_receiver(Receiver&& receiver, Invocable&& invocable)
-    : m_receiver{std::forward<Receiver>(receiver)}
-    , m_invocable{std::forward<Invocable>(invocable)}
-  {
-  }
-
-  template <typename... Values> void complete(Values&&... values)
-  {
-    static_assert(std::is_invocable_v<Invocable, Values...>, "Invocable must accept Values as arguments");
-
-    if constexpr (std::is_same_v<std::invoke_result_t<Invocable, Values...>, void>) {
-      std::invoke(std::move(m_invocable), std::forward<Values>(values)...);
-      m_receiver.complete();
-    } else {
-      m_receiver.complete(std::invoke(std::move(m_invocable), std::forward<Values>(values)...));
-    }
-  }
-
-  void fail() noexcept { m_receiver.fail(); }
-
-  void cancel() noexcept { m_receiver.cancel(); }
-
-  auto get_future() { return m_receiver.get_future(); }
-
-private:
-  Receiver m_receiver;
-  Invocable m_invocable;
-};
-
-template <typename State> class then_state {
-public:
-  then_state(State&& task)
-    : m_state{std::forward<State>(task)}
-  {
-  }
-
-  void start() { m_state.start(); }
-
-  auto get_future() { return m_state.get_future(); }
-
-private:
-  State m_state;
-};
-
-template <typename Sender, typename Invocable> class then_sender {
-public:
-  then_sender(Sender&& sender, Invocable&& invocable)
-    : m_sender{std::forward<Sender>(sender)}
-    , m_invocable{std::forward<Invocable>(invocable)}
-  {
-  }
-
-  template <typename Receiver> auto connect(Receiver&& r)
-  {
-    return then_state{m_sender.connect(then_receiver{std::forward<Receiver>(r), std::forward<Invocable>(m_invocable)})};
-  }
-
-private:
-  Sender m_sender;
-  Invocable m_invocable;
-};
-
-}  // namespace details
 
 template <typename Sender, typename Invocable> auto then(Sender&& sender, Invocable&& invocable)
 {
-  return details::then_sender{std::forward<Sender>(sender), std::forward<Invocable>(invocable)};
+  return utilities::sender_adapter{std::forward<Sender>(sender), std::forward<Invocable>(invocable)};
 }
 
 }  // namespace jar::concurrency

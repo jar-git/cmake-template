@@ -16,10 +16,10 @@
 ///
 #include <gtest/gtest.h>
 
-#include <string>
-#include <tuple>
 #include <future>
 #include <memory>
+#include <string>
+#include <tuple>
 
 #include "jar/concurrency/rr_scheduler.hpp"
 #include "jar/concurrency/schedule.hpp"
@@ -45,17 +45,14 @@ TEST(then_test, test_complete)
     return std::make_unique<int>(std::get<int>(arg) * 2);
   });
 
-  auto state = final.connect(details::receiver<std::unique_ptr<int>>{});
-  state.start();
+  auto state = final.connect(utilities::value_receiver<std::unique_ptr<int>>{});
   auto future = state.get_future();
+  state.start();
 
-  EXPECT_NO_THROW(future.wait());
-  auto integer = future.get();
-  EXPECT_NE(nullptr, integer);
-  EXPECT_EQ(512, *integer);
+  EXPECT_EQ(512, *future.get());
 }
 
-TEST(then_test, test_fail) { }
+TEST(then_test, test_fail) { thread_pool<rr_scheduler> executor; }
 
 TEST(then_test, test_cancel) { }
 

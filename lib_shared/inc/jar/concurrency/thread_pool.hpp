@@ -23,7 +23,7 @@
 #include <thread>
 #include <vector>
 
-#include <jar/concurrency/scheduler_type_traits.hpp>
+#include <jar/concurrency/type_traits.hpp>
 
 namespace jar::concurrency {
 

@@ -12,7 +12,7 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file scheduler_type_traits.hpp
+/// \file type_traits.hpp
 ///
 
 #ifndef JAR_CONCURRENCY_SCHEDULER_TYPE_TRAITS_HPP
@@ -44,6 +44,12 @@ template <typename Scheduler, typename = void> struct has_scheduler_adapter : st
 template <typename Scheduler>
 struct has_scheduler_adapter<Scheduler, std::void_t<decltype(std::declval<Scheduler>().get_adapter())>>
   : std::true_type {
+};
+
+template <typename T, typename = void> struct has_future : std::false_type {
+};
+
+template <typename T> struct has_future<T, std::void_t<decltype(std::declval<T>().get_future())>> : std::true_type {
 };
 
 }  // namespace jar::concurrency

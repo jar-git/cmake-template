@@ -20,11 +20,19 @@ add_executable(${TEST_NAME}  ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
 # Add sources to the target.
 target_sources(${TEST_NAME}
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/mock_sender.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/queue_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/thread_pool_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/rr_scheduler_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/utilities_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/then_test.cpp
+)
+
+target_include_directories(${TEST_NAME}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 # Link the unit test target against unit testing framework and the parent project.

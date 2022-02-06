@@ -40,7 +40,7 @@ class rr_scheduler {
     {
       static_assert(std::is_invocable_v<Invocable, Args...>, "Invocable type must be invocable with args");
       m_scheduler->schedule(
-          [invocable = std::move(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
+          [invocable = std::forward<Invocable>(invocable), args = std::tuple(std::forward<Args>(args)...)]() mutable {
             return std::apply(
                 [&invocable](auto&&... args) {
                   std::invoke(invocable, args...);

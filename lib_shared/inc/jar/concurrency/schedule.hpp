@@ -22,67 +22,60 @@
 #include <functional>
 #include <future>
 #include <memory>
+#include <system_error>
 
-#include <jar/concurrency/scheduler_type_traits.hpp>
+#include <jar/concurrency/type_traits.hpp>
 
 namespace jar::concurrency {
 namespace details {
 
-template <typename Value> class receiver {
+template <typename Receiver, typename Scheduler> class schedule_state {
 public:
-  receiver()
-    : m_value{std::make_shared<std::promise<Value>>()}
-  {
-  }
-
-  void complete(Value&& value) { m_value->set_value(std::forward<Value>(value)); }
-
-  void fail() noexcept { m_value->set_exception(std::current_exception()); }
-
-  void cancel() noexcept { m_value = nullptr; }
-
-  auto get_future() { return m_value->get_future(); }
-
-private:
-  std::shared_ptr<std::promise<Value>> m_value;
-};
-
-template <typename Receiver, typename Scheduler> class state {
-public:
-  state(Receiver&& receiver, Scheduler&& scheduler) noexcept
+  schedule_state(Receiver&& receiver, Scheduler&& scheduler) noexcept
     : m_receiver{std::forward<Receiver>(receiver)}
     , m_scheduler{std::forward<Scheduler>(scheduler)}
+    , m_has_started{false}
   {
   }
-
-  auto get_future() { return m_receiver.get_future(); }
 
   void start()
   {
-    m_scheduler.schedule([receiver = std::move(m_receiver)]() mutable {
-      try {
-        receiver.complete();
-      } catch (...) {
-        receiver.fail();
+    m_scheduler.schedule([state = std::move(*this)]() mutable {
+      if (!state.m_receiver.is_canceled()) {
+        try {
+          state.m_receiver.complete();
+        } catch (...) {
+          state.m_receiver.fail();
+        }
       }
     });
+    m_has_started = true;
+  }
+
+  template <typename T = Receiver, std::enable_if_t<has_future<T>::value, bool> = true> auto get_future()
+  {
+    if (m_has_started) {
+      throw std::domain_error{"cannot get a future from a state that has already started"};
+    }
+    return m_receiver.get_future();
   }
 
 private:
   Receiver m_receiver;
   Scheduler m_scheduler;
+  bool m_has_started;
 };
 
-template <typename Scheduler> class sender {
+template <typename Scheduler> class schedule_sender {
 public:
-  explicit sender(Scheduler&& scheduler) noexcept
+  explicit schedule_sender(Scheduler&& scheduler) noexcept
     : m_scheduler{std::forward<Scheduler>(scheduler)}
   {
   }
 
-  template <typename Receiver> auto connect(Receiver&& r)
+  template <typename Receiver> auto connect(Receiver&& receiver)
   {
-    return state<Receiver, Scheduler>{std::forward<Receiver>(r), std::move(m_scheduler)};
+    return schedule_state<Receiver, Scheduler>{std::forward<Receiver>(receiver), std::move(m_scheduler)};
   }
 
 private:
@@ -94,7 +87,7 @@ private:
 template <typename Scheduler> auto schedule(Scheduler scheduler) noexcept
 {
   static_assert(is_output_scheduler<Scheduler>::value, "scheduler must fulfill output Scheduler type requirements");
-  return details::sender<Scheduler>{std::forward<Scheduler>(scheduler)};
+  return details::schedule_sender<Scheduler>{std::forward<Scheduler>(scheduler)};
 }
 
 }  // namespace jar::concurrency
