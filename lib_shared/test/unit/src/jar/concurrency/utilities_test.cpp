@@ -20,7 +20,6 @@
 #include <utility>
 
 #include "jar/concurrency/mock_sender.hpp"
-#include "jar/concurrency/then.hpp"
 #include "jar/concurrency/utilities.hpp"
 
 namespace jar::concurrency::utilities::test {

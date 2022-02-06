@@ -28,32 +28,71 @@
 
 namespace jar::concurrency::test {
 
-TEST(then_test, test_complete)
-{
-  thread_pool<rr_scheduler> executor;
+class then_test : public ::testing::Test {
+public:
+  static constexpr int s_expected{256};
 
-  auto step1 = then(schedule(executor.get_scheduler()), []() {
-    return 42;
+  then_test() = default;
+
+  thread_pool<rr_scheduler>& executor() { return m_executor; }
+
+private:
+  thread_pool<rr_scheduler> m_executor;
+};
+
+TEST_F(then_test, test_complete)
+{
+  auto step1 = then(schedule(executor().get_scheduler()), []() {
+    return s_expected;
   });
   auto step2 = then(std::move(step1), [](int arg) {
-    EXPECT_EQ(42, arg);
-    return std::tuple<int, std::string>{256, std::to_string(arg)};
+    EXPECT_EQ(s_expected, arg);
+    return std::tuple<int, std::string>{s_expected, std::to_string(arg)};
   });
-  auto final = then(std::move(step2), [](std::tuple<int, std::string> arg) {
-    EXPECT_EQ(256, std::get<int>(arg));
-    EXPECT_EQ("42", std::get<std::string>(arg));
-    return std::make_unique<int>(std::get<int>(arg) * 2);
+  auto step3 = then(std::move(step2), [](std::tuple<int, std::string> arg) {
+    EXPECT_EQ(s_expected, std::get<int>(arg));
+    EXPECT_EQ(std::to_string(s_expected), std::get<std::string>(arg));
+    return std::make_unique<int>(std::get<int>(arg));
   });
 
-  auto state = final.connect(utilities::value_receiver<std::unique_ptr<int>>{});
+  auto state = step3.connect(utilities::value_receiver<std::unique_ptr<int>>{});
   auto future = state.get_future();
   state.start();
 
-  EXPECT_EQ(512, *future.get());
+  auto value = future.get();
+  EXPECT_EQ(s_expected, *value.value());
 }
 
-TEST(then_test, test_fail) { thread_pool<rr_scheduler> executor; }
+TEST_F(then_test, test_fail)
+{
+  std::atomic_bool step1_flag{false}, step2_flag{false}, step3_flag{false};
 
-TEST(then_test, test_cancel) { }
+  auto step1 = then(schedule(executor().get_scheduler()), [&step1_flag]() {
+    step1_flag.store(true);
+    return s_expected;
+  });
+  auto step2 = then(std::move(step1), [&step2_flag](int) -> std::tuple<int, std::string> {
+    step2_flag.store(true);
+    throw std::domain_error{"fail"};
+  });
+  auto step3 = then(std::move(step2), [&step3_flag](std::tuple<int, std::string> arg) {
+    step3_flag.store(true);
+    return std::make_unique<int>(std::get<int>(arg));
+  });
+
+  auto state = step3.connect(utilities::value_receiver<std::unique_ptr<int>>{});
+  auto future = state.get_future();
+  state.start();
+
+  EXPECT_THROW(future.get(), std::domain_error);
+  EXPECT_TRUE(step1_flag.load());
+  EXPECT_TRUE(step2_flag.load());
+  EXPECT_FALSE(step3_flag.load());
+}
+
+TEST_F(then_test, test_cancel)
+{
+
+}
 
 }  // namespace jar::concurrency::test
