@@ -12,76 +12,19 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file utilities.hpp
+/// \file sender_adapter.hpp
 ///
 
-#ifndef JAR_CONCURRENCY_UTILITIES_HPP
-#define JAR_CONCURRENCY_UTILITIES_HPP
+#ifndef JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP
+#define JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP
 
-#include <atomic>
-#include <cassert>
 #include <functional>
-#include <future>
-#include <memory>
-#include <optional>
 #include <type_traits>
 #include <utility>
 
-#include <jar/concurrency/type_traits.hpp>
+#include "jar/concurrency/type_traits.hpp"
 
-namespace jar::concurrency::utilities {
-
-template <typename... Value> class value_receiver {
-  enum class value_state { initial, completed, failed, canceled };
-
-public:
-  value_receiver()
-    : m_value{std::make_shared<std::promise<std::optional<Value...>>>()}
-    , m_state{value_state::initial}
-  {
-  }
-
-  value_receiver(value_receiver const& other)
-    : m_value{other.m_value}
-    , m_state{other.m_state.load()}
-  {
-    assert(value_state::initial == m_state.load());
-  }
-
-  ~value_receiver() = default;
-
-  void complete(Value&&... value)
-  {
-    auto initial_state = value_state::initial;
-    if (m_state.compare_exchange_strong(initial_state, value_state::completed)) {
-      m_value->set_value(std::forward<Value>(value)...);
-    }
-  }
-
-  void fail() noexcept
-  {
-    auto initial_state = value_state::initial;
-    if (m_state.compare_exchange_strong(initial_state, value_state::failed)) {
-      m_value->set_exception(std::current_exception());
-    }
-  }
-
-  void cancel() noexcept
-  {
-    auto initial_state = value_state::initial;
-    if (m_state.compare_exchange_strong(initial_state, value_state::canceled)) {
-      m_value->set_value(std::nullopt);
-    }
-  }
-
-  bool is_canceled() noexcept { return value_state::canceled == m_state.load(); }
-
-  auto get_future() { return m_value->get_future(); }
-
-private:
-  std::shared_ptr<std::promise<std::optional<Value...>>> m_value;
-  std::atomic<value_state> m_state;
-};
+namespace jar::concurrency::details {
 
 template <typename Receiver, typename Invocable> class receiver_adapter {
 public:
@@ -158,4 +101,4 @@ private:
 
 }  // namespace jar::concurrency::utilities
 
-#endif  // JAR_CONCURRENCY_UTILITIES_HPP
+#endif  // JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP

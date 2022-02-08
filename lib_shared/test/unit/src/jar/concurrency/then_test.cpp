@@ -21,6 +21,8 @@
 #include <string>
 #include <tuple>
 
+#include "jar/concurrency/details/value_receiver.hpp"
+
 #include "jar/concurrency/rr_scheduler.hpp"
 #include "jar/concurrency/schedule.hpp"
 #include "jar/concurrency/then.hpp"
@@ -31,8 +33,6 @@ namespace jar::concurrency::test {
 class then_test : public ::testing::Test {
 public:
   static constexpr int s_expected{256};
-
-  then_test() = default;
 
   thread_pool<rr_scheduler>& executor() { return m_executor; }
 
@@ -55,7 +55,7 @@ TEST_F(then_test, test_complete)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  auto state = step3.connect(utilities::value_receiver<std::unique_ptr<int>>{});
+  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
   auto future = state.get_future();
   state.start();
 
@@ -80,7 +80,7 @@ TEST_F(then_test, test_fail)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  auto state = step3.connect(utilities::value_receiver<std::unique_ptr<int>>{});
+  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
   auto future = state.get_future();
   state.start();
 

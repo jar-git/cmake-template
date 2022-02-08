@@ -12,32 +12,27 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// \file utilities_test.cpp
+/// \file sender_adapter_test.cpp
 ///
 #include <gtest/gtest.h>
 
 #include <memory>
 #include <utility>
 
+#include "jar/concurrency/details/sender_adapter.hpp"
+
 #include "jar/concurrency/mock_sender.hpp"
-#include "jar/concurrency/utilities.hpp"
 
-namespace jar::concurrency::utilities::test {
+namespace jar::concurrency::details::test {
 
-TEST(utilities_test, test_composite_state_has_future)
+TEST(sender_adapter_test, test_composite_state_has_future)
 {
-  {
-    auto sender = make_sender_adapter(mock_sender{}, [](int) {});
-    auto state = sender.connect(mock_receiver<int>{}.make_delegate());
-    EXPECT_FALSE(has_future<decltype(state)>::value);
-  }
-
   auto sender = make_sender_adapter(mock_sender{}, [](int) {});
-  auto state = sender.connect(value_receiver<int>{});
-  EXPECT_TRUE(has_future<decltype(state)>::value);
+  auto state = sender.connect(mock_receiver<int>{}.make_delegate());
+  EXPECT_FALSE(has_future<decltype(state)>::value);
 }
 
-TEST(utilities_test, test_complete)
+TEST(sender_adapter_test, test_complete)
 {
   static constexpr int expected{42};
 
@@ -58,7 +53,7 @@ TEST(utilities_test, test_complete)
   state.start();
 }
 
-TEST(utilities_test, test_fail)
+TEST(sender_adapter_test, test_fail)
 {
   mock_receiver<int> receiver;
   EXPECT_CALL(receiver, fail()).Times(1U);
@@ -67,7 +62,7 @@ TEST(utilities_test, test_fail)
   adapter.fail();
 }
 
-TEST(utilities_test, test_cancel)
+TEST(sender_adapter_test, test_cancel)
 {
   mock_receiver<int> receiver;
   EXPECT_CALL(receiver, cancel()).Times(1U);
@@ -76,18 +71,4 @@ TEST(utilities_test, test_cancel)
   adapter.cancel();
 }
 
-TEST(utilities_test, test_value_receiver_complete)
-{
-  static constexpr int expected{42};
-
-  auto init = make_sender_adapter(mock_sender{}, []() {
-    return expected;
-  });
-  auto state = init.connect(value_receiver<int>{});
-  state.start();
-
-  auto future = state.get_future();
-  EXPECT_EQ(expected, future.get());
-}
-
-}  // namespace jar::concurrency::utilities::test
+}  // namespace jar::concurrency::details::test

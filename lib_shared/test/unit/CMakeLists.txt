@@ -25,7 +25,8 @@ target_sources(${TEST_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/queue_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/thread_pool_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/rr_scheduler_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/utilities_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/details/sender_adapter_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/details/value_receiver_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/then_test.cpp
 )
 

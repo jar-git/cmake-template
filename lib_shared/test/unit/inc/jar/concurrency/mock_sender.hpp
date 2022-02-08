@@ -22,9 +22,9 @@
 
 #include <utility>
 
-#include <jar/concurrency/utilities.hpp>
+#include "jar/concurrency/details/sender_adapter.hpp"
 
-namespace jar::concurrency::utilities::test {
+namespace jar::concurrency::details::test {
 
 template<typename Value>
 class mock_receiver {
@@ -76,7 +76,7 @@ public:
 
 template <typename Sender, typename Invocable> auto make_sender_adapter(Sender&& sender, Invocable&& invocable)
 {
-  return sender_adapter{std::forward<Sender>(sender), std::forward<Invocable>(invocable)};
+  return details::sender_adapter{std::forward<Sender>(sender), std::forward<Invocable>(invocable)};
 }
 
 }  // namespace jar::concurrency::utilities::test
