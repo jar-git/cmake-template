@@ -32,8 +32,8 @@ namespace details {
 template <typename Receiver, typename Scheduler> class schedule_state {
 public:
   schedule_state(Receiver&& receiver, Scheduler&& scheduler) noexcept
-    : m_receiver{std::forward<Receiver>(receiver)}
-    , m_scheduler{std::forward<Scheduler>(scheduler)}
+    : m_receiver{std::move(receiver)}
+    , m_scheduler{std::move(scheduler)}
     , m_has_started{false}
   {
   }
@@ -69,7 +69,7 @@ private:
 template <typename Scheduler> class schedule_sender {
 public:
   explicit schedule_sender(Scheduler&& scheduler) noexcept
-    : m_scheduler{std::forward<Scheduler>(scheduler)}
+    : m_scheduler{std::move(scheduler)}
   {
   }
 

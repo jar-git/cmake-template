@@ -29,8 +29,8 @@ namespace jar::concurrency::details {
 template <typename Receiver, typename Invocable> class receiver_adapter {
 public:
   receiver_adapter(Receiver&& receiver, Invocable&& invocable)
-    : m_receiver{std::forward<Receiver>(receiver)}
-    , m_invocable{std::forward<Invocable>(invocable)}
+    : m_receiver{std::move(receiver)}
+    , m_invocable{std::move(invocable)}
   {
   }
 
@@ -65,7 +65,7 @@ private:
 template <typename State> class composite_state {
 public:
   composite_state(State&& state)
-    : m_state{std::forward<State>(state)}
+    : m_state{std::move(state)}
   {
   }
 
@@ -83,8 +83,8 @@ private:
 template <typename Sender, typename Invocable> class sender_adapter {
 public:
   sender_adapter(Sender&& sender, Invocable&& invocable)
-    : m_sender{std::forward<Sender>(sender)}
-    , m_invocable{std::forward<Invocable>(invocable)}
+    : m_sender{std::move(sender)}
+    , m_invocable{std::move(invocable)}
   {
   }
 
