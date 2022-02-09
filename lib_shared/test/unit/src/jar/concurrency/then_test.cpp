@@ -73,7 +73,7 @@ TEST_F(then_test, test_fail)
   });
   auto step2 = then(std::move(step1), [&step2_flag](int) -> std::tuple<int, std::string> {
     step2_flag.store(true);
-    throw std::domain_error{"fail"};
+    throw std::runtime_error{"expected test error"};
   });
   auto step3 = then(std::move(step2), [&step3_flag](std::tuple<int, std::string> arg) {
     step3_flag.store(true);
@@ -84,7 +84,7 @@ TEST_F(then_test, test_fail)
   auto future = state.get_future();
   state.start();
 
-  EXPECT_THROW(future.get(), std::domain_error);
+  EXPECT_THROW(future.get(), std::runtime_error);
   EXPECT_TRUE(step1_flag.load());
   EXPECT_TRUE(step2_flag.load());
   EXPECT_FALSE(step3_flag.load());
@@ -92,7 +92,23 @@ TEST_F(then_test, test_fail)
 
 TEST_F(then_test, test_cancel)
 {
+  auto step1 = then(schedule(executor().get_scheduler()), []() -> int {
+    ADD_FAILURE() << "Canceled 'then' executed!";
+  });
+  auto step2 = then(std::move(step1), [](int arg) ->  std::tuple<int, std::string> {
+    ADD_FAILURE() << "Canceled 'then' executed!";
+  });
+  auto step3 = then(std::move(step2), [](std::tuple<int, std::string> arg) -> std::unique_ptr<int> {
+    ADD_FAILURE() << "Canceled 'then' executed!";
+  });
 
+  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
+  auto future = state.get_future();
+  future.cancel();
+  state.start();
+
+  auto value = future.get();
+  EXPECT_TRUE(value.is_canceled());
 }
 
 }  // namespace jar::concurrency::test

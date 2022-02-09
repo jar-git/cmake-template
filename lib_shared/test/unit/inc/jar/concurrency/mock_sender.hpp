@@ -26,8 +26,7 @@
 
 namespace jar::concurrency::details::test {
 
-template<typename Value>
-class mock_receiver {
+template <typename Value> class mock_receiver {
 public:
   MOCK_METHOD(void, complete, (Value));
   MOCK_METHOD(void, fail, ());
@@ -58,14 +57,21 @@ public:
   {
   }
 
-  void start() { m_receiver.complete(); }
+  void start()
+  {
+    try {
+      m_receiver.complete();
+    } catch (...) {
+      m_receiver.fail();
+    }
+  }
 
   template <typename T = Receiver, std::enable_if_t<has_future<T>::value, bool> = true> auto get_future()
   {
     return m_receiver.get_future();
   }
 
-  private:
+private:
   Receiver m_receiver;
 };
 
@@ -79,6 +85,6 @@ template <typename Sender, typename Invocable> auto make_sender_adapter(Sender&&
   return details::sender_adapter{std::forward<Sender>(sender), std::forward<Invocable>(invocable)};
 }
 
-}  // namespace jar::concurrency::utilities::test
+}  // namespace jar::concurrency::details::test
 
 #endif  // JAR_CONCURRENCY_MOCK_SENDER_HPP

@@ -20,8 +20,8 @@
 
 #include "jar/concurrency/details/value_receiver.hpp"
 
-#include "jar/concurrency/type_traits.hpp"
 #include "jar/concurrency/mock_sender.hpp"
+#include "jar/concurrency/type_traits.hpp"
 
 namespace jar::concurrency::details::test {
 
@@ -44,6 +44,34 @@ TEST(value_receiver_test, test_complete)
 
   auto future = state.get_future();
   EXPECT_EQ(expected, future.get());
+}
+
+TEST(value_receiver_test, test_cancel)
+{
+  auto init = make_sender_adapter(mock_sender{}, []() {
+    return 0;
+  });
+  value_receiver<int> receiver{};
+  receiver.cancel();
+  EXPECT_TRUE(receiver.is_canceled());
+
+  auto state = init.connect(std::move(receiver));
+  state.start();
+
+  auto future = state.get_future();
+  EXPECT_TRUE(future.get().is_canceled());
+}
+
+TEST(value_receiver_test, test_fail)
+{
+  auto init = make_sender_adapter(mock_sender{}, []() -> int {
+    throw std::runtime_error{"expected test error"};
+  });
+  auto state = init.connect(value_receiver<int>{});
+  state.start();
+
+  auto future = state.get_future();
+  EXPECT_THROW(future.get(), std::runtime_error);
 }
 
 }  // namespace jar::concurrency::details::test
