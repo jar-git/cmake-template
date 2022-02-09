@@ -23,6 +23,7 @@ target_sources(${TEST_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/mock_sender.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/queue_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/future_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/thread_pool_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/rr_scheduler_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/details/sender_adapter_test.cpp

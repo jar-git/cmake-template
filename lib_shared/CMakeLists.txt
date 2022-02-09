@@ -31,6 +31,7 @@ target_sources(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/com/connection.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/latch.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/future.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/queue.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/details/value_receiver.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/details/sender_adapter.hpp
