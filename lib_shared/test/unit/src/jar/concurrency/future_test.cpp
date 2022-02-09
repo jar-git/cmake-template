@@ -35,7 +35,7 @@ TEST(future_test, test_future_validity)
   EXPECT_TRUE(future.is_valid());
 }
 
-TEST(future_test, test_pass_value)
+TEST(future_test, test_set_value)
 {
   static constexpr int expected{42};
 

@@ -66,11 +66,6 @@ public:
     }
   }
 
-  template <typename T = Receiver, std::enable_if_t<has_future<T>::value, bool> = true> auto get_future()
-  {
-    return m_receiver.get_future();
-  }
-
 private:
   Receiver m_receiver;
 };

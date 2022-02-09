@@ -34,7 +34,6 @@ public:
   schedule_state(Receiver&& receiver, Scheduler&& scheduler) noexcept
     : m_receiver{std::move(receiver)}
     , m_scheduler{std::move(scheduler)}
-    , m_has_started{false}
   {
   }
 
@@ -49,21 +48,11 @@ public:
         }
       }
     });
-    m_has_started = true;
-  }
-
-  template <typename T = Receiver, std::enable_if_t<has_future<T>::value, bool> = true> auto get_future()
-  {
-    if (m_has_started) {
-      throw std::domain_error{"cannot get a future from a state that has already started"};
-    }
-    return m_receiver.get_future();
   }
 
 private:
   Receiver m_receiver;
   Scheduler m_scheduler;
-  bool m_has_started;
 };
 
 template <typename Scheduler> class schedule_sender {

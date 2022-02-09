@@ -25,11 +25,9 @@
 
 namespace jar::concurrency::details::test {
 
-TEST(value_receiver_test, test_composite_state_has_future)
+TEST(value_receiver_test, test_has_future)
 {
-  auto sender = make_sender_adapter(mock_sender{}, [](int) {});
-  auto state = sender.connect(value_receiver<int>{});
-  EXPECT_TRUE(has_future<decltype(state)>::value);
+  EXPECT_TRUE(has_future<value_receiver<int>>::value);
 }
 
 TEST(value_receiver_test, test_complete)
@@ -39,10 +37,13 @@ TEST(value_receiver_test, test_complete)
   auto init = make_sender_adapter(mock_sender{}, []() {
     return expected;
   });
-  auto state = init.connect(value_receiver<int>{});
+
+  value_receiver<int> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = init.connect(std::move(receiver));
   state.start();
 
-  auto future = state.get_future();
   EXPECT_EQ(expected, future.get());
 }
 
@@ -52,13 +53,13 @@ TEST(value_receiver_test, test_cancel)
     return 0;
   });
   value_receiver<int> receiver{};
+  auto future = receiver.get_future();
   receiver.cancel();
   EXPECT_TRUE(receiver.is_canceled());
 
   auto state = init.connect(std::move(receiver));
   state.start();
 
-  auto future = state.get_future();
   EXPECT_TRUE(future.get().is_canceled());
 }
 
@@ -67,10 +68,12 @@ TEST(value_receiver_test, test_fail)
   auto init = make_sender_adapter(mock_sender{}, []() -> int {
     throw std::runtime_error{"expected test error"};
   });
-  auto state = init.connect(value_receiver<int>{});
+  value_receiver<int> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = init.connect(std::move(receiver));
   state.start();
 
-  auto future = state.get_future();
   EXPECT_THROW(future.get(), std::runtime_error);
 }
 

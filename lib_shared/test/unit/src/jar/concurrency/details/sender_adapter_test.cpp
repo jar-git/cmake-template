@@ -18,6 +18,7 @@
 
 #include <memory>
 #include <utility>
+#include <functional>
 
 #include "jar/concurrency/details/sender_adapter.hpp"
 
@@ -25,11 +26,10 @@
 
 namespace jar::concurrency::details::test {
 
-TEST(sender_adapter_test, test_composite_state_has_future)
+TEST(sender_adapter_test, test_receiver_adapter_has_future)
 {
-  auto sender = make_sender_adapter(mock_sender{}, [](int) {});
-  auto state = sender.connect(mock_receiver<int>{}.make_delegate());
-  EXPECT_FALSE(has_future<decltype(state)>::value);
+  using receiver_type = receiver_adapter<mock_receiver<int>, std::function<void(int)>>;
+  EXPECT_FALSE(has_future<receiver_type>::value);
 }
 
 TEST(sender_adapter_test, test_complete)

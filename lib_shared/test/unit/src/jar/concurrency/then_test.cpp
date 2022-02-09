@@ -55,8 +55,10 @@ TEST_F(then_test, test_complete)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
-  auto future = state.get_future();
+  details::value_receiver<std::unique_ptr<int>> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = step3.connect(std::move(receiver));
   state.start();
 
   auto value = future.get();
@@ -80,8 +82,10 @@ TEST_F(then_test, test_fail)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
-  auto future = state.get_future();
+  details::value_receiver<std::unique_ptr<int>> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = step3.connect(std::move(receiver));
   state.start();
 
   EXPECT_THROW(future.get(), std::runtime_error);
@@ -94,16 +98,21 @@ TEST_F(then_test, test_cancel)
 {
   auto step1 = then(schedule(executor().get_scheduler()), []() -> int {
     ADD_FAILURE() << "Canceled 'then' executed!";
+    return 0;
   });
-  auto step2 = then(std::move(step1), [](int arg) ->  std::tuple<int, std::string> {
+  auto step2 = then(std::move(step1), [](int) ->  std::tuple<int, std::string> {
     ADD_FAILURE() << "Canceled 'then' executed!";
+    return std::tuple<int, std::string>{};
   });
-  auto step3 = then(std::move(step2), [](std::tuple<int, std::string> arg) -> std::unique_ptr<int> {
+  auto step3 = then(std::move(step2), [](std::tuple<int, std::string>) -> std::unique_ptr<int> {
     ADD_FAILURE() << "Canceled 'then' executed!";
+    return std::make_unique<int>(0);
   });
 
-  auto state = step3.connect(details::value_receiver<std::unique_ptr<int>>{});
-  auto future = state.get_future();
+  details::value_receiver<std::unique_ptr<int>> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = step3.connect(std::move(receiver));
   future.cancel();
   state.start();
 

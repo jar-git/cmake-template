@@ -71,11 +71,6 @@ public:
 
   void start() { m_state.start(); }
 
-  template <typename T = State, std::enable_if_t<has_future<T>::value, bool> = true> auto get_future()
-  {
-    return m_state.get_future();
-  }
-
 private:
   State m_state;
 };
