@@ -44,7 +44,7 @@ public:
     m_value->set_value(std::forward<V>(value));
   }
 
-  template <typename T = Value, std::enable_if_t<std::is_same_v<T, void>, bool> = true> void complete()
+  template <typename V = Value, std::enable_if_t<std::is_same_v<V, void>, bool> = true> void complete()
   {
     m_value->set_value();
   }

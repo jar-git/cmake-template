@@ -16,22 +16,16 @@
 ///
 #include <gtest/gtest.h>
 
-#include <memory>
-#include <utility>
 #include <functional>
+#include <memory>
 #include <string>
+#include <utility>
 
 #include "jar/concurrency/details/sender_adapter.hpp"
 
 #include "jar/concurrency/mock_sender.hpp"
 
 namespace jar::concurrency::details::test {
-
-TEST(sender_adapter_test, test_receiver_adapter_has_future)
-{
-  using receiver_type = receiver_adapter<mock_receiver<int>, std::function<void(int)>>;
-  EXPECT_FALSE(has_future<receiver_type>::value);
-}
 
 TEST(sender_adapter_test, test_complete)
 {
@@ -46,7 +40,7 @@ TEST(sender_adapter_test, test_complete)
   });
 
   mock_receiver<std::unique_ptr<int>> receiver;
-  EXPECT_CALL(receiver, complete).Times(1U).WillOnce([](std::unique_ptr<int> arg) {
+  EXPECT_CALL(receiver, complete(::testing::_)).Times(1U).WillOnce([](std::unique_ptr<int> arg) {
     ASSERT_NE(nullptr, arg);
     EXPECT_EQ(expected, *arg);
   });
@@ -56,10 +50,14 @@ TEST(sender_adapter_test, test_complete)
 
 TEST(sender_adapter_test, test_fail)
 {
-  static constexpr char * const s_expected_message{"expected test error"};
+  static constexpr auto const s_expected_message{"expected test error"};
+
+  auto init = make_sender_adapter(mock_sender{}, []() -> int {
+    throw std::runtime_error{s_expected_message};
+  });
 
   mock_receiver<int> receiver;
-  EXPECT_CALL(receiver, fail(::testing::_)).Times(1U).WillOnce([](std::exception_ptr e){
+  EXPECT_CALL(receiver, fail(::testing::_)).Times(1U).WillOnce([](std::exception_ptr e) {
     try {
       std::rethrow_exception(e);
     } catch (std::runtime_error& e) {
@@ -67,12 +65,8 @@ TEST(sender_adapter_test, test_fail)
     }
   });
 
-  receiver_adapter adapter{receiver.make_delegate(), [](int) {}};
-  try {
-    throw std::runtime_error{s_expected_message};
-  } catch (...) {
-    adapter.fail(std::current_exception());
-  }
+  auto state = init.connect(receiver.make_delegate());
+  state.start();
 }
 
 TEST(sender_adapter_test, test_cancel)

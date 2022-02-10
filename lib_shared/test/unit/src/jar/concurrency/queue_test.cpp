@@ -16,8 +16,8 @@
 ///
 #include <gtest/gtest.h>
 
-#include <memory>
 #include <future>
+#include <memory>
 
 #include "jar/concurrency/queue.hpp"
 
@@ -27,26 +27,29 @@ static constexpr int g_item_count = 100;
 
 TEST(queue_test, test_throughput)
 {
-  queue<std::unique_ptr<int>> queue;
+  queue<std::unique_ptr<int>> ptr_queue;
 
-  auto producer = std::async(std::launch::async, [&queue]() {
+  auto producer = std::async(std::launch::async, [&ptr_queue]() {
     for (int i = 0; i < g_item_count; ++i) {
-      queue.push(std::make_unique<int>(i));
+      ptr_queue.push(std::make_unique<int>(i));
     }
   });
 
-  for (int i = 0; i < g_item_count; ++i) {
-    EXPECT_EQ(i, *queue.pop().value());
-  }
+  auto consumer = [](queue<std::unique_ptr<int>>& ptr_queue) {
+    for (int i = 0; i < g_item_count; ++i) {
+      EXPECT_EQ(i, *ptr_queue.pop().value());
+    }
+  };
+  consumer(ptr_queue);
 }
 
 TEST(queue_test, test_try_throughput)
 {
-  queue<int> queue;
+  queue<int> int_queue;
 
-  auto producer = std::async(std::launch::async, [&queue]() {
+  auto producer = std::async(std::launch::async, [&int_queue]() {
     for (int i = 0; i < g_item_count;) {
-      bool has_pushed = queue.try_push(i);
+      bool has_pushed = int_queue.try_push(i);
       if (has_pushed) {
         ++i;
       }
@@ -54,14 +57,17 @@ TEST(queue_test, test_try_throughput)
     }
   });
 
-  for (int i = 0; i < g_item_count;) {
-    auto value = queue.try_pop();
-    if (value) {
-      EXPECT_EQ(i, value);
-      ++i;
+  auto consumer = [](queue<int>& int_queue) {
+    for (int i = 0; i < g_item_count;) {
+      auto value = int_queue.try_pop();
+      if (value) {
+        EXPECT_EQ(i, value);
+        ++i;
+      }
+      std::this_thread::yield();
     }
-    std::this_thread::yield();
-  }
+  };
+  consumer(int_queue);
 }
 
 TEST(queue_test, test_try_pop_empty)
@@ -81,4 +87,4 @@ TEST(queue_test, test_clear)
   queue.clear();
 }
 
-}  // namespace jar::async::test
+}  // namespace jar::concurrency::test
