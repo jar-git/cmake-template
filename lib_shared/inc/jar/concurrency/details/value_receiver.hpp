@@ -25,10 +25,10 @@
 
 namespace jar::concurrency::details {
 
-template <typename... Value> class value_receiver {
+template <typename Value> class value_receiver {
 public:
   value_receiver()
-    : m_value{std::make_shared<promise<Value...>>()}
+    : m_value{std::make_shared<promise<Value>>()}
   {
   }
 
@@ -39,7 +39,15 @@ public:
 
   ~value_receiver() = default;
 
-  void complete(Value&&... value) { m_value->set_value(std::move(value)...); }
+  template <typename V = Value, std::enable_if_t<!std::is_same_v<V, void>, bool> = true> void complete(V&& value)
+  {
+    m_value->set_value(std::forward<V>(value));
+  }
+
+  template <typename T = Value, std::enable_if_t<std::is_same_v<T, void>, bool> = true> void complete()
+  {
+    m_value->set_value();
+  }
 
   void fail(std::exception_ptr e) noexcept { m_value->set_exception(e); }
 
@@ -50,7 +58,7 @@ public:
   auto get_future() { return m_value->get_future(); }
 
 private:
-  std::shared_ptr<promise<Value...>> m_value;
+  std::shared_ptr<promise<Value>> m_value;
 };
 
 }  // namespace jar::concurrency::details

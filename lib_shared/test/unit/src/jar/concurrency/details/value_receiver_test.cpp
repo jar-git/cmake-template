@@ -47,6 +47,19 @@ TEST(value_receiver_test, test_complete)
   EXPECT_EQ(expected, future.get());
 }
 
+TEST(value_receiver_test, test_complete_void)
+{
+  auto init = make_sender_adapter(mock_sender{}, []() {});
+
+  value_receiver<void> receiver{};
+  auto future = receiver.get_future();
+
+  auto state = init.connect(std::move(receiver));
+  state.start();
+
+  EXPECT_NO_THROW(future.get());
+}
+
 TEST(value_receiver_test, test_cancel)
 {
   auto init = make_sender_adapter(mock_sender{}, []() {
