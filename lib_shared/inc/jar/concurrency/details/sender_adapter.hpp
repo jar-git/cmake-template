@@ -18,6 +18,7 @@
 #ifndef JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP
 #define JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP
 
+#include <exception>
 #include <functional>
 #include <type_traits>
 #include <utility>
@@ -46,7 +47,7 @@ public:
     }
   }
 
-  void fail() noexcept { m_receiver.fail(); }
+  void fail(std::exception_ptr e) noexcept { m_receiver.fail(e); }
 
   void cancel() noexcept { m_receiver.cancel(); }
 
@@ -94,6 +95,6 @@ private:
   Invocable m_invocable;
 };
 
-}  // namespace jar::concurrency::utilities
+}  // namespace jar::concurrency::details
 
 #endif  // JAR_CONCURRENCY_DETAILS_SENDER_ADAPTER_HPP

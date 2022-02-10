@@ -18,6 +18,7 @@
 #ifndef JAR_CONCURRENCY_DETAILS_VALUE_RECEIVER_HPP
 #define JAR_CONCURRENCY_DETAILS_VALUE_RECEIVER_HPP
 
+#include <exception>
 #include <memory>
 
 #include <jar/concurrency/future.hpp>
@@ -38,9 +39,9 @@ public:
 
   ~value_receiver() = default;
 
-  void complete(Value&&... value) { m_value->set_value(std::forward<Value>(value)...); }
+  void complete(Value&&... value) { m_value->set_value(std::move(value)...); }
 
-  void fail() noexcept { m_value->set_exception(std::current_exception()); }
+  void fail(std::exception_ptr e) noexcept { m_value->set_exception(e); }
 
   void cancel() noexcept { m_value->cancel(); }
 

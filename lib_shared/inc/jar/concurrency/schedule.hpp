@@ -19,6 +19,7 @@
 #define JAR_CONCURRENCY_SCHEDULE_HPP
 
 #include <atomic>
+#include <exception>
 #include <functional>
 #include <future>
 #include <memory>
@@ -44,7 +45,7 @@ public:
         try {
           state.m_receiver.complete();
         } catch (...) {
-          state.m_receiver.fail();
+          state.m_receiver.fail(std::current_exception());
         }
       }
     });

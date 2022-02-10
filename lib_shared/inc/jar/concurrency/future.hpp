@@ -20,6 +20,7 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <exception>
 #include <memory>
 #include <optional>
 #include <type_traits>
@@ -125,7 +126,7 @@ public:
   {
     auto initial_state = state::init;
     if (m_state.compare_exchange_strong(initial_state, state::error)) {
-      m_data = std::move(e);
+      m_data = e;
       m_condition.notify_one();
     }
   }
@@ -227,7 +228,7 @@ public:
     m_shared_state->set_value(details::future_result<Value>{});
   }
 
-  void set_exception(std::exception_ptr e) { m_shared_state->set_exception(std::move(e)); }
+  void set_exception(std::exception_ptr e) { m_shared_state->set_exception(e); }
 
   bool is_canceled() const noexcept { return m_shared_state->is_canceled(); }
 

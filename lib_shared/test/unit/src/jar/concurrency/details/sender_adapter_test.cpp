@@ -19,6 +19,7 @@
 #include <memory>
 #include <utility>
 #include <functional>
+#include <string>
 
 #include "jar/concurrency/details/sender_adapter.hpp"
 
@@ -55,11 +56,23 @@ TEST(sender_adapter_test, test_complete)
 
 TEST(sender_adapter_test, test_fail)
 {
+  static constexpr char * const s_expected_message{"expected test error"};
+
   mock_receiver<int> receiver;
-  EXPECT_CALL(receiver, fail()).Times(1U);
+  EXPECT_CALL(receiver, fail(::testing::_)).Times(1U).WillOnce([](std::exception_ptr e){
+    try {
+      std::rethrow_exception(e);
+    } catch (std::runtime_error& e) {
+      EXPECT_EQ(std::string{s_expected_message}, std::string{e.what()});
+    }
+  });
 
   receiver_adapter adapter{receiver.make_delegate(), [](int) {}};
-  adapter.fail();
+  try {
+    throw std::runtime_error{s_expected_message};
+  } catch (...) {
+    adapter.fail(std::current_exception());
+  }
 }
 
 TEST(sender_adapter_test, test_cancel)

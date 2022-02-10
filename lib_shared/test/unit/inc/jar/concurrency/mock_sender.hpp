@@ -21,6 +21,7 @@
 #include <gmock/gmock.h>
 
 #include <utility>
+#include <exception>
 
 #include "jar/concurrency/details/sender_adapter.hpp"
 
@@ -29,7 +30,7 @@ namespace jar::concurrency::details::test {
 template <typename Value> class mock_receiver {
 public:
   MOCK_METHOD(void, complete, (Value));
-  MOCK_METHOD(void, fail, ());
+  MOCK_METHOD(void, fail, (std::exception_ptr));
   MOCK_METHOD(void, cancel, ());
 
   class delegate {
@@ -40,7 +41,7 @@ public:
     }
 
     void complete(Value value) { m_instance->complete(std::move(value)); }
-    void fail() { m_instance->fail(); }
+    void fail(std::exception_ptr e) { m_instance->fail(e); }
     void cancel() { m_instance->cancel(); }
 
   private:
@@ -62,7 +63,7 @@ public:
     try {
       m_receiver.complete();
     } catch (...) {
-      m_receiver.fail();
+      m_receiver.fail(std::current_exception());
     }
   }
 
