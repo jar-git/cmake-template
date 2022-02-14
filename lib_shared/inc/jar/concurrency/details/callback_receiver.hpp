@@ -33,7 +33,7 @@ class callback_receiver {
   enum class receiver_state { initial, completed, failed, canceled };
 
 public:
-  callback_receiver(CompleteHandler&& complete, ErrorHandler error, CancelHandler cancel)
+  callback_receiver(CompleteHandler&& complete, ErrorHandler&& error, CancelHandler&& cancel)
     : m_state{receiver_state::initial}
     , m_complete_handler{std::move(complete)}
     , m_error_handler{std::move(error)}
@@ -97,32 +97,38 @@ private:
 };
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<(invocable<CompleteHandler>::size > 1U), bool> = true>
-auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
+          std::enable_if_t<(invocable<std::decay_t<CompleteHandler>>::size > 1U), bool> = true>
+auto make_callback_receiver(CompleteHandler&& complete_handler, ErrorHandler&& error_handler,
+                            CancelHandler&& cancel_handler)
 {
-  static_assert(invocable<CompleteHandler>::size <= 1U, "CompleteHandler supports one argument or no arguments");
+  static_assert(invocable<std::decay_t<CompleteHandler>>::size <= 1U,
+                "CompleteHandler supports one argument or no arguments");
 }
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<invocable<CompleteHandler>::size == 1U, bool> = true>
-auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
+          std::enable_if_t<invocable<std::decay_t<CompleteHandler>>::size == 1U, bool> = true>
+auto make_callback_receiver(CompleteHandler&& complete_handler, ErrorHandler&& error_handler,
+                            CancelHandler&& cancel_handler)
 {
-  using Value = typename invocable<CompleteHandler>::template arg<0>::type;
+  using Value = typename invocable<std::decay_t<CompleteHandler>>::template arg<0>::type;
 
   static_assert(std::is_invocable_v<CompleteHandler, Value>, "CompleteHandler must accept Value as argument");
 
   return callback_receiver<Value, CompleteHandler, ErrorHandler, CancelHandler>{
-      std::move(complete_handler), std::move(error_handler), std::move(cancel_handler)};
+      std::forward<CompleteHandler>(complete_handler), std::forward<ErrorHandler>(error_handler),
+      std::forward<CancelHandler>(cancel_handler)};
 }
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<invocable<CompleteHandler>::size == 0U, bool> = true>
-auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
+          std::enable_if_t<invocable<std::decay_t<CompleteHandler>>::size == 0U, bool> = true>
+auto make_callback_receiver(CompleteHandler&& complete_handler, ErrorHandler&& error_handler,
+                            CancelHandler&& cancel_handler)
 {
-  static_assert(std::is_invocable_v<CompleteHandler>, "CompleteHandler must be invocable");
+  static_assert(std::is_invocable_v<std::decay_t<CompleteHandler>>, "CompleteHandler must be invocable");
 
   return callback_receiver<void, CompleteHandler, ErrorHandler, CancelHandler>{
-      std::move(complete_handler), std::move(error_handler), std::move(cancel_handler)};
+      std::forward<CompleteHandler>(complete_handler), std::forward<ErrorHandler>(error_handler),
+      std::forward<CancelHandler>(cancel_handler)};
 }
 
 }  // namespace jar::concurrency::details
