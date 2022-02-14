@@ -27,6 +27,7 @@
 #include "jar/concurrency/schedule.hpp"
 #include "jar/concurrency/then.hpp"
 #include "jar/concurrency/thread_pool.hpp"
+#include "jar/concurrency/wait.hpp"
 
 namespace jar::concurrency::test {
 
@@ -55,12 +56,7 @@ TEST_F(then_test, test_complete)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  details::value_receiver<std::unique_ptr<int>> receiver{};
-  auto future = receiver.get_future();
-
-  auto state = step3.connect(std::move(receiver));
-  state.start();
-
+  auto future  = wait(std::move(step3));
   auto value = future.get();
   EXPECT_EQ(s_expected, *value.value());
 }
@@ -82,11 +78,7 @@ TEST_F(then_test, test_fail)
     return std::make_unique<int>(std::get<int>(arg));
   });
 
-  details::value_receiver<std::unique_ptr<int>> receiver{};
-  auto future = receiver.get_future();
-
-  auto state = step3.connect(std::move(receiver));
-  state.start();
+  auto future  = wait(std::move(step3));
 
   EXPECT_THROW(future.get(), std::runtime_error);
   EXPECT_TRUE(step1_flag.load());
@@ -100,7 +92,7 @@ TEST_F(then_test, test_cancel)
     ADD_FAILURE() << "Canceled 'then' executed!";
     return 0;
   });
-  auto step2 = then(std::move(step1), [](int) ->  std::tuple<int, std::string> {
+  auto step2 = then(std::move(step1), [](int) -> std::tuple<int, std::string> {
     ADD_FAILURE() << "Canceled 'then' executed!";
     return std::tuple<int, std::string>{};
   });
