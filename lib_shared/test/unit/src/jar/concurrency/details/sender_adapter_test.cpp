@@ -27,6 +27,15 @@
 
 namespace jar::concurrency::details::test {
 
+TEST(sender_adapter_test, test_result_type)
+{
+  using void_adapter_type = sender_adapter<mock_sender, void(*)(int)>;
+  static_assert(std::is_same_v<void, void_adapter_type::result_type> , "sender_adapter::result_type mismatch");
+
+  using adapter_type = sender_adapter<mock_sender, int(*)(int, int, int)>;
+  static_assert(std::is_same_v<int, adapter_type::result_type> , "sender_adapter::result_type mismatch");
+}
+
 TEST(sender_adapter_test, test_complete)
 {
   static constexpr int expected{42};

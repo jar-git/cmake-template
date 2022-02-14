@@ -77,7 +77,11 @@ private:
 };
 
 template <typename Sender, typename Invocable> class sender_adapter {
+  using invocable_args_as_tuple = typename invocable<Invocable>::args_as_tuple;
+
 public:
+  using result_type = decltype(std::apply(std::declval<Invocable>(), std::declval<invocable_args_as_tuple>()));
+
   sender_adapter(Sender&& sender, Invocable&& invocable)
     : m_sender{std::move(sender)}
     , m_invocable{std::move(invocable)}
