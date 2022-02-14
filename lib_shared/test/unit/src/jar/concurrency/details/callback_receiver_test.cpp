@@ -47,11 +47,12 @@ TEST(callback_receiver_test, test_complete)
     return expected;
   });
 
-  auto receiver = make_callback_receiver(std::function{[&is_complete](int value) {
-                                           EXPECT_EQ(expected, value);
-                                           is_complete = true;
-                                         }},
-                                         std::function{empty_error_handler}, std::function{empty_cancel_handler});
+  auto receiver = make_callback_receiver(
+      [&is_complete](int value) {
+        EXPECT_EQ(expected, value);
+        is_complete = true;
+      },
+      empty_error_handler, empty_cancel_handler);
 
   auto state = init.connect(std::move(receiver));
   state.start();
@@ -64,10 +65,11 @@ TEST(callback_receiver_test, test_complete_void)
   bool is_complete{false};
 
   auto init = make_sender_adapter(mock_sender{}, []() {});
-  auto receiver = make_callback_receiver(std::function{[&is_complete](void) {
-                                           is_complete = true;
-                                         }},
-                                         std::function{empty_error_handler}, std::function{empty_cancel_handler});
+  auto receiver = make_callback_receiver(
+      [&is_complete](void) {
+        is_complete = true;
+      },
+      empty_error_handler, empty_cancel_handler);
 
   auto state = init.connect(std::move(receiver));
   state.start();
@@ -83,16 +85,17 @@ TEST(callback_receiver_test, test_fail)
   auto init = make_sender_adapter(mock_sender{}, []() -> int {
     throw std::runtime_error{s_expected_message};
   });
-  auto receiver =
-      make_callback_receiver(std::function{empty_value_handler}, std::function{[&is_failed](std::exception_ptr e) {
-                               try {
-                                 is_failed = true;
-                                 std::rethrow_exception(e);
-                               } catch (std::runtime_error& e) {
-                                 EXPECT_EQ(std::string{s_expected_message}, std::string{e.what()});
-                               }
-                             }},
-                             std::function{empty_cancel_handler});
+  auto receiver = make_callback_receiver(
+      empty_value_handler,
+      [&is_failed](std::exception_ptr e) {
+        try {
+          is_failed = true;
+          std::rethrow_exception(e);
+        } catch (std::runtime_error& e) {
+          EXPECT_EQ(std::string{s_expected_message}, std::string{e.what()});
+        }
+      },
+      empty_cancel_handler);
 
   auto state = init.connect(std::move(receiver));
   state.start();
@@ -106,10 +109,9 @@ TEST(callback_receiver_test, test_cancel)
   auto init = make_sender_adapter(mock_sender{}, []() {
     return 0;
   });
-  auto receiver = make_callback_receiver(std::function{empty_value_handler}, std::function{empty_error_handler},
-                                         std::function{[&is_canceled]() {
-                                           is_canceled = true;
-                                         }});
+  auto receiver = make_callback_receiver(empty_value_handler, empty_error_handler, [&is_canceled]() {
+    is_canceled = true;
+  });
   receiver.cancel();
 
   auto state = init.connect(std::move(receiver));

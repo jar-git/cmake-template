@@ -24,17 +24,9 @@
 #include <stdexcept>
 #include <utility>
 
+#include <jar/concurrency/type_traits.hpp>
+
 namespace jar::concurrency::details {
-
-template <typename> struct complete_handler_args;
-
-template <typename R, typename... Args> struct complete_handler_args<std::function<R(Args...)>> {
-  inline static constexpr auto size = sizeof...(Args);
-
-  template <std::size_t Index> struct arg {
-    using type = typename std::tuple_element<Index, std::tuple<Args...>>::type;
-  };
-};
 
 template <typename Value, typename CompleteHandler, typename ErrorHandler, typename CancelHandler>
 class callback_receiver {
@@ -105,17 +97,17 @@ private:
 };
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<(complete_handler_args<CompleteHandler>::size > 1U), bool> = true>
+          std::enable_if_t<(invocable<CompleteHandler>::size > 1U), bool> = true>
 auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
 {
-  static_assert(complete_handler_args<CompleteHandler>::size <= 1U, "CompleteHandler supports one argument or no arguments");
+  static_assert(invocable<CompleteHandler>::size <= 1U, "CompleteHandler supports one argument or no arguments");
 }
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<complete_handler_args<CompleteHandler>::size == 1U, bool> = true>
+          std::enable_if_t<invocable<CompleteHandler>::size == 1U, bool> = true>
 auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
 {
-  using Value = typename complete_handler_args<CompleteHandler>::template arg<0>::type;
+  using Value = typename invocable<CompleteHandler>::template arg<0>::type;
 
   static_assert(std::is_invocable_v<CompleteHandler, Value>, "CompleteHandler must accept Value as argument");
 
@@ -124,7 +116,7 @@ auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error
 }
 
 template <typename CompleteHandler, typename ErrorHandler, typename CancelHandler,
-          std::enable_if_t<complete_handler_args<CompleteHandler>::size == 0U, bool> = true>
+          std::enable_if_t<invocable<CompleteHandler>::size == 0U, bool> = true>
 auto make_callback_receiver(CompleteHandler complete_handler, ErrorHandler error_handler, CancelHandler cancel_handler)
 {
   static_assert(std::is_invocable_v<CompleteHandler>, "CompleteHandler must be invocable");

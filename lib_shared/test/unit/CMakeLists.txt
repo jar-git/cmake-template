@@ -21,6 +21,7 @@ add_executable(${TEST_NAME}  ${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp)
 target_sources(${TEST_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/inc/jar/concurrency/mock_sender.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/type_traits_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/latch_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/queue_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/future_test.cpp

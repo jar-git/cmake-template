@@ -19,8 +19,50 @@
 #define JAR_CONCURRENCY_SCHEDULER_TYPE_TRAITS_HPP
 
 #include <functional>
+#include <tuple>
+#include <type_traits>
 
 namespace jar::concurrency {
+namespace details {
+
+template <typename> struct invocable_impl;
+
+template <typename R, typename... Args> struct invocable_impl<R (*)(Args...)> {
+  using return_type = R;
+
+  using args_as_tuple = std::tuple<std::decay_t<Args>...>;
+
+  inline static constexpr auto size = sizeof...(Args);
+
+  template <std::size_t Index> struct arg {
+    using type = std::decay_t<typename std::tuple_element<Index, args_as_tuple>::type>;
+  };
+};
+
+template <typename R, typename F, typename... Args> struct invocable_impl<R (F::*)(Args...)> {
+  using return_type = R;
+
+  using args_as_tuple = std::tuple<std::decay_t<Args>...>;
+
+  inline static constexpr auto size = sizeof...(Args);
+
+  template <std::size_t Index> struct arg {
+    using type = std::decay_t<typename std::tuple_element<Index, args_as_tuple>::type>;
+  };
+};
+
+template <typename R, typename F, typename... Args> struct invocable_impl<R (F::*)(Args...) const> {
+  using return_type = R;
+
+  using args_as_tuple = std::tuple<std::decay_t<Args>...>;
+
+  inline static constexpr auto size = sizeof...(Args);
+
+  template <std::size_t Index> struct arg {
+    using type = std::decay_t<typename std::tuple_element<Index, args_as_tuple>::type>;
+  };
+};
+}  // namespace details
 
 template <typename Scheduler, typename = void> struct is_output_scheduler : std::false_type {
 };
@@ -50,6 +92,14 @@ template <typename T, typename = void> struct has_future : std::false_type {
 };
 
 template <typename T> struct has_future<T, std::void_t<decltype(std::declval<T>().get_future())>> : std::true_type {
+};
+
+template <typename Invocable, typename = void> struct invocable : details::invocable_impl<Invocable> {
+};
+
+template <typename Invocable>
+struct invocable<Invocable, std::void_t<decltype(&Invocable::operator())>>
+  : details::invocable_impl<decltype(&Invocable::operator())> {
 };
 
 }  // namespace jar::concurrency
