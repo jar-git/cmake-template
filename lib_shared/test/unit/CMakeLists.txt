@@ -31,6 +31,7 @@ target_sources(${TEST_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/details/value_receiver_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/details/callback_receiver_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/then_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/concurrency/start_test.cpp
 )
 
 target_include_directories(${TEST_NAME}
