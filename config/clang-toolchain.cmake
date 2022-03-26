@@ -27,7 +27,7 @@ set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR})
 # set(CMAKE_CXX_COMPILER_TARGET ${clang-options})
 
 # Set C and CXX compilers.
-set(CMAKE_C_COMPILER clang CACHE sring "Clang C compiler" FORCE)
+set(CMAKE_C_COMPILER clang CACHE string "Clang C compiler" FORCE)
 set(CMAKE_CXX_COMPILER clang++ CACHE string "Clang C++ compiler" FORCE)
 
 # TRY-RUN is not supported for cross compiling, so disable it.
