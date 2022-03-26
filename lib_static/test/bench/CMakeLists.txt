@@ -20,11 +20,11 @@ add_executable(${BENCHMARK_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/bench.cpp)
 # Add benchmark sources.
 target_sources(${BENCHMARK_NAME}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/basic_socket_benchmark.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/stream_socket_benchmark.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/stream_socket_benchmark.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/datagram_socket_benchmark.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/net/datagram_socket_benchmark.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/basic_socket_benchmark.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/stream_socket_benchmark.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/stream_socket_benchmark.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/datagram_socket_benchmark.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/jar/com/datagram_socket_benchmark.cpp
 )
 
 # Add libraries.
