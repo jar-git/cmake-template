@@ -75,4 +75,3 @@ add_static_analysis(${PROJECT_NAME})
 
 # Add unit tests.
 add_subdirectory(test/unit)
-add_subdirectory(test/bench)

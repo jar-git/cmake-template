@@ -47,27 +47,6 @@ target_link_libraries(${TEST_NAME}
         lib::shared
 )
 
-# Create domain socket paths.
-set(SERVER_SOCKET_PATH ${CMAKE_CURRENT_BINARY_DIR}/socket)
-set(DGRAM_SOCKET_CHANNEL_A ${CMAKE_CURRENT_BINARY_DIR}/dgram_channel_a)
-set(DGRAM_SOCKET_CHANNEL_B ${CMAKE_CURRENT_BINARY_DIR}/dgram_channel_b)
-set(NO_SERVER_SOCKET_PATH ${CMAKE_CURRENT_BINARY_DIR}/not_connected_socket)
-
-file(TOUCH ${SERVER_SOCKET_PATH})
-file(TOUCH ${NO_SERVER_SOCKET_PATH})
-file(TOUCH ${DGRAM_SOCKET_CHANNEL_A})
-file(TOUCH ${DGRAM_SOCKET_CHANNEL_B})
-
-# Define pre-processor macro values for the target library. Command:
-# https://cmake.org/cmake/help/latest/command/target_compile_definitions.html
-target_compile_definitions(${TEST_NAME}
-    PRIVATE
-        SOCKET_ADDRESS="${SERVER_SOCKET_PATH}"
-        NO_ADDRESS="${NO_SERVER_SOCKET_PATH}"
-        DGRAM_CHANNEL_A="${DGRAM_SOCKET_CHANNEL_A}"
-        DGRAM_CHANNEL_B="${DGRAM_SOCKET_CHANNEL_B}"
-)
-
 # Add a test for the parent project to be run by ctest.
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 
